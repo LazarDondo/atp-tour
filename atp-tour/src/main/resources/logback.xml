@@ -1,0 +1,32 @@
+<configuration>
+
+    <appender name="TIME_BASED_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/Users/nst/logs/atp-tour.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">        
+            <!-- daily rollover -->
+            <fileNamePattern>Users/nst/logs/atp-tour.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+ 
+        <encoder>
+            <pattern>%relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender> 
+
+    <appender name="STDOUT"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    <root level="DEBUG">
+        <appender-ref ref="TIME_BASED_FILE" />    
+    </root>
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />    
+    </root>
+    
+</configuration>
+
+
