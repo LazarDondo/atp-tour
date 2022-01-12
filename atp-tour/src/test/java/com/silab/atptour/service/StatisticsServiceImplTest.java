@@ -5,7 +5,7 @@ import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
 import com.silab.atptour.entity.Statistics;
 import com.silab.atptour.entity.Tournament;
-import com.silab.atptour.exceptions.EntityNotFoundException;
+import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import com.silab.atptour.service.impl.StatisticsServiceImpl;
 import java.time.LocalDate;
 import java.time.Month;
@@ -54,15 +54,15 @@ public class StatisticsServiceImplTest {
     }
     
     @Test
-    public void updateStatisticsShouldBeOk() throws EntityNotFoundException{
+    public void updateStatisticsShouldBeOk() throws AtpEntityNotFoundException{
         when(statisticsDao.findStatisticsById(testStatistics.getId())).thenReturn(optionalStatistics);
         when(statisticsDao.save(testStatistics)).thenReturn(testStatistics);
         assertEquals(testStatistics, statisticsService.updateStatistics(testStatistics));
     }
     
     @Test
-    public void updateStatisticsShouldThrowEntityNotFoundException(){
+    public void updateStatisticsShouldAtpThrowEntityNotFoundException(){
         when(statisticsDao.findStatisticsById(testStatistics.getId())).thenReturn(emptyStatistics);
-        Assertions.assertThrows(EntityNotFoundException.class, ()->statisticsService.updateStatistics(testStatistics));
+        Assertions.assertThrows(AtpEntityNotFoundException.class, ()->statisticsService.updateStatistics(testStatistics));
     }
 }

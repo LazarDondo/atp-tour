@@ -5,7 +5,8 @@ import com.silab.atptour.entity.Country;
 import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
 import com.silab.atptour.entity.Tournament;
-import com.silab.atptour.exceptions.EntityNotFoundException;
+import com.silab.atptour.exceptions.AtpEntityExistsException;
+import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import com.silab.atptour.service.impl.TournamentServiceImpl;
 import java.time.LocalDate;
 import java.time.Month;
@@ -28,56 +29,73 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 @ExtendWith(MockitoExtension.class)
 public class TournamentServiceImplTest {
-
+    
     @Mock
     TournamentDao tournamentDao;
-
+    
     @InjectMocks
     TournamentServiceImpl tournamentService;
-
+    
     private static Tournament testTournament;
     private static Optional<Tournament> optionalTournament;
     private static Optional<Tournament> emptyOptionalTournament;
-
+    
     @BeforeAll
     public static void init() {
-        testTournament = new Tournament(1, "Wimbledon-2022", LocalDate.of(2022, Month.JULY, 10),
+        testTournament = new Tournament(1, "Wimbledon", LocalDate.of(2022, Month.JULY, 10),
                 LocalDate.of(2022, Month.JULY, 24), new Country(1, "Great Britain", "GBR"), "Grand Slam", null);
         optionalTournament = Optional.of(testTournament);
         emptyOptionalTournament = Optional.empty();
     }
-
+    
     @Test
-    public void addTournamentShouldBeOk() {
+    public void addTournamentShouldBeOk() throws AtpEntityExistsException {
+        when(tournamentDao.findTournamentByName(testTournament.getName()+"-"+testTournament.getStartDate().getYear())).thenReturn(emptyOptionalTournament);
         when(tournamentDao.save(testTournament)).thenReturn(testTournament);
         assertEquals(testTournament, tournamentService.addTournament(testTournament));
     }
-
+    
     @Test
-    public void updateTournamentShouldBeOk() throws EntityNotFoundException {
+    public void addTournamentShouldThrowAtpEntityExistsException() {
+        when(tournamentDao.findTournamentByName(testTournament.getName()+"-"+testTournament.getStartDate().getYear())).thenReturn(optionalTournament);
+        Assertions.assertThrows(AtpEntityExistsException.class, () -> tournamentService.addTournament(testTournament));
+    }
+    
+    @Test
+    public void updateTournamentShouldBeOk() throws AtpEntityNotFoundException, AtpEntityExistsException {
         when(tournamentDao.findById(testTournament.getId())).thenReturn(optionalTournament);
         when(tournamentDao.save(testTournament)).thenReturn(testTournament);
         assertEquals(testTournament, tournamentService.updateTournament(testTournament));
     }
-
+    
     @Test
-    public void updateTournamentShouldThrowEntityNotFoundException() {
+    public void updateTournamentShouldThrowAtpEntityNotFoundException() {
         when(tournamentDao.findById(testTournament.getId())).thenReturn(emptyOptionalTournament);
-        Assertions.assertThrows(EntityNotFoundException.class, () -> tournamentService.updateTournament(testTournament));
+        Assertions.assertThrows(AtpEntityNotFoundException.class, () -> tournamentService.updateTournament(testTournament));
     }
-
+    
     @Test
-    public void getTournamentShouldBeOk() throws EntityNotFoundException {
+    public void updateTournamentShouldThrowAtpEntityExistsException() {
+        Tournament tournament = new Tournament(1L);
+        tournament.setName("Roland Garros");
+        tournament.setStartDate(LocalDate.of(2022, Month.MAY, 10));
+        when(tournamentDao.findById(testTournament.getId())).thenReturn(optionalTournament);
+        when(tournamentDao.findTournamentByName(tournament.getName() + "-" + tournament.getStartDate().getYear())).thenReturn(Optional.of(tournament));
+        Assertions.assertThrows(AtpEntityExistsException.class, () -> tournamentService.updateTournament(tournament));
+    }
+    
+    @Test
+    public void getTournamentShouldBeOk() throws AtpEntityNotFoundException {
         when(tournamentDao.findById(testTournament.getId())).thenReturn(optionalTournament);
         assertEquals(testTournament, tournamentService.getTournament(testTournament.getId()));
     }
-
+    
     @Test
-    public void getTournamentShouldThrowEntityNotFoundException() {
+    public void getTournamentShouldThrowAtpEntityNotFoundException() {
         when(tournamentDao.findById(testTournament.getId())).thenReturn(emptyOptionalTournament);
-        Assertions.assertThrows(EntityNotFoundException.class, () -> tournamentService.getTournament(testTournament.getId()));
+        Assertions.assertThrows(AtpEntityNotFoundException.class, () -> tournamentService.getTournament(testTournament.getId()));
     }
-
+    
     @Test
     public void getAllTournamentsShouldBeOk() {
         Tournament tournament = new Tournament(1, "Roland Garros-2022", LocalDate.of(2022, Month.MAY, 10),
@@ -88,9 +106,9 @@ public class TournamentServiceImplTest {
         when(tournamentDao.findAll()).thenReturn(tournaments);
         assertEquals(tournaments, tournamentService.getAllTournaments());
     }
-
+    
     @Test
-    public void getMatchesShouldBeOk() throws EntityNotFoundException {
+    public void getMatchesShouldBeOk() throws AtpEntityNotFoundException {
         Player firstPlayer = new Player(1);
         Player secondPlayer = new Player(2);
         Player thirdPlayer = new Player(3);
@@ -105,16 +123,16 @@ public class TournamentServiceImplTest {
         when(tournamentDao.findById(testTournament.getId())).thenReturn(optionalTournament);
         assertEquals(matches, tournamentService.getMatches(testTournament.getId()));
     }
-
+    
     @Test
-    public void getMatchesShouldThrowEntityNotFoundException() {
+    public void getMatchesShouldThrowAtpEntityNotFoundException() {
         when(tournamentDao.findById(testTournament.getId())).thenReturn(emptyOptionalTournament);
-        Assertions.assertThrows(EntityNotFoundException.class, () -> tournamentService.getMatches(testTournament.getId()));
+        Assertions.assertThrows(AtpEntityNotFoundException.class, () -> tournamentService.getMatches(testTournament.getId()));
     }
-
+    
     @Test
-    public void deleteTournamentShouldThrowEntityNotFoundException() {
+    public void deleteTournamentShouldAtpThrowEntityNotFoundException() {
         when(tournamentDao.findById(testTournament.getId())).thenReturn(emptyOptionalTournament);
-        Assertions.assertThrows(EntityNotFoundException.class, () -> tournamentService.deleteTournament(testTournament.getId()));
+        Assertions.assertThrows(AtpEntityNotFoundException.class, () -> tournamentService.deleteTournament(testTournament.getId()));
     }
 }

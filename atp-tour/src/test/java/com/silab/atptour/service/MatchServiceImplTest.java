@@ -4,11 +4,8 @@ import com.silab.atptour.dao.MatchDao;
 import com.silab.atptour.dao.PlayerDao;
 import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
-import com.silab.atptour.entity.Tournament;
-import com.silab.atptour.exceptions.EntityNotFoundException;
+import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import com.silab.atptour.service.impl.MatchesServiceImpl;
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -41,25 +38,15 @@ public class MatchServiceImplTest {
     private static Player firstTestPlayer;
     private static Player secondTestPlayer;
     private static Match testMatch;
-    private static List<Match> testMatches;
 
     @BeforeAll
     public static void init() {
-        Tournament tournament = new Tournament(1);
         firstTestPlayer = new Player(1);
         secondTestPlayer = new Player(2);
-        Player player = new Player(3);
-        testMatches = new ArrayList<>() {
-            {
-                testMatch = new Match(tournament, firstTestPlayer, secondTestPlayer, LocalDate.of(2022, Month.MARCH, 1), "finals", "3-0", firstTestPlayer);
-                new Match(tournament, firstTestPlayer, player, LocalDate.of(2022, Month.MARCH, 2), "finals", "3-0", firstTestPlayer);
-                new Match(tournament, player, secondTestPlayer, LocalDate.of(2022, Month.MARCH, 3), "finals", "3-0", player);
-            }
-        };
     }
 
     @Test
-    public void getMatchesH2HShouldBeOk() throws EntityNotFoundException {
+    public void getMatchesH2HShouldBeOk() throws AtpEntityNotFoundException {
         List<Match> matches = new ArrayList<>();
         matches.add(testMatch);
         when(playerDao.findById(firstTestPlayer.getId())).thenReturn(Optional.of(firstTestPlayer));
@@ -69,15 +56,15 @@ public class MatchServiceImplTest {
     }
 
     @Test
-    public void getMatchesH2HShouldThrowEntityNotFoundExceptionFirstPlayerNotFound() {
+    public void getMatchesH2HShouldThrowAtpEntityNotFoundExceptionFirstPlayerNotFound() {
         when(playerDao.findById(firstTestPlayer.getId())).thenReturn(Optional.empty());
-        Assertions.assertThrows(EntityNotFoundException.class, () -> matchService.getH2HMatches(firstTestPlayer.getId(), secondTestPlayer.getId()));
+        Assertions.assertThrows(AtpEntityNotFoundException.class, () -> matchService.getH2HMatches(firstTestPlayer.getId(), secondTestPlayer.getId()));
     }
 
     @Test
-    public void getMatchesH2HShouldThrowEntityNotFoundExceptionSecondPlayerNotFound() {
+    public void getMatchesH2HShouldThrowAtpEntityNotFoundExceptionSecondPlayerNotFound() {
         when(playerDao.findById(firstTestPlayer.getId())).thenReturn(Optional.of(firstTestPlayer));
         when(playerDao.findById(secondTestPlayer.getId())).thenReturn(Optional.empty());
-        Assertions.assertThrows(EntityNotFoundException.class, () -> matchService.getH2HMatches(firstTestPlayer.getId(), secondTestPlayer.getId()));
+        Assertions.assertThrows(AtpEntityNotFoundException.class, () -> matchService.getH2HMatches(firstTestPlayer.getId(), secondTestPlayer.getId()));
     }
 }

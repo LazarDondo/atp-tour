@@ -5,7 +5,7 @@ import com.silab.atptour.entity.Country;
 import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
 import com.silab.atptour.entity.Tournament;
-import com.silab.atptour.exceptions.EntityNotFoundException;
+import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import com.silab.atptour.service.impl.PlayerServiceImpl;
 import java.time.LocalDate;
 import java.time.Month;
@@ -54,28 +54,28 @@ public class PlayerServiceImplTest {
     }
 
     @Test
-    public void updatePlayerShouldBeOk() throws EntityNotFoundException {
+    public void updatePlayerShouldBeOk() throws AtpEntityNotFoundException {
         when(playerDao.findById(testPlayer.getId())).thenReturn(optionalPlayer);
         when(playerDao.save(testPlayer)).thenReturn(testPlayer);
         assertEquals(testPlayer, playerService.updatePlayer(testPlayer));
     }
 
     @Test
-    public void updatePlayerShouldThrowEntityNotFoundException() {
+    public void updatePlayerShouldThrowAtpEntityNotFoundException() {
         when(playerDao.findById(testPlayer.getId())).thenReturn(emptyOptionalPlayer);
-        Assertions.assertThrows(EntityNotFoundException.class, () -> playerService.updatePlayer(testPlayer));
+        Assertions.assertThrows(AtpEntityNotFoundException.class, () -> playerService.updatePlayer(testPlayer));
     }
 
     @Test
-    public void getPlayerShouldBeOk() throws EntityNotFoundException {
+    public void getPlayerShouldBeOk() throws AtpEntityNotFoundException {
         when(playerDao.findById(testPlayer.getId())).thenReturn(optionalPlayer);
         assertEquals(testPlayer, playerService.getPlayer(testPlayer.getId()));
     }
 
     @Test
-    public void getPlayerShouldThrowEntityNotFoundException() {
+    public void getPlayerShouldThrowAtpEntityNotFoundException() {
         when(playerDao.findById(testPlayer.getId())).thenReturn(emptyOptionalPlayer);
-        Assertions.assertThrows(EntityNotFoundException.class, () -> playerService.getPlayer(testPlayer.getId()));
+        Assertions.assertThrows(AtpEntityNotFoundException.class, () -> playerService.getPlayer(testPlayer.getId()));
     }
 
     @Test
@@ -90,7 +90,7 @@ public class PlayerServiceImplTest {
     }
 
     @Test
-    public void getMatchesShouldBeOk() throws EntityNotFoundException {
+    public void getMatchesShouldBeOk() throws AtpEntityNotFoundException {
         Tournament tournament = new Tournament(1);
         Player firstPlayer = new Player(1);
         Player secondPlayer = new Player(2);
@@ -106,8 +106,8 @@ public class PlayerServiceImplTest {
     }
 
     @Test
-    public void getMatchesShouldThrowEntityNotFoundException() {
+    public void getMatchesShouldThrowAtpEntityNotFoundException() {
         when(playerDao.findById(testPlayer.getId())).thenReturn(emptyOptionalPlayer);
-        Assertions.assertThrows(EntityNotFoundException.class, () -> playerService.getMatches(testPlayer.getId()));
+        Assertions.assertThrows(AtpEntityNotFoundException.class, () -> playerService.getMatches(testPlayer.getId()));
     }
 }
