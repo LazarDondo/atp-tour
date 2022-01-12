@@ -2,7 +2,7 @@ package com.silab.atptour.controller;
 
 import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
-import com.silab.atptour.exceptions.EntityNotFoundException;
+import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import com.silab.atptour.service.PlayerService;
 import java.util.List;
 import org.slf4j.Logger;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Lazar
  */
 @RestController
-@RequestMapping("/com/atp/player")
+@RequestMapping("player")
 public class PlayerController {
 
     private final Logger logger = LoggerFactory.getLogger(PlayerController.class);
@@ -45,20 +45,20 @@ public class PlayerController {
             Player updatedPlayer = playerService.updatePlayer(player);
             logger.info("Successfully updated player");
             return ResponseEntity.ok(updatedPlayer);
-        } catch (EntityNotFoundException ex) {
+        } catch (AtpEntityNotFoundException ex) {
             logger.error(ex.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Player> getPlayerById(@PathVariable("id") long id) {
         logger.debug("Finding player with id {}", id);
         try {
             Player player = playerService.getPlayer(id);
             logger.info("Succesfully retrieved player {} {}", player.getFirstName(), player.getLastName());
             return ResponseEntity.ok(player);
-        } catch (EntityNotFoundException ex) {
+        } catch (AtpEntityNotFoundException ex) {
             logger.error(ex.getMessage());
             return ResponseEntity.notFound().build();
         }
@@ -71,14 +71,14 @@ public class PlayerController {
         return ResponseEntity.ok(players);
     }
 
-    @GetMapping("/{id}/matches")
+    @GetMapping("{id}/matches")
     public ResponseEntity<List<Match>> getMatches(@PathVariable long id) {
         logger.debug("Finding player with id {}", id);
         try {
             List<Match> matches = playerService.getMatches(id);
             logger.info("Successfully retrieved {} players", matches.size());
             return ResponseEntity.ok(matches);
-        } catch (EntityNotFoundException ex) {
+        } catch (AtpEntityNotFoundException ex) {
             logger.error(ex.getMessage());
             return ResponseEntity.notFound().build();
         }

@@ -1,7 +1,7 @@
 package com.silab.atptour.controller;
 
 import com.silab.atptour.entity.Match;
-import com.silab.atptour.exceptions.EntityNotFoundException;
+import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import com.silab.atptour.service.MatchesService;
 import java.util.List;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Lazar
  */
 @RestController
-@RequestMapping("/com/atp/matches")
+@RequestMapping("matches")
 public class MatchesController {
 
     private final Logger logger = LoggerFactory.getLogger(MatchesController.class);
@@ -45,16 +45,15 @@ public class MatchesController {
         return ResponseEntity.ok(updatedMatches);
     }
 
-    @GetMapping("/{firstPlayerId}/{secondPlayerId}")
+    @GetMapping("{firstPlayerId}/{secondPlayerId}")
     public ResponseEntity<List<Match>> getH2HMatches(@PathVariable("firstPlayerId") long firstPlayerId,
             @PathVariable("secondPlayerId") long secondPlayerId) {
         logger.debug("Finding H2H matches between players with ids {} and {}", firstPlayerId, secondPlayerId);
         try {
             List<Match> foundMatches = matchesService.getH2HMatches(firstPlayerId, secondPlayerId);
             logger.info("Successfully retrieved {} matches", foundMatches.size());
-            logger.info(foundMatches.get(0).getFirstPlayer().getMatches().size()+"");
             return ResponseEntity.ok(foundMatches);
-        } catch (EntityNotFoundException ex) {
+        } catch (AtpEntityNotFoundException ex) {
             logger.error(ex.getMessage());
             return ResponseEntity.notFound().build();
         }

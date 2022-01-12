@@ -1,7 +1,7 @@
 package com.silab.atptour.controller;
 
 import com.silab.atptour.entity.Statistics;
-import com.silab.atptour.exceptions.EntityNotFoundException;
+import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import com.silab.atptour.service.StatisticsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Lazar
  */
 @RestController
-@RequestMapping("/com/atp/statistics")
+@RequestMapping("statistics")
 public class StatisticsController {
 
     private final Logger logger = LoggerFactory.getLogger(StatisticsController.class);
@@ -41,7 +41,7 @@ public class StatisticsController {
             Statistics updatedStatistics = statisticsService.updateStatistics(statistics);
             logger.info("Successfully updated statistics");
             return ResponseEntity.ok(updatedStatistics);
-        } catch (EntityNotFoundException ex) {
+        } catch (AtpEntityNotFoundException ex) {
             logger.error(ex.getMessage());
             return ResponseEntity.notFound().build();
         }
