@@ -1,5 +1,7 @@
 package com.silab.atptour.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -18,6 +20,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  *
@@ -35,7 +39,8 @@ public class User {
     @Column(unique = true, length = 30)
     private String username;
 
-    @Column(length = 30)
+    @Column(length = 60)
+    @JsonProperty(access = Access.WRITE_ONLY)
     private String password;
 
     @Column(length = 50)
@@ -52,6 +57,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles = new HashSet<>();
 
     @Override
