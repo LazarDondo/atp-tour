@@ -1,7 +1,6 @@
 package com.silab.atptour.dao;
 
 import com.silab.atptour.entity.Role;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

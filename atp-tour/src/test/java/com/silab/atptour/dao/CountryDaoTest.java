@@ -1,7 +1,6 @@
 package com.silab.atptour.dao;
 
 import com.silab.atptour.entity.Country;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
