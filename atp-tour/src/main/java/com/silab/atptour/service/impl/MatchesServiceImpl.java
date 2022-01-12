@@ -4,7 +4,7 @@ import com.silab.atptour.dao.MatchDao;
 import com.silab.atptour.dao.PlayerDao;
 import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
-import com.silab.atptour.exceptions.EntityNotFoundException;
+import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -50,18 +50,16 @@ public class MatchesServiceImpl implements MatchesService {
     }
 
     @Override
-    public List<Match> getH2HMatches(long firstPlayerId, long secondPlayerId) throws EntityNotFoundException {
+    public List<Match> getH2HMatches(long firstPlayerId, long secondPlayerId) throws AtpEntityNotFoundException {
         logger.debug("Finding matches for players with id {} and {}", firstPlayerId, secondPlayerId);
         Optional<Player> optionalFirstPlayer = playerDao.findById(firstPlayerId);
         if (optionalFirstPlayer.isEmpty()) {
-            logger.error("Player with id {} doesn't exist", firstPlayerId);
-            throw new EntityNotFoundException("Player with id " + firstPlayerId + " doesn't exist");
+            throw new AtpEntityNotFoundException("Player with id " + firstPlayerId + " doesn't exist");
         }
 
         Optional<Player> optionalSecondPlayer = playerDao.findById(secondPlayerId);
         if (optionalSecondPlayer.isEmpty()) {
-            logger.error("Player with id {} doesn't exist", secondPlayerId);
-            throw new EntityNotFoundException("Player with id " + secondPlayerId + " doesn't exist");
+            throw new AtpEntityNotFoundException("Player with id " + secondPlayerId + " doesn't exist");
         }
         return matchDao.findByFirstPlayerAndSecondPlayer(optionalFirstPlayer.get(), optionalSecondPlayer.get());
     }

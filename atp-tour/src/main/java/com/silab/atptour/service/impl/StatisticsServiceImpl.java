@@ -2,7 +2,7 @@ package com.silab.atptour.service.impl;
 
 import com.silab.atptour.dao.StatisticsDao;
 import com.silab.atptour.entity.Statistics;
-import com.silab.atptour.exceptions.EntityNotFoundException;
+import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import com.silab.atptour.service.StatisticsService;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -29,12 +29,11 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
     
     @Override
-    public Statistics updateStatistics(Statistics statistics) throws EntityNotFoundException{
+    public Statistics updateStatistics(Statistics statistics) throws AtpEntityNotFoundException{
         logger.debug("Updating statistics");
         Optional<Statistics> optionalStatistics = statisticsDao.findStatisticsById(statistics.getId());
         if(optionalStatistics.isEmpty()){
-            logger.error("Statistics with id {} doesn't exist", statistics.getId());
-            throw new EntityNotFoundException("Statistics entity doesn't exist");
+            throw new AtpEntityNotFoundException("Statistics entity doesn't exist");
         }
         return statisticsDao.save(statistics);
     }

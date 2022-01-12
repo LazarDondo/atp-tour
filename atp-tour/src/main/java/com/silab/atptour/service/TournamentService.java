@@ -2,7 +2,8 @@ package com.silab.atptour.service;
 
 import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Tournament;
-import com.silab.atptour.exceptions.EntityNotFoundException;
+import com.silab.atptour.exceptions.AtpEntityExistsException;
+import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import java.util.List;
 
 /**
@@ -11,15 +12,15 @@ import java.util.List;
  */
 public interface TournamentService {
 
-    public Tournament addTournament(Tournament tournament);
+    public Tournament addTournament(Tournament tournament) throws AtpEntityExistsException;
 
-    public Tournament updateTournament(Tournament tournament) throws EntityNotFoundException;
+    public Tournament updateTournament(Tournament tournament) throws AtpEntityNotFoundException, AtpEntityExistsException;
 
-    public Tournament getTournament(long id) throws EntityNotFoundException;
+    public Tournament getTournament(long id) throws AtpEntityNotFoundException;
     
     public List<Tournament> getAllTournaments();
     
-    public List<Match> getMatches(long id) throws EntityNotFoundException;
+    public List<Match> getMatches(long id) throws AtpEntityNotFoundException;
 
-    public void deleteTournament(long id) throws EntityNotFoundException;
+    public void deleteTournament(long id) throws AtpEntityNotFoundException;
 }

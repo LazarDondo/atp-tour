@@ -3,7 +3,8 @@ package com.silab.atptour.service.impl;
 import com.silab.atptour.dao.TournamentDao;
 import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Tournament;
-import com.silab.atptour.exceptions.EntityNotFoundException;
+import com.silab.atptour.exceptions.AtpEntityExistsException;
+import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import com.silab.atptour.service.TournamentService;
 import java.util.List;
 import java.util.Optional;
@@ -25,30 +26,37 @@ public class TournamentServiceImpl implements TournamentService {
     private final Logger logger = LoggerFactory.getLogger(TournamentServiceImpl.class);
 
     @Override
-    public Tournament addTournament(Tournament tournament) {
-        tournament.setName(tournament.getName()+"-"+tournament.getStartDate().getYear());
+    public Tournament addTournament(Tournament tournament) throws AtpEntityExistsException {
+        String name = tournament.getName()+"-"+tournament.getStartDate().getYear();
+        tournament.setName(name);
+        if(tournamentDao.findTournamentByName(name).isPresent()){
+            throw new AtpEntityExistsException("Tournament with name "+name+" already exists");
+        }
         logger.debug("Adding new {} tournament", tournament.getName());
         return tournamentDao.save(tournament);
     }
 
     @Override
-    public Tournament updateTournament(Tournament tournament) throws EntityNotFoundException {
+    public Tournament updateTournament(Tournament tournament) throws AtpEntityNotFoundException, AtpEntityExistsException {
         logger.debug("Finding tournament {}", tournament.getName());
+        String name = tournament.getName()+"-"+tournament.getStartDate().getYear();
         Optional<Tournament> optionalTournament = tournamentDao.findById(tournament.getId());
         if (optionalTournament.isEmpty()) {
-            logger.error("Tournament {} doesn't exist", tournament.getName());
-            throw new EntityNotFoundException("Tournament " + tournament.getName() + " doesn't exist");
+            throw new AtpEntityNotFoundException("Tournament " + tournament.getName() + " doesn't exist");
         }
+        if(!optionalTournament.get().getName().equals(name) && tournamentDao.findTournamentByName(name).isPresent()){
+            throw new AtpEntityExistsException("Tournament with name "+name+" already exists");
+        }
+        tournament.setName(name);
         logger.debug("Updating tournament {}", tournament.getName());
         return tournamentDao.save(tournament);
     }
 
     @Override
-    public Tournament getTournament(long id) throws EntityNotFoundException {
+    public Tournament getTournament(long id) throws AtpEntityNotFoundException {
         Optional<Tournament> optionalTournament = tournamentDao.findById(id);
         if (optionalTournament.isEmpty()) {
-            logger.error("Tournament with {} doesn't exist", id);
-            throw new EntityNotFoundException("Tournament doesn't exist");
+            throw new AtpEntityNotFoundException("Tournament doesn't exist");
         }
         return optionalTournament.get();
     }
@@ -60,21 +68,19 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public List<Match> getMatches(long id) throws EntityNotFoundException {
+    public List<Match> getMatches(long id) throws AtpEntityNotFoundException {
         Optional<Tournament> optionalTournament = tournamentDao.findById(id);
         if (optionalTournament.isEmpty()) {
-            logger.error("Tournament with {} doesn't exist", id);
-            throw new EntityNotFoundException("Tournament doesn't exist");
+            throw new AtpEntityNotFoundException("Tournament doesn't exist");
         }
         return optionalTournament.get().getMatches();
     }
 
     @Override
-    public void deleteTournament(long id) throws EntityNotFoundException {
+    public void deleteTournament(long id) throws AtpEntityNotFoundException {
         logger.debug("Deleting tournament with id {}", id);
         if (tournamentDao.findById(id).isEmpty()) {
-            logger.error("Tournament with id {} doesn't exist", id);
-            throw new EntityNotFoundException("Tournament doesn't exist");
+            throw new AtpEntityNotFoundException("Tournament doesn't exist");
         }
         tournamentDao.deleteById(id);
     }

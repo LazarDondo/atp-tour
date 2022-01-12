@@ -1,7 +1,7 @@
 package com.silab.atptour.service;
 
 import com.silab.atptour.entity.Match;
-import com.silab.atptour.exceptions.EntityNotFoundException;
+import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import java.util.List;
 
 /**
@@ -14,5 +14,5 @@ public interface MatchesService {
     
     public List<Match> updateMatches(List<Match> matches);
     
-    public List<Match> getH2HMatches(long firstPlayerId, long secondPlayerId) throws EntityNotFoundException;
+    public List<Match> getH2HMatches(long firstPlayerId, long secondPlayerId) throws AtpEntityNotFoundException;
 }
