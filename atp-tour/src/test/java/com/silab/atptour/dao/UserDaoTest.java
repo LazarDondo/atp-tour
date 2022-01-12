@@ -50,23 +50,8 @@ public class UserDaoTest {
     }
     
     @Test
-    public void findUserByUsernameAndPasswordShouldBeOk() {
-        assertEquals(testUser, userDao.findUserByUsernameAndPassword(testUser.getUsername(), testUser.getPassword()).get());
-    }
-    
-    @Test
-    public void findUserByUsernameAndPasswordShouldNotFindUserInvalidUsername() {
-        assertEquals(true, userDao.findUserByUsernameAndPassword("simpsonhomer@gmail.com", testUser.getPassword()).isEmpty());
-    }
-    
-    @Test
-    public void findUserByUsernameAndPasswordShouldNotFindUserInvalidPassword() {
-        assertEquals(true, userDao.findUserByUsernameAndPassword(testUser.getUsername(), "powermax").isEmpty());
-    }
-    
-    @Test
     public void updateUserShouldBeOK() {
-        testUser.setUsername("bart");
+        testUser.setUsername("bartsimpson@gmail.com");
         assertEquals(testUser, userDao.save(testUser));
     }
     

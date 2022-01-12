@@ -2,10 +2,8 @@ package com.silab.atptour.dao;
 
 import com.silab.atptour.entity.Country;
 import com.silab.atptour.entity.Tournament;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.time.Month;
-import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +33,7 @@ public class TournamentDaoTest {
     
     @BeforeEach
     public void init() {
-        testCountry = countryDao.save(new Country(1, "Serbia", "SRB"));
+        testCountry = countryDao.save(new Country(1, "England", "ENG"));
         testTournament = tournamentDao.save(new Tournament(1, "Wimbledon-2020", LocalDate.of(2020, Month.MARCH, 22), LocalDate.of(2020, Month.MARCH, 30),
                 testCountry, "Grand Slam", null));
     }
