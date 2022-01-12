@@ -47,9 +47,9 @@ public class Statistics {
 
     private int secondPlayerAces;
 
-    private int firstPlayerBreaks;
+    private int firstPlayerBreakPoints;
 
-    private int secondPlayerBreaks;
+    private int secondPlayerBreakPoints;
 
     private int firstPlayerFirstServesIn;
 
