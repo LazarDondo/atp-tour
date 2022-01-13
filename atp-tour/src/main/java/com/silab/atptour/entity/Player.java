@@ -1,5 +1,6 @@
 package com.silab.atptour.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDate;
 import java.util.List;
@@ -44,6 +45,7 @@ public class Player {
     @JoinColumn(name = "birth_country", referencedColumnName = "id")
     private Country birthCountry;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
     private int currentPoints;

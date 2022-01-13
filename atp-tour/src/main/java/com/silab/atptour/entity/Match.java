@@ -1,5 +1,6 @@
 package com.silab.atptour.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.silab.atptour.entity.id.MatchId;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -43,6 +44,7 @@ public class Match {
     @JoinColumn(name = "second_player_id")
     private Player secondPlayer;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate matchDate;
 
     @Column(length = 20)
