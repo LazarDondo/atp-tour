@@ -49,13 +49,15 @@ public class UserServiceImplTest {
     private static User testUser;
     private static Optional<User> optionalUser;
     private static Optional<User> emptyUser;
+    private final String password = "maxpower";
+    private static final String hashedPassword = "hashedpassowrd";
 
     @BeforeAll
     public static void init() {
         Set<Role> roles = new HashSet<>();
         testRole = new Role(1, defaultUserRole);
         roles.add(testRole);
-        testUser = new User(1, "homersimpson@gmail.com", "maxpower", "Homer", "Simpson", true, roles);
+        testUser = new User(1, "homersimpson@gmail.com", hashedPassword, "Homer", "Simpson", true, roles);
         optionalUser = Optional.of(testUser);
         emptyUser = Optional.empty();
     }
@@ -63,8 +65,8 @@ public class UserServiceImplTest {
     @Test
     public void loginShouldBeOk() throws AtpEntityNotFoundException {
         when(userDao.findUserByUsername(testUser.getUsername())).thenReturn(optionalUser);
-        when(passwordEncoder.matches(testUser.getPassword(), "$2a$12$Op8pBz.2fB3bBxNwZur7IudXzw3l1cIuES4fvNbD0ufghzlaWviee")).thenReturn(true);
-        assertEquals(testUser, userService.login(testUser.getUsername(), testUser.getPassword()));
+        when(passwordEncoder.matches(password, testUser.getPassword())).thenReturn(true);
+        assertEquals(testUser, userService.login(testUser.getUsername(), password));
     }
 
     @Test
@@ -77,7 +79,7 @@ public class UserServiceImplTest {
     public void registerShouldBeOk() throws AtpEntityExistsException {
         when(userDao.findUserByUsername(testUser.getUsername())).thenReturn(emptyUser);
         when(roleDao.findRoleByName(defaultUserRole)).thenReturn(Optional.of(testRole));
-        when(passwordEncoder.encode(testUser.getPassword())).thenReturn("$2a$12$Op8pBz.2fB3bBxNwZur7IudXzw3l1cIuES4fvNbD0ufghzlaWviee");
+        when(passwordEncoder.encode(testUser.getPassword())).thenReturn(hashedPassword);
         when(userDao.save(testUser)).thenReturn(testUser);
         assertEquals(testUser, userService.register(testUser));
     }
@@ -91,7 +93,7 @@ public class UserServiceImplTest {
     @Test
     public void updateUserShouldBeOk() throws AtpEntityNotFoundException, AtpEntityExistsException {
         when(userDao.findById(testUser.getId())).thenReturn(optionalUser);
-        when(passwordEncoder.encode(testUser.getPassword())).thenReturn(" $2a$12$Op8pBz.2fB3bBxNwZur7IudXzw3l1cIuES4fvNbD0ufghzlaWviee");
+        when(passwordEncoder.encode(testUser.getPassword())).thenReturn(hashedPassword);
         when(userDao.save(testUser)).thenReturn(testUser);
         assertEquals(testUser, userService.updateUser(testUser));
     }
@@ -104,7 +106,7 @@ public class UserServiceImplTest {
 
     @Test
     public void updateUserShouldThrowAtpEntityExistsException() {
-        User user = new User(1, "bartsimpson@gmail.com", "elbarto", "Bart", "Simpson", true, null);
+        User user = new User(1, "bartsimpson@gmail.com", hashedPassword, "Bart", "Simpson", true, null);
         when(userDao.findById(user.getId())).thenReturn(optionalUser);
         when(userDao.findUserByUsername(user.getUsername())).thenReturn(Optional.of(user));
         Assertions.assertThrows(AtpEntityExistsException.class, () -> userService.updateUser(user));
