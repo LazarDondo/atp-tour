@@ -68,12 +68,12 @@ public class UserServiceImpl implements UserService {
         logger.debug("Finding user {}", user.getUsername());
         Optional<User> optionalUser = userDao.findById(user.getId());
         if (optionalUser.isEmpty()) {
-            throw new AtpEntityNotFoundException("User with username " + user.getUsername() + " doesn't exist");
+            throw new AtpEntityNotFoundException("User doesn't exist");
         }
         if (!optionalUser.get().getUsername().equals(user.getUsername()) && userDao.findUserByUsername(user.getUsername()).isPresent()){
             throw new AtpEntityExistsException("User with username " + user.getUsername() + " already exists");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(optionalUser.get().getPassword());
         user.setRoles(optionalUser.get().getRoles());
         return userDao.save(user);
     }

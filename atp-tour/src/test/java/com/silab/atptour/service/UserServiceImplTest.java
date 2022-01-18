@@ -93,7 +93,6 @@ public class UserServiceImplTest {
     @Test
     public void updateUserShouldBeOk() throws AtpEntityNotFoundException, AtpEntityExistsException {
         when(userDao.findById(testUser.getId())).thenReturn(optionalUser);
-        when(passwordEncoder.encode(testUser.getPassword())).thenReturn(hashedPassword);
         when(userDao.save(testUser)).thenReturn(testUser);
         assertEquals(testUser, userService.updateUser(testUser));
     }
