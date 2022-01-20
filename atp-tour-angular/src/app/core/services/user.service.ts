@@ -16,6 +16,10 @@ export class UserService {
   public loginUser(user: User): Observable<User>{
     return this.httpClient.post<User>(this.API_URL+"/user/login", user);
   }
+
+  public registerUser(user: User): Observable<User>{
+    return this.httpClient.post<User>(this.API_URL+"/user/register", user);
+  }
   
 }
 

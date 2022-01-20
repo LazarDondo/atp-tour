@@ -1,13 +1,35 @@
-<div class="w-50 m-auto border border-info rounder p-4">
-    <div class="form-group">
-        <label>Username</label>
-        <input id="username" name="username" type="text" [(ngModel)]="user.username" class="form-control"/>
-    </div>
-    <div class="form-group">
-        <label>Password</label>
-        <input id="password" type="password"  [(ngModel)]="user.password" class="form-control"/>
-    </div>
-    <div>
-        <button (click)="login()">Login</button>
-z    </div>
+<div class="center_div">
+    <h2>Login</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="email" formControlName="username" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f['username'].errors }" />
+            <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+                <div *ngIf="f['username'].errors['required']">Username is required</div>
+                <div *ngIf="f['username'].errors['email']">Username must be in email format</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" formControlName="password" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
+            <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                <div *ngIf="f['password'].errors['required']">Password is required</div>
+            </div>      
+        </div>
+
+        <div id="loginError" *ngIf="loginError" class="alert-danger ">
+            <p>Invalid username or password. Please try again.</p>
+        </div> 
+
+        <div class="form-group">    
+            
+            <button [disabled]="loading" class="btn btn-primary">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Login
+            </button>
+            <a routerLink="/register" class="btn btn-link">Register</a>
+        </div>
+    </form>
 </div>
