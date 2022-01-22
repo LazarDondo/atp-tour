@@ -54,6 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //user
                 .antMatchers(HttpMethod.PUT, "/user").hasAnyAuthority(adminUser)
                 .antMatchers("/user/**").permitAll()
+                //country
+                .antMatchers("/country").hasAnyAuthority(adminUser)
                 //tournament  
                 .antMatchers(HttpMethod.DELETE, "/tournament/**").hasAuthority(adminUser)
                 .antMatchers(HttpMethod.GET, "/tournament/**").hasAnyAuthority(adminUser, defaultUser)
