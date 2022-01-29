@@ -26,21 +26,21 @@ public class MyUserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<Role> roles = user.getRoles();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        System.out.println("12312312");
+
         for (Role role : roles) {
-                authorities.add(new SimpleGrantedAuthority(role.getName()));
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         return authorities;
     }
 
     @Override
-    public String getPassword() {
-        return user.getPassword();
+    public String getUsername() {
+        return user.getUsername();
     }
 
     @Override
-    public String getUsername() {
-        return user.getUsername();
+    public String getPassword() {
+        return user.getPassword();
     }
 
     @Override
@@ -62,7 +62,5 @@ public class MyUserDetails implements UserDetails {
     public boolean isEnabled() {
         return user.isEnabled();
     }
-    
-    
 
 }
