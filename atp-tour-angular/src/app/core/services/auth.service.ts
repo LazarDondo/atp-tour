@@ -6,7 +6,8 @@ import { User } from 'src/app/models/user.model';
 })
 export class AuthService {
 
-  constructor(private loggedUser:User) {
+  constructor(private loggedUser:User) { 
+    this.loggedUser.enabled=true;
    }
 
    getLoggedUser(){
@@ -22,7 +23,8 @@ export class AuthService {
    }
 
    getToken(){
-     console.log(this.loggedUser.id );
+    this.loggedUser.username="admin";
+    this.loggedUser.password="admin";
     return 'Basic ' + btoa(`${this.loggedUser.username}:${this.loggedUser.password}`)
   }
 }

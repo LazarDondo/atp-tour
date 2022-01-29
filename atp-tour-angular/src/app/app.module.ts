@@ -16,6 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import { MatOptionModule } from '@angular/material/core';
+import { AddPlayerComponent } from './features/player-page/add-player/add-player.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { MatOptionModule } from '@angular/material/core';
     RegistrationPageComponent,
     HeaderComponent,
     FooterComponent,
-    PlayerPageComponent
+    PlayerPageComponent,
+    AddPlayerComponent
   ],
   imports: [
     BrowserModule,

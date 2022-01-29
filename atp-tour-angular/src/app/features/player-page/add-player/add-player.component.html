@@ -1,0 +1,76 @@
+<div class="center_div">
+    <h2>Add Player</h2>
+    <form [formGroup]="playerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="firstName">First name</label>
+            <input type="text" formControlName="firstName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f['firstName'].errors }" />
+            <div *ngIf="submitted && f['firstName'].errors" class="invalid-feedback">
+                <div *ngIf="f['firstName'].errors['required']">First name is required</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last name</label>
+            <input type="text" formControlName="lastName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f['lastName'].errors }" />
+            <div *ngIf="submitted && f['lastName'].errors" class="invalid-feedback">
+                <div *ngIf="f['lastName'].errors['required']">Last name is required</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="lastName">Birth country</label>
+            <input type="text" class="form-control" matInput [matAutocomplete]="auto" [formControl]="myControl"
+                [ngClass]="{ 'is-invalid': submitted && !validCountry }" />
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let country of filteredCountries | async" [value]="country">
+                    {{country.name}}
+                </mat-option>
+            </mat-autocomplete>
+            <div *ngIf="submitted && !validCountry" class="invalid-feedback">
+                <div>Birth country must me valid</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="dateOfBirth">Date of birth</label>
+            <input type="date" formControlName="dateOfBirth" class="form-control" onkeydown="return false"
+                max="{{maximumDate| date: 'yyyy-MM-dd'}}"
+                [ngClass]="{ 'is-invalid': submitted && f['dateOfBirth'].errors }" />
+            <div *ngIf="submitted && f['dateOfBirth'].errors" class="invalid-feedback">
+                <div *ngIf="f['dateOfBirth'].errors['required']">Date of birth is required</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="currentPoints">Current points</label>
+            <input type="number" formControlName="currentPoints" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f['currentPoints'].errors }" />
+            <div *ngIf="submitted && f['currentPoints'].errors" class="invalid-feedback">
+                <div *ngIf="f['currentPoints'].errors['required']">Current points are required</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="livePoints">Live points</label>
+            <input type="number" formControlName="livePoints" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f['livePoints'].errors }" />
+            <div *ngIf="submitted && f['livePoints'].errors" class="invalid-feedback">
+                <div *ngIf="f['livePoints'].errors['required']">Live points are required</div>
+            </div>
+        </div>
+
+        <div *ngIf="success" class="alert-success requestMessage">
+            <p>Successfully added new player</p>
+        </div>
+
+        <div *ngIf="error" class="alert-danger requestMessage">
+            <p>Failed to add new player</p>
+        </div>
+
+        <div class="form-group">
+            <button [disabled]="loading" class="btn btn-primary">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Add player
+            </button>
+        </div>
+    </form>
+</div>
