@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Country } from "./country.model";
 
 @Injectable({
-    providedIn:'root'
+    providedIn: 'root'
 })
 export class Player {
     id?: number;
@@ -11,5 +11,6 @@ export class Player {
     birthCountry: Country;
     dateOfBirth: Date;
     currentPoints: number;
-    livePoints:number;
+    livePoints: number;
+    rank?: number;
 }

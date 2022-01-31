@@ -17,7 +17,10 @@ import { MatInputModule } from '@angular/material/input';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import { MatOptionModule } from '@angular/material/core';
 import { AddPlayerComponent } from './features/player-page/add-player/add-player.component';
-
+import { AllPlayersComponent } from './features/player-page/all-players/all-players.component';
+import {MatTableModule} from '@angular/material/table';
+import {NgxPaginationModule} from 'ngx-pagination';
+import {OrderModule} from 'ngx-order-pipe';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,8 @@ import { AddPlayerComponent } from './features/player-page/add-player/add-player
     HeaderComponent,
     FooterComponent,
     PlayerPageComponent,
-    AddPlayerComponent
+    AddPlayerComponent,
+    AllPlayersComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +45,9 @@ import { AddPlayerComponent } from './features/player-page/add-player/add-player
     BrowserAnimationsModule,
     MatOptionModule,
     MatAutocompleteModule,
+    MatTableModule,
+    NgxPaginationModule,
+    OrderModule 
     ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass:AuthInterceptor, multi:true}],

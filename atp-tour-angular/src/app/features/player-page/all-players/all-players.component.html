@@ -1,0 +1,30 @@
+<h2>Players</h2>
+<nav class="navbar">
+    <input id="search" class="form-control" type="text" name="playerName" [(ngModel)]="playerName" (ngModelChange)="search()"
+        placeholder="Enter player's name to search" (keyup.enter)="search()" />
+
+    <table id="players" class="table table-bordered">
+        <thead >
+            <tr>
+                <th style="width: 8%" class="tablesorter-header" (click)="sort('rank')">Rank <i class="fa fa-sort"></i></th>
+                <th style="width: 30%" (click)="sort('lastName')">Name <i class="fa fa-sort"></i></th>
+                <th style="width: 22%" (click)="sort('birthCountry')">Birth country <i class="fa fa-sort"></i></th>
+                <th style="width: 20%" (click)="sort('dateOfBirth')">Date of birth <i class="fa fa-sort"></i></th>
+                <th style="width: 10%" (click)="sort('points')">Points <i class="fa fa-sort"></i></th>
+                <th style="width: 10%" (click)="sort('livePoints')">Live points <i class="fa fa-sort"></i></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let player of players | 
+            orderBy:key:this.reverse| paginate :{itemsPerPage:playersPerPage, currentPage:pageNumber}">
+                <td>{{player.rank}}</td>
+                <td>{{player.firstName +" "+player.lastName}}</td>
+                <td>{{player.birthCountry.name}}</td>
+                <td>{{player.dateOfBirth}}</td>
+                <td>{{player.currentPoints}}</td>
+                <td>{{player.livePoints}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination-controls (pageChange)="pageNumber = $event"></pagination-controls>
+</nav>

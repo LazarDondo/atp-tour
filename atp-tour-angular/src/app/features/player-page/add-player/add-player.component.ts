@@ -61,7 +61,6 @@ export class AddPlayerComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     this.validateCountry();
-    console.log(this.playerForm.value);
     if (this.playerForm.invalid || !this.validCountry) {
       return;
     }
@@ -72,6 +71,7 @@ export class AddPlayerComponent implements OnInit {
   addPlayer() {
     this.playerService.addPlayer(this.playerForm.value).subscribe({
       next: addedPlayer => {
+        delete addedPlayer.rank;
         this.playerForm.setValue(addedPlayer);
         this.error = false;
         this.loading = false;

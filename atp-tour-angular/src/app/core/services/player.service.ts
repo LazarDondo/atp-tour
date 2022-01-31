@@ -15,4 +15,8 @@ export class PlayerService {
   public addPlayer(player:Player) : Observable<Player>{
     return this.httpClient.post<Player>(this.API_URL+"/player", player);
   }
+
+  public getPlayers() : Observable<Player[]>{
+    return this.httpClient.get<Player []>(this.API_URL+"/player")
+  }
 }
