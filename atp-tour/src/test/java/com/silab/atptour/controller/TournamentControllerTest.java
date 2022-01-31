@@ -243,9 +243,9 @@ public class TournamentControllerTest {
     @WithMockUser(username = "test", password = "test", authorities = "USER")
     public void getMatchesShouldBeOk() throws Exception {
 
-        Player firstPlayer = playerDao.save(new Player(1));
-        Player secondPlayer = playerDao.save(new Player(2));
-        Player thirdPlayer = playerDao.save(new Player(3));
+        Player firstPlayer = playerDao.save(new Player(1, 4));
+        Player secondPlayer = playerDao.save(new Player(2, 5));
+        Player thirdPlayer = playerDao.save(new Player(3, 6));
 
         Match firstMatch = matchDao.save(new Match(testTournament, firstPlayer, secondPlayer, LocalDate.of(2022, Month.JULY, 10), "2. round", "3-0", firstPlayer));
         Match secondMatch = matchDao.save(new Match(testTournament, firstPlayer, thirdPlayer, LocalDate.of(2022, Month.JULY, 11), "2. round", "3-2", firstPlayer));

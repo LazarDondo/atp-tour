@@ -47,8 +47,8 @@ public class StatisticsDaoTest {
         testCountry = countryDao.save(new Country(1, "Serbia", "SRB"));
         testTournament = tournamentDao.save(new Tournament(1, "Wimbledon-2020", LocalDate.of(2020, Month.MARCH, 22), LocalDate.of(2020, Month.MARCH, 30),
                 testCountry, "Grand Slam", null));
-        firstTestPlayer = playerDao.save(new Player(1, "Novak", "Djokovic", testCountry, LocalDate.of(1987, Month.MAY, 22), 12000, 12000, null));
-        secondTestPlayer = playerDao.save(new Player(2, "Filip", "Krajinovic", testCountry, LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, null));
+        firstTestPlayer = playerDao.save(new Player(1, "Novak", "Djokovic", testCountry, LocalDate.of(1987, Month.MAY, 22), 12000, 12000, 1, null));
+        secondTestPlayer = playerDao.save(new Player(2, "Filip", "Krajinovic", testCountry, LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2, null));
         testMatch = matchDao.save(new Match(testTournament, firstTestPlayer, secondTestPlayer, LocalDate.of(2022, Month.OCTOBER, 3),
                 "finals", "3-2", firstTestPlayer));
         testStatistics = statisticsDao.save(new Statistics(1, testMatch, 60, 30, 10, 5, 6, 2, 35, 33, 23, 10));

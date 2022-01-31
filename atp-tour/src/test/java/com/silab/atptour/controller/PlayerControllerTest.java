@@ -61,7 +61,7 @@ public class PlayerControllerTest {
     @BeforeEach
     public void init() {
         testCountry = countryDao.save(new Country(1, "Serbia", "SRB"));
-        testPlayer = playerDao.save(new Player(1, "Novak", "Djokovic", testCountry, LocalDate.of(2022, Month.MAY, 22), 12000, 12000, null));
+        testPlayer = playerDao.save(new Player(1, "Novak", "Djokovic", testCountry, LocalDate.of(2022, Month.MAY, 22), 12000, 12000, 1,null));
     }
 
     @AfterEach
@@ -73,7 +73,7 @@ public class PlayerControllerTest {
     @WithMockUser(username = "test", password = "test", authorities = "ADMIN")
     public void addPlayerShouldBeOk() throws Exception {
         Player player = new Player(2, "Filip", "Krajinovic", testCountry,
-                LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, null);
+                LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2,null);
 
         mockMvc
                 .perform(MockMvcRequestBuilders.post("/player").contentType(MediaType.APPLICATION_JSON)
@@ -84,6 +84,7 @@ public class PlayerControllerTest {
                 .andExpect(jsonPath("$.dateOfBirth", is(player.getDateOfBirth().toString())))
                 .andExpect(jsonPath("$.currentPoints", is(player.getCurrentPoints())))
                 .andExpect(jsonPath("$.livePoints", is(player.getLivePoints())))
+                .andExpect(jsonPath("$.rank", is(player.getRank())))
                 .andExpect(status().isOk());
     }
 
@@ -114,6 +115,7 @@ public class PlayerControllerTest {
                 .andExpect(jsonPath("$.dateOfBirth", is(testPlayer.getDateOfBirth().toString())))
                 .andExpect(jsonPath("$.currentPoints", is(testPlayer.getCurrentPoints())))
                 .andExpect(jsonPath("$.livePoints", is(testPlayer.getLivePoints())))
+                .andExpect(jsonPath("$.rank", is(testPlayer.getRank())))
                 .andExpect(status().isOk());
     }
 
@@ -153,6 +155,7 @@ public class PlayerControllerTest {
                 .andExpect(jsonPath("$.dateOfBirth", is(testPlayer.getDateOfBirth().toString())))
                 .andExpect(jsonPath("$.currentPoints", is(testPlayer.getCurrentPoints())))
                 .andExpect(jsonPath("$.livePoints", is(testPlayer.getLivePoints())))
+                .andExpect(jsonPath("$.rank", is(testPlayer.getRank())))
                 .andExpect(status().isOk());
     }
 
@@ -183,7 +186,7 @@ public class PlayerControllerTest {
     @WithMockUser(username = "test", password = "test", authorities = "USER")
     public void getPlayersShouldBeOk() throws Exception {
         Player player = playerDao.save(new Player(2, "Filip", "Krajinovic", testCountry,
-                LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, null));
+                LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2,null));
         mockMvc
                 .perform(MockMvcRequestBuilders.get("/player"))
                 .andExpect(jsonPath("$", hasSize(2)))
@@ -193,6 +196,7 @@ public class PlayerControllerTest {
                 .andExpect(jsonPath("$.[0]dateOfBirth", is(testPlayer.getDateOfBirth().toString())))
                 .andExpect(jsonPath("$.[0]currentPoints", is(testPlayer.getCurrentPoints())))
                 .andExpect(jsonPath("$.[0]livePoints", is(testPlayer.getLivePoints())))
+                .andExpect(jsonPath("$.[0]rank", is(testPlayer.getRank())))
                 
                 .andExpect(jsonPath("$.[1]firstName", is(player.getFirstName())))
                 .andExpect(jsonPath("$.[1]lastName", is(player.getLastName())))
@@ -200,6 +204,7 @@ public class PlayerControllerTest {
                 .andExpect(jsonPath("$.[1]dateOfBirth", is(player.getDateOfBirth().toString())))
                 .andExpect(jsonPath("$.[1]currentPoints", is(player.getCurrentPoints())))
                 .andExpect(jsonPath("$.[1]livePoints", is(player.getLivePoints())))
+                .andExpect(jsonPath("$.[1]rank", is(player.getRank())))
                 .andExpect(status().isOk());
     }
 
@@ -224,8 +229,8 @@ public class PlayerControllerTest {
 
         Tournament tournament = tournamentDao.save(new Tournament(1, "Serbia Open", LocalDate.of(2022, Month.JULY, 10),
                 LocalDate.of(2022, Month.JULY, 24), testCountry, "Grand Slam", null));
-        Player secondPlayer = playerDao.save(new Player(2));
-        Player thirdPlayer = playerDao.save(new Player(3));
+        Player secondPlayer = playerDao.save(new Player(2, 2));
+        Player thirdPlayer = playerDao.save(new Player(3, 3));
 
         Match firstMatch = matchDao.save(new Match(tournament, testPlayer, secondPlayer, LocalDate.of(2022, Month.JULY, 10), "2. round", "3-0", testPlayer));
         Match secondMatch = matchDao.save(new Match(tournament, testPlayer, thirdPlayer, LocalDate.of(2022, Month.JULY, 11), "2. round", "3-2", testPlayer));
@@ -250,6 +255,7 @@ public class PlayerControllerTest {
                 .andExpect(jsonPath("$.[0]result", is(firstMatch.getResult())))
                 .andExpect(jsonPath("$.[0]winner.firstName", is(firstMatch.getWinner().getFirstName())))
                 .andExpect(jsonPath("$.[0]winner.lastName", is(firstMatch.getWinner().getLastName())))
+                
                 
                 .andExpect(jsonPath("$.[1]tournament.name", is(secondMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[1]firstPlayer.firstName", is(secondMatch.getFirstPlayer().getFirstName())))

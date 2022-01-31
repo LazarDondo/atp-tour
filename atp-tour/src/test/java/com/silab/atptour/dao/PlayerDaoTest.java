@@ -29,7 +29,7 @@ public class PlayerDaoTest {
     @BeforeEach
     public void init(){
         testCountry=countryDao.save(new Country(1, "Serbia", "SRB"));
-        testPlayer=playerDao.save(new Player(1, "Novak", "Djokovic", testCountry, LocalDate.of(1987, Month.MAY, 22), 12000, 12000, null));
+        testPlayer=playerDao.save(new Player(1, "Novak", "Djokovic", testCountry, LocalDate.of(1987, Month.MAY, 22), 12000, 12000, 1, null));
     }
     
     @Test
