@@ -51,13 +51,17 @@ public class Player {
     private int currentPoints;
 
     private int livePoints;
+    
+    @Column(unique = true)
+    private int rank;
 
     @OneToMany(mappedBy = "firstPlayer", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @MapKeyColumn(name = "id")
     @JsonIgnore
     private List<Match> matches;
     
-    public Player(long id){
+    public Player(long id, int rank){
         this.id=id;
+        this.rank=rank;
     }
 }
