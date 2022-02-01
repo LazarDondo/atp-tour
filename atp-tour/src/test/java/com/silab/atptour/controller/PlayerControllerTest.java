@@ -229,8 +229,8 @@ public class PlayerControllerTest {
 
         Tournament tournament = tournamentDao.save(new Tournament(1, "Serbia Open", LocalDate.of(2022, Month.JULY, 10),
                 LocalDate.of(2022, Month.JULY, 24), testCountry, "Grand Slam", null));
-        Player secondPlayer = playerDao.save(new Player(2, 2));
-        Player thirdPlayer = playerDao.save(new Player(3, 3));
+        Player secondPlayer = playerDao.save(new Player(2));
+        Player thirdPlayer = playerDao.save(new Player(3));
 
         Match firstMatch = matchDao.save(new Match(tournament, testPlayer, secondPlayer, LocalDate.of(2022, Month.JULY, 10), "2. round", "3-0", testPlayer));
         Match secondMatch = matchDao.save(new Match(tournament, testPlayer, thirdPlayer, LocalDate.of(2022, Month.JULY, 11), "2. round", "3-2", testPlayer));

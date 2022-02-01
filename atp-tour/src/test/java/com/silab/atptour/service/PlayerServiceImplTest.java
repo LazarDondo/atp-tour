@@ -92,8 +92,8 @@ public class PlayerServiceImplTest {
     @Test
     public void getMatchesShouldBeOk() throws AtpEntityNotFoundException {
         Tournament tournament = new Tournament(1);
-        Player firstPlayer = new Player(1, 1);
-        Player secondPlayer = new Player(2, 2);
+        Player firstPlayer = new Player(1);
+        Player secondPlayer = new Player(2);
         List<Match> matches = new ArrayList<>() {
             {
                 new Match(tournament, testPlayer, secondPlayer, LocalDate.of(2022, Month.MAY, 24), "first-round", "3-1", testPlayer);

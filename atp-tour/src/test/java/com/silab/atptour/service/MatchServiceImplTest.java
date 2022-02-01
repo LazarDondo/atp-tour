@@ -41,8 +41,8 @@ public class MatchServiceImplTest {
 
     @BeforeAll
     public static void init() {
-        firstTestPlayer = new Player(1, 1);
-        secondTestPlayer = new Player(2, 2);
+        firstTestPlayer = new Player(1);
+        secondTestPlayer = new Player(2);
     }
 
     @Test

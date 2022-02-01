@@ -39,8 +39,8 @@ public class StatisticsServiceImplTest {
     
     @BeforeAll
     public static void init(){
-        Player player = new Player(1, 1);
-        Match match = new Match(new Tournament(1), player, new Player(2, 2), 
+        Player player = new Player(1);
+        Match match = new Match(new Tournament(1), player, new Player(2), 
                 LocalDate.of(2022, Month.MARCH, 8), "finals", "2-0", player);
         testStatistics = new Statistics(1, match, 50, 35, 10, 3, 5, 1, 33, 25, 33, 20);
         optionalStatistics=Optional.of(testStatistics);

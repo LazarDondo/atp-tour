@@ -65,8 +65,8 @@ public class StatisticsControllerTest {
         Tournament tournament = tournamentDao.save(new Tournament(1, "Wimbledon", LocalDate.of(2022, Month.JULY, 10),
                 LocalDate.of(2022, Month.JULY, 24), country, "Grand Slam", null));
 
-        Player firstPlayer = playerDao.save(new Player(1, 1));
-        Player secondPlayer = playerDao.save(new Player(2, 2));
+        Player firstPlayer = playerDao.save(new Player(1));
+        Player secondPlayer = playerDao.save(new Player(2));
 
         Match match = matchDao.save(new Match(tournament, firstPlayer, secondPlayer, LocalDate.of(2022, Month.JULY, 10), "2. round", "3-0", firstPlayer));
 
@@ -76,7 +76,6 @@ public class StatisticsControllerTest {
     @AfterEach
     public void destroy(){
         statisticsDao.deleteAll();
-        playerDao.deleteAll();
     }
 
     @Test
