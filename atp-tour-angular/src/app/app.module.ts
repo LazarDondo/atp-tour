@@ -21,6 +21,7 @@ import { AllPlayersComponent } from './features/player-page/all-players/all-play
 import {MatTableModule} from '@angular/material/table';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {OrderModule} from 'ngx-order-pipe';
+import { UpdatePlayerComponent } from './features/player-page/update-player/update-player.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {OrderModule} from 'ngx-order-pipe';
     FooterComponent,
     PlayerPageComponent,
     AddPlayerComponent,
-    AllPlayersComponent
+    AllPlayersComponent,
+    UpdatePlayerComponent
   ],
   imports: [
     BrowserModule,

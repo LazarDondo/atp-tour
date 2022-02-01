@@ -33,13 +33,11 @@ export class AddPlayerComponent implements OnInit {
 
   ngOnInit(): void {
     this.playerForm = this.formBuilder.group({
-      id:[],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       birthCountry: [],
       dateOfBirth: ['', Validators.required],
       currentPoints: ['', Validators.required],
-      livePoints: ['', Validators.required],
     });
     this.myControl.addValidators
     this.countryService.getCountries().subscribe(countries => {
@@ -71,7 +69,9 @@ export class AddPlayerComponent implements OnInit {
   addPlayer() {
     this.playerService.addPlayer(this.playerForm.value).subscribe({
       next: addedPlayer => {
+        delete addedPlayer.id;
         delete addedPlayer.rank;
+        delete addedPlayer.livePoints;
         this.playerForm.setValue(addedPlayer);
         this.error = false;
         this.loading = false;

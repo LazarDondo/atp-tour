@@ -1,0 +1,66 @@
+<div class="center_div">
+    <h2>Update Player</h2>
+    <form [formGroup]="playerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="rank">Rank</label>
+            <input type="text" formControlName="rank" readonly class="form-control"/>
+        </div>
+
+        <div class="form-group">
+            <label for="firstName">First name</label>
+            <input type="text" formControlName="firstName" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f['firstName'].errors }" />
+            <div *ngIf="submitted && f['firstName'].errors" class="invalid-feedback">
+                <div *ngIf="f['firstName'].errors['required']">First name is required</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="lastName">Last name</label>
+            <input type="text" formControlName="lastName" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f['lastName'].errors }" />
+            <div *ngIf="submitted && f['lastName'].errors" class="invalid-feedback">
+                <div *ngIf="f['lastName'].errors['required']">Last name is required</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="firstName">Birth country</label>
+            <input type="text" formControlName="birthCountry" readonly class="form-control"/>
+        </div>
+
+        <div class="form-group">
+            <label for="firstName">Date of birth</label>
+            <input type="text" formControlName="dateOfBirth" readonly class="form-control"/>
+        </div>
+
+        <div class="form-group">
+            <label for="currentPoints">Current points</label>
+            <input type="number" formControlName="currentPoints" readonly class="form-control"/>
+        </div>
+
+        <div class="form-group">
+            <label for="livePoints">Live points</label>
+            <input type="number" formControlName="livePoints" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f['livePoints'].errors }" />
+            <div *ngIf="submitted && f['livePoints'].errors" class="invalid-feedback">
+                <div *ngIf="f['livePoints'].errors['required']">Live points are required</div>
+            </div>
+        </div>
+
+        <div *ngIf="success" class="alert-success requestMessage">
+            <p>Successfully updated player {{selectedPlayer.firstName}} {{selectedPlayer.lastName}}</p>
+        </div>
+
+        <div *ngIf="error" class="alert-danger requestMessage">
+            <p>Failed to update player {{selectedPlayer.firstName}} {{selectedPlayer.lastName}}</p>
+        </div>
+
+        <div class="form-group">
+            <button [disabled]="loading" class="btn btn-primary">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Update player
+            </button>
+        </div>
+    </form>
+</div>

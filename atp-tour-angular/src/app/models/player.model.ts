@@ -11,6 +11,6 @@ export class Player {
     birthCountry: Country;
     dateOfBirth: Date;
     currentPoints: number;
-    livePoints: number;
+    livePoints?: number;
     rank?: number;
 }

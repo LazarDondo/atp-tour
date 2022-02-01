@@ -19,7 +19,7 @@
         </div>
 
         <div class="form-group">
-            <label for="lastName">Birth country</label>
+            <label for="birthCountry">Birth country</label>
             <input type="text" class="form-control" matInput [matAutocomplete]="auto" [formControl]="myControl"
                 [ngClass]="{ 'is-invalid': submitted && !validCountry }" />
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
@@ -49,19 +49,9 @@
                 <div *ngIf="f['currentPoints'].errors['required']">Current points are required</div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="livePoints">Live points</label>
-            <input type="number" formControlName="livePoints" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f['livePoints'].errors }" />
-            <div *ngIf="submitted && f['livePoints'].errors" class="invalid-feedback">
-                <div *ngIf="f['livePoints'].errors['required']">Live points are required</div>
-            </div>
-        </div>
-
         <div *ngIf="success" class="alert-success requestMessage">
-            <p>Successfully added new player</p>
+            <p>Successfully added new player. Player will be ranked on the first Monday at midnight</p>
         </div>
-
         <div *ngIf="error" class="alert-danger requestMessage">
             <p>Failed to add new player</p>
         </div>

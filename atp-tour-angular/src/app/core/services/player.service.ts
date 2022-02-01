@@ -16,6 +16,10 @@ export class PlayerService {
     return this.httpClient.post<Player>(this.API_URL+"/player", player);
   }
 
+  public updatePlayer(player:Player) : Observable<Player>{
+    return this.httpClient.put<Player>(this.API_URL+"/player", player);
+  }
+
   public getPlayers() : Observable<Player[]>{
     return this.httpClient.get<Player []>(this.API_URL+"/player")
   }

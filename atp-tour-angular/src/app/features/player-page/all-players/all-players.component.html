@@ -16,7 +16,8 @@
         </thead>
         <tbody>
             <tr *ngFor="let player of players | 
-            orderBy:key:this.reverse| paginate :{itemsPerPage:playersPerPage, currentPage:pageNumber}">
+            orderBy:key:this.reverse| paginate :{itemsPerPage:playersPerPage, currentPage:pageNumber}"
+            (click)="displayPlayer(player)">
                 <td>{{player.rank}}</td>
                 <td>{{player.firstName +" "+player.lastName}}</td>
                 <td>{{player.birthCountry.name}}</td>

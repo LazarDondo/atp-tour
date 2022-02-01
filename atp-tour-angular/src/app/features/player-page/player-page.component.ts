@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Player } from 'src/app/models/player.model';
 
 
 @Component({
@@ -9,8 +10,14 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 })
 export class PlayerPageComponent implements OnInit {
  
+  selectedPlayer:Player;
 
   constructor(){}
 
   ngOnInit(): void {}
+
+  displayPlayer(player:Player){
+    this.selectedPlayer=player;
+  }
+
 }

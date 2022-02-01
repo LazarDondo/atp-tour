@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { Player } from 'src/app/models/player.model';
 
@@ -8,6 +8,7 @@ import { Player } from 'src/app/models/player.model';
   styleUrls: ['./all-players.component.scss']
 })
 export class AllPlayersComponent implements OnInit {
+  @Output()  selectedPlayer = new EventEmitter<Player>();
 
   players: Player[];
   searchPlayers: Player[];
@@ -15,6 +16,8 @@ export class AllPlayersComponent implements OnInit {
   playerName: string;
   pageNumber: number = 1;
   playersPerPage: number = 7;
+ 
+
   constructor(private playerService: PlayerService) {
     this.playerService.getPlayers().subscribe(players => { this.searchPlayers = players });
   }
@@ -40,6 +43,10 @@ export class AllPlayersComponent implements OnInit {
   sort(key: string) {
     this.key = key;
     this.reverse = !this.reverse;
+  }
+
+  displayPlayer(player:Player){
+    this.selectedPlayer.emit(player);
   }
 
 }
