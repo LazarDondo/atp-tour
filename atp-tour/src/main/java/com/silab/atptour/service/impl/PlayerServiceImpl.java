@@ -27,6 +27,7 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public Player addPlayer(Player player) {
         logger.debug("Adding player {} {}", player.getFirstName(), player.getLastName());
+        player.setLivePoints(player.getCurrentPoints());
         return playerDao.save(player);
     }
 
