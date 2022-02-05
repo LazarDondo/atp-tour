@@ -22,6 +22,8 @@ import {MatTableModule} from '@angular/material/table';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {OrderModule} from 'ngx-order-pipe';
 import { UpdatePlayerComponent } from './features/player-page/update-player/update-player.component';
+import { EventEmitterService } from './core/services/event-emitter.service';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,7 @@ import { UpdatePlayerComponent } from './features/player-page/update-player/upda
     AddPlayerComponent,
     AllPlayersComponent,
     UpdatePlayerComponent
-  ],
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -49,10 +51,12 @@ import { UpdatePlayerComponent } from './features/player-page/update-player/upda
     MatAutocompleteModule,
     MatTableModule,
     NgxPaginationModule,
-    OrderModule 
+    OrderModule,
+    MatDialogModule,
     ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass:AuthInterceptor, multi:true}],
+    {provide: HTTP_INTERCEPTORS, useClass:AuthInterceptor, multi:true},
+  EventEmitterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

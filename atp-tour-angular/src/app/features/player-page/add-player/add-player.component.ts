@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { CountryService } from 'src/app/core/services/country.service';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { Country } from 'src/app/models/country.model';
 import { map, startWith } from 'rxjs/operators';
+import { EventEmitterService } from 'src/app/core/services/event-emitter.service';
+
 
 @Component({
   selector: 'app-add-player',
@@ -12,21 +14,20 @@ import { map, startWith } from 'rxjs/operators';
   styleUrls: ['./add-player.component.scss']
 })
 export class AddPlayerComponent implements OnInit {
-
+  
   playerForm: FormGroup;
   loading = false;
   submitted = false;
   success = false;
   error = false;
   validCountry = false;
-  returnUrl: string;
   maximumDate: Date
   myControl = new FormControl();
   countries: Country[]
   filteredCountries: Observable<Country[]>
 
   constructor(private playerService: PlayerService, private formBuilder: FormBuilder,
-    private countryService: CountryService) {
+    private countryService: CountryService, private eventEmitterService:EventEmitterService) {
     this.maximumDate = new Date();
     this.maximumDate.setFullYear(this.maximumDate.getFullYear() - 16);
   }
@@ -73,6 +74,7 @@ export class AddPlayerComponent implements OnInit {
         delete addedPlayer.rank;
         delete addedPlayer.livePoints;
         this.playerForm.setValue(addedPlayer);
+        this.eventEmitterService.updatePlayersTable(addedPlayer);
         this.error = false;
         this.loading = false;
         this.success = true;
@@ -99,5 +101,9 @@ export class AddPlayerComponent implements OnInit {
       birthCountry = this.countries.find(country => country.name == birthCountry);
     }
     this.playerForm.value.birthCountry = birthCountry;
+  }
+
+  closeDialog(){
+    this.eventEmitterService.closeDialog();
   }
 }

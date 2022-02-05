@@ -1,5 +1,8 @@
 <div class="center_div">
+    <button id="closeButton" class="btn-close" (click)="closeDialog()">
+    </button>
     <h2>Add Player</h2>
+    
     <form [formGroup]="playerForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <label for="firstName">First name</label>

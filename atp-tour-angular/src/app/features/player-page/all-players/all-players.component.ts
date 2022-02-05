@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { EventEmitterService } from 'src/app/core/services/event-emitter.service';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { Player } from 'src/app/models/player.model';
 
@@ -18,16 +19,17 @@ export class AllPlayersComponent implements OnInit {
   playersPerPage: number = 7;
  
 
-  constructor(private playerService: PlayerService) {
+  constructor(private playerService: PlayerService, private eventEmitterService:EventEmitterService) {
     this.playerService.getPlayers().subscribe(players => { this.searchPlayers = players });
+    this.playerService.getPlayers().subscribe(players => { this.players = players });
+    this.subscribeToUpdatePlayerEvent();
   }
 
   ngOnInit(): void {
-    this.playerService.getPlayers().subscribe(players => { this.players = players });
   }
 
   search() {
-    if (this.playerName == "") {
+    if (!this.playerName) {
       this.ngOnInit();
     }
     else {
@@ -47,6 +49,15 @@ export class AllPlayersComponent implements OnInit {
 
   displayPlayer(player:Player){
     this.selectedPlayer.emit(player);
+  }
+
+  subscribeToUpdatePlayerEvent(){
+    this.eventEmitterService.subsVar = this.eventEmitterService.    
+      invokeUpdatePlayersTableFunction.subscribe((player)=>{  
+        let index = this.players.findIndex(p=>player.rank===p.rank)
+        index===-1 ? this.players.push(player) : this.players[index] = player;
+        this.ngOnInit(); 
+      }); 
   }
 
 }

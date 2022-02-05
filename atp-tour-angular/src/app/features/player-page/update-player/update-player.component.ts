@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { EventEmitterService } from 'src/app/core/services/event-emitter.service';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { Player } from 'src/app/models/player.model';
 
@@ -16,11 +17,10 @@ export class UpdatePlayerComponent implements OnInit {
   submitted = false;
   success = false;
   error = false;
-  validCountry = false;
-  returnUrl: string;
   myControl = new FormControl();
 
-  constructor(private playerService: PlayerService, private formBuilder: FormBuilder) {
+  constructor(private playerService: PlayerService, private formBuilder: FormBuilder,
+    private eventEmitterService:EventEmitterService) {
   }
 
   ngOnInit(): void {
@@ -36,12 +36,17 @@ export class UpdatePlayerComponent implements OnInit {
     });
     this.myControl.addValidators
     this.playerForm.setValue(this.selectedPlayer);
+
+      this.eventEmitterService.subsVar = this.eventEmitterService.    
+      invokeDisplayPlayerFunction.subscribe((player)=>{    
+        this.selectedPlayer=player;    
+        this.playerForm.setValue(player);
+      });    
   }
 
   onSubmit() {
-    console.log(123);
     this.submitted = true;
-    if (this.playerForm.invalid || !this.validCountry) {
+    if (this.playerForm.invalid) {
       return;
     }
     this.loading = true;
@@ -49,11 +54,11 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   updatePlayer() {
-    console.log(456);
     this.playerService.updatePlayer(this.playerForm.value).subscribe({
       next: updatedPlayer => {
         this.selectedPlayer=updatedPlayer;
         this.playerForm.setValue(updatedPlayer);
+        this.eventEmitterService.updatePlayersTable(updatedPlayer);
         this.error = false;
         this.loading = false;
         this.success = true;
