@@ -22,7 +22,7 @@ import {MatTableModule} from '@angular/material/table';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {OrderModule} from 'ngx-order-pipe';
 import { UpdatePlayerComponent } from './features/player-page/update-player/update-player.component';
-import { EventEmitterService } from './core/services/event-emitter.service';
+import { PlayerEventEmitterService } from './core/services/player-event-emitter.service';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
@@ -56,7 +56,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass:AuthInterceptor, multi:true},
-  EventEmitterService],
+    PlayerEventEmitterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

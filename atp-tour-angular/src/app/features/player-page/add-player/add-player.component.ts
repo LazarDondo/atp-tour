@@ -5,7 +5,7 @@ import { CountryService } from 'src/app/core/services/country.service';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { Country } from 'src/app/models/country.model';
 import { map, startWith } from 'rxjs/operators';
-import { EventEmitterService } from 'src/app/core/services/event-emitter.service';
+import { PlayerEventEmitterService } from 'src/app/core/services/player-event-emitter.service';
 
 
 @Component({
@@ -27,7 +27,7 @@ export class AddPlayerComponent implements OnInit {
   filteredCountries: Observable<Country[]>
 
   constructor(private playerService: PlayerService, private formBuilder: FormBuilder,
-    private countryService: CountryService, private eventEmitterService:EventEmitterService) {
+    private countryService: CountryService, private eventEmitterService:PlayerEventEmitterService) {
     this.maximumDate = new Date();
     this.maximumDate.setFullYear(this.maximumDate.getFullYear() - 16);
   }

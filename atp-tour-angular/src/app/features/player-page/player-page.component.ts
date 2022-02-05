@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { EventEmitterService } from 'src/app/core/services/event-emitter.service';
+import { PlayerEventEmitterService } from 'src/app/core/services/player-event-emitter.service';
 import { Player } from 'src/app/models/player.model';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog'
 import { AddPlayerComponent } from './add-player/add-player.component';
@@ -16,7 +16,7 @@ export class PlayerPageComponent implements OnInit {
   selectedPlayer:Player;
   dialogRef:MatDialogRef<AddPlayerComponent, any>
 
-  constructor(private eventEmitterService:EventEmitterService, public dialog: MatDialog){}
+  constructor(private eventEmitterService:PlayerEventEmitterService, public dialog: MatDialog){}
 
   ngOnInit(): void {
       this.eventEmitterService.subsVar = this.eventEmitterService.    

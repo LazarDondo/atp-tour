@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { EventEmitterService } from 'src/app/core/services/event-emitter.service';
+import { PlayerEventEmitterService } from 'src/app/core/services/player-event-emitter.service';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { Player } from 'src/app/models/player.model';
 
@@ -20,7 +20,7 @@ export class UpdatePlayerComponent implements OnInit {
   myControl = new FormControl();
 
   constructor(private playerService: PlayerService, private formBuilder: FormBuilder,
-    private eventEmitterService:EventEmitterService) {
+    private eventEmitterService:PlayerEventEmitterService) {
   }
 
   ngOnInit(): void {

@@ -5,7 +5,7 @@ import { Player } from 'src/app/models/player.model';
 @Injectable({
   providedIn: 'root'
 })
-export class EventEmitterService {
+export class PlayerEventEmitterService {
 
   invokeDisplayPlayerFunction = new EventEmitter();    
   invokeCloseDialogFunction = new EventEmitter();

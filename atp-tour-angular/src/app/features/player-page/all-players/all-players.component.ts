@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { EventEmitterService } from 'src/app/core/services/event-emitter.service';
+import { PlayerEventEmitterService } from 'src/app/core/services/player-event-emitter.service';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { Player } from 'src/app/models/player.model';
 
@@ -19,7 +19,7 @@ export class AllPlayersComponent implements OnInit {
   playersPerPage: number = 7;
  
 
-  constructor(private playerService: PlayerService, private eventEmitterService:EventEmitterService) {
+  constructor(private playerService: PlayerService, private eventEmitterService:PlayerEventEmitterService) {
     this.playerService.getPlayers().subscribe(players => { this.searchPlayers = players });
     this.playerService.getPlayers().subscribe(players => { this.players = players });
     this.subscribeToUpdatePlayerEvent();
@@ -29,7 +29,8 @@ export class AllPlayersComponent implements OnInit {
   }
 
   search() {
-    if (!this.playerName) {
+    if ( this.playerName=='') {
+      this.players=this.searchPlayers;
       this.ngOnInit();
     }
     else {
