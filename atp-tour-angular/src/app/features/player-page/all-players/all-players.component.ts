@@ -36,7 +36,8 @@ export class AllPlayersComponent implements OnInit {
       this.playerName = this.playerName.replace(/\s\s+/g, ' ');
       this.players = this.searchPlayers.filter(res => {
         return (res.firstName + " " + res.lastName).toLowerCase().match(this.playerName.toLowerCase());
-      })
+      });
+      this.pageNumber=1;
     }
   }
 
