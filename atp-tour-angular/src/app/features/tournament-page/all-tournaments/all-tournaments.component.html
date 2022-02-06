@@ -1,0 +1,29 @@
+<h2>Tournaments</h2>
+<nav class="navbar">
+    <input id="search" class="form-control" type="text" name="tournamentName" [(ngModel)]="tournamentName" (ngModelChange)="search()"
+        placeholder="Enter tournament's name to search" (keyup.enter)="search()" />
+
+    <table id="tournaments" class="table table-bordered">
+        <thead >
+            <tr>
+                <th style="width: 25%" class="tablesorter-header" (click)="sort('name')">Name <i class="fa fa-sort"></i></th>
+                <th style="width: 15%" (click)="sort('startDate')">Start date <i class="fa fa-sort"></i></th>
+                <th style="width: 15%" (click)="sort('completitionDate')">Completition date <i class="fa fa-sort"></i></th>
+                <th style="width: 20%" (click)="sort('hostCountry')">Host country <i class="fa fa-sort"></i></th>
+                <th style="width: 20%" (click)="sort('tournamentType')">Tournament type <i class="fa fa-sort"></i></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let tournament of tournaments | 
+            orderBy:key:this.reverse| paginate :{itemsPerPage:tournamentsPerPage, currentPage:pageNumber}"
+            >
+                <td>{{tournament.name}}</td>
+                <td>{{tournament.startDate}}</td>
+                <td>{{tournament.completitionDate}}</td>
+                <td>{{tournament.hostCountry.name}}</td>
+                <td>{{tournament.tournamentType}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination-controls (pageChange)="pageNumber = $event"></pagination-controls>
+</nav>
