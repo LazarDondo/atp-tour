@@ -20,8 +20,7 @@ export class AllPlayersComponent implements OnInit {
  
 
   constructor(private playerService: PlayerService, private eventEmitterService:PlayerEventEmitterService) {
-    this.playerService.getPlayers().subscribe(players => { this.searchPlayers = players });
-    this.playerService.getPlayers().subscribe(players => { this.players = players });
+    this.playerService.getPlayers().subscribe(players => { this.players=players; this.searchPlayers = players });
     this.subscribeToUpdatePlayerEvent();
   }
 
