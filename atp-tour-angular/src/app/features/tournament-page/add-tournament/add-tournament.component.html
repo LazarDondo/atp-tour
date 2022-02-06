@@ -1,5 +1,6 @@
 <div class="center_div">
-
+    <button id="closeButton" class="btn-close" (click)="closeDialog()">
+    </button>
     <h2>Add Tournament</h2>
 
     <form [formGroup]="tournamentForm" (ngSubmit)="onSubmit()">

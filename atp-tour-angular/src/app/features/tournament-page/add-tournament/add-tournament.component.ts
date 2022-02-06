@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { CountryService } from 'src/app/core/services/country.service';
 import { TournamentService } from 'src/app/core/services/tournament.service';
 import { Country } from 'src/app/models/country.model';
+import { TournamentEventEmitterService } from 'src/app/core/services/tournament-event-emitter.service';
 
 @Component({
   selector: 'app-add-tournament',
@@ -25,13 +26,14 @@ export class AddTournamentComponent implements OnInit {
   filteredCountries: Observable<Country[]>
 
   constructor(private tournamentService: TournamentService, private formBuilder: FormBuilder,
-    private countryService: CountryService) {
+    private countryService: CountryService, private eventEmitterService: TournamentEventEmitterService) {
     this.futureDate = new Date();
-    this.futureDate.setDate(this.futureDate.getDate()+1);
+    this.futureDate.setDate(this.futureDate.getDate() + 1);
   }
 
   ngOnInit(): void {
     this.tournamentForm = this.formBuilder.group({
+      id: [],
       name: ['', Validators.required],
       startDate: ['', Validators.required],
       completitionDate: [],
@@ -48,8 +50,8 @@ export class AddTournamentComponent implements OnInit {
     });
   }
 
-  private _filter(value: string): Country[] {
-    const filterValue = value.toLowerCase()
+  private _filter(value: string | Country): Country[] {
+    const filterValue = (value instanceof Country) ? value.name : value;
     return this.countries.filter(option => {
       return option.name.toLowerCase().includes(filterValue)
     })
@@ -57,10 +59,10 @@ export class AddTournamentComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+    this.error = false;
+    this.success = false;
     this.validateCountry();
-    console.log(this.tournamentForm.value);
     if (this.tournamentForm.invalid || !this.validCountry) {
-      console.log('error'); 
       return;
     }
     this.loading = true;
@@ -68,17 +70,14 @@ export class AddTournamentComponent implements OnInit {
   }
 
   addTournament() {
-    console.log(1234);
     this.tournamentService.addTournament(this.tournamentForm.value).subscribe({
       next: addedTournament => {
-        delete addedTournament.id;
         this.tournamentForm.setValue(addedTournament);
-        this.error = false;
+        this.eventEmitterService.updateTournamentsTable(addedTournament);
         this.loading = false;
         this.success = true;
       },
       error: err => {
-        this.success=false;
         this.error = true;
         this.loading = false;
       }
@@ -100,5 +99,9 @@ export class AddTournamentComponent implements OnInit {
       hostCountry = this.countries.find(country => country.name == hostCountry);
     }
     this.tournamentForm.value.hostCountry = hostCountry;
+  }
+
+  closeDialog() {
+    this.eventEmitterService.closeDialog();
   }
 }

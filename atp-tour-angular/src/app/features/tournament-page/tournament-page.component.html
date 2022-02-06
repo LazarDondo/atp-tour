@@ -1,0 +1,6 @@
+<div style="position: absolute; left: 0px;"  class="d-flex p-3">
+  
+    <app-all-tournaments (selectedTournament)="displayTournament($event)"></app-all-tournaments>
+    <button id="addTournamentButton" class="btn btn-info" (click)="openDialog()" >Add tournament</button>
+    <app-update-tournament *ngIf="selectedTournament" [selectedTournament]="selectedTournament"></app-update-tournament>
+  </div>

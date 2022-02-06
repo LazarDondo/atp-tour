@@ -16,7 +16,7 @@
         <tbody>
             <tr *ngFor="let tournament of tournaments | 
             orderBy:key:this.reverse| paginate :{itemsPerPage:tournamentsPerPage, currentPage:pageNumber}"
-            >
+            (click)="displayTournament(tournament)">
                 <td>{{tournament.name}}</td>
                 <td>{{tournament.startDate}}</td>
                 <td>{{tournament.completitionDate}}</td>

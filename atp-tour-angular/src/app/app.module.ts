@@ -26,6 +26,8 @@ import { PlayerEventEmitterService } from './core/services/player-event-emitter.
 import { MatDialogModule } from '@angular/material/dialog';
 import { TournamentPageComponent } from './features/tournament-page/tournament-page.component';
 import { AddTournamentComponent } from './features/tournament-page/add-tournament/add-tournament.component';
+import { AllTournamentsComponent } from './features/tournament-page/all-tournaments/all-tournaments.component';
+import { UpdateTournamentComponent } from './features/tournament-page/update-tournament/update-tournament.component';
 import { TournamentEventEmitterService } from './core/services/tournament-event-emitter.service';
 
 @NgModule({
@@ -40,7 +42,9 @@ import { TournamentEventEmitterService } from './core/services/tournament-event-
     AllPlayersComponent,
     UpdatePlayerComponent,
     TournamentPageComponent,
-    AddTournamentComponent
+    AddTournamentComponent,
+    AllTournamentsComponent,
+    UpdateTournamentComponent
     ],
   imports: [
     BrowserModule,
