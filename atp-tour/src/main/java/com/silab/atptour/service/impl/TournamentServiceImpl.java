@@ -40,15 +40,18 @@ public class TournamentServiceImpl implements TournamentService {
     @Override
     public Tournament updateTournament(Tournament tournament) throws AtpEntityNotFoundException, AtpEntityExistsException {
         logger.debug("Finding tournament {}", tournament.getName());
-        String name = tournament.getName()+"-"+tournament.getStartDate().getYear();
         Optional<Tournament> optionalTournament = tournamentDao.findById(tournament.getId());
+        String name = tournament.getName();
         if (optionalTournament.isEmpty()) {
             throw new AtpEntityNotFoundException("Tournament " + tournament.getName() + " doesn't exist");
-        }
-        if(!optionalTournament.get().getName().equals(name) && tournamentDao.findTournamentByName(name).isPresent()){
+        }  
+        name+="-"+tournament.getStartDate().getYear();
+        if(!optionalTournament.get().getName().equals(tournament.getName()) && tournamentDao.findTournamentByName(name).isPresent()){
             throw new AtpEntityExistsException("Tournament with name "+name+" already exists");
         }
-        tournament.setName(name);
+        if(!optionalTournament.get().getName().equals(tournament.getName())){
+            tournament.setName(name);
+        }
         logger.debug("Updating tournament {}", tournament.getName());
         return tournamentDao.save(tournament);
     }
