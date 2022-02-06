@@ -80,6 +80,7 @@ export class AddPlayerComponent implements OnInit {
         this.success = true;
       },
       error: err => {
+        this.success=false;
         this.error = true;
         this.loading = false;
       }
