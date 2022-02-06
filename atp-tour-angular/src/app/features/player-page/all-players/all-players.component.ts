@@ -55,7 +55,7 @@ export class AllPlayersComponent implements OnInit {
   subscribeToUpdatePlayerEvent(){
     this.eventEmitterService.subsVar = this.eventEmitterService.    
       invokeUpdatePlayersTableFunction.subscribe((player)=>{  
-        let index = this.players.findIndex(p=>player.rank===p.rank)
+        let index = this.players.findIndex(p=>player.id===p.id)
         index===-1 ? this.players.push(player) : this.players[index] = player;
         this.ngOnInit(); 
       }); 

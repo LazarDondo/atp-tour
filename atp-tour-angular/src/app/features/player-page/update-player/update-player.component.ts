@@ -46,6 +46,8 @@ export class UpdatePlayerComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+    this.error = false;
+    this.success = false;
     if (this.playerForm.invalid) {
       return;
     }
@@ -59,7 +61,6 @@ export class UpdatePlayerComponent implements OnInit {
         this.selectedPlayer=updatedPlayer;
         this.playerForm.setValue(updatedPlayer);
         this.eventEmitterService.updatePlayersTable(updatedPlayer);
-        this.error = false;
         this.loading = false;
         this.success = true;
       },

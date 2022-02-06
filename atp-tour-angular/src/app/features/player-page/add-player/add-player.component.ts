@@ -34,11 +34,14 @@ export class AddPlayerComponent implements OnInit {
 
   ngOnInit(): void {
     this.playerForm = this.formBuilder.group({
+      id: [],
+      rank: [],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       birthCountry: [],
       dateOfBirth: ['', Validators.required],
       currentPoints: ['', Validators.required],
+      livePoints: []
     });
     this.myControl.addValidators
     this.countryService.getCountries().subscribe(countries => {
@@ -50,8 +53,8 @@ export class AddPlayerComponent implements OnInit {
     });
   }
 
-  private _filter(value: string): Country[] {
-    const filterValue = value.toLowerCase()
+  private _filter(value: string | Country): Country[] {
+    const filterValue = (value instanceof Country)? value.name : value;
     return this.countries.filter(option => {
       return option.name.toLowerCase().includes(filterValue)
     })
@@ -59,6 +62,8 @@ export class AddPlayerComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+    this.error = false;
+    this.success = false;
     this.validateCountry();
     if (this.playerForm.invalid || !this.validCountry) {
       return;
@@ -70,17 +75,12 @@ export class AddPlayerComponent implements OnInit {
   addPlayer() {
     this.playerService.addPlayer(this.playerForm.value).subscribe({
       next: addedPlayer => {
-        delete addedPlayer.id;
-        delete addedPlayer.rank;
-        delete addedPlayer.livePoints;
         this.playerForm.setValue(addedPlayer);
         this.eventEmitterService.updatePlayersTable(addedPlayer);
-        this.error = false;
         this.loading = false;
         this.success = true;
       },
       error: err => {
-        this.success=false;
         this.error = true;
         this.loading = false;
       }
