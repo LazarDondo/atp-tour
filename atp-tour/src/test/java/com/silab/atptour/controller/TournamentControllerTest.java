@@ -61,7 +61,7 @@ public class TournamentControllerTest {
     public void init() {
         Country country = countryDao.save(new Country(1, "England", "ENG"));
         testTournament = tournamentDao.save(new Tournament(1, "Wimbledon", LocalDate.of(2022, Month.JULY, 10),
-                LocalDate.of(2022, Month.JULY, 24), country, "Grand Slam", null));
+                LocalDate.of(2022, Month.JULY, 17), country, "Grand Slam", null));
     }
 
     @AfterEach
@@ -74,7 +74,7 @@ public class TournamentControllerTest {
     public void addTournamentShouldBeOk() throws Exception {
         Country country = countryDao.save(new Country(2, "France", "FRA"));
         Tournament tournament = new Tournament(2, "Roland Garros", LocalDate.of(2022, Month.MAY, 10),
-                LocalDate.of(2022, Month.MAY, 24), country, "Grand Slam", null);
+                LocalDate.of(2022, Month.MAY, 17), country, "Grand Slam", null);
         mockMvc
                 .perform(MockMvcRequestBuilders.post("/tournament").contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(tournament)))
@@ -113,15 +113,17 @@ public class TournamentControllerTest {
     @Test
     @WithMockUser(username = "test", password = "test", authorities = "ADMIN")
     public void updateTournamentShouldBeOk() throws Exception {
+        testTournament.setName(testTournament.getName() + "-" + testTournament.getStartDate().getYear());
+        Tournament tournament = tournamentDao.save(testTournament);
         mockMvc
                 .perform(MockMvcRequestBuilders.put("/tournament").contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(testTournament)))
+                        .content(mapper.writeValueAsString(tournament)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is(testTournament.getName() + "-" + testTournament.getStartDate().getYear())))
-                .andExpect(jsonPath("$.startDate", is(testTournament.getStartDate().toString())))
-                .andExpect(jsonPath("$.completitionDate", is(testTournament.getCompletitionDate().toString())))
-                .andExpect(jsonPath("$.hostCountry.name", is(testTournament.getHostCountry().getName())))
-                .andExpect(jsonPath("$.tournamentType", is(testTournament.getTournamentType())));
+                .andExpect(jsonPath("$.name", is(tournament.getName())))
+                .andExpect(jsonPath("$.startDate", is(tournament.getStartDate().toString())))
+                .andExpect(jsonPath("$.completitionDate", is(tournament.getCompletitionDate().toString())))
+                .andExpect(jsonPath("$.hostCountry.name", is(tournament.getHostCountry().getName())))
+                .andExpect(jsonPath("$.tournamentType", is(tournament.getTournamentType())));
     }
 
     @Test

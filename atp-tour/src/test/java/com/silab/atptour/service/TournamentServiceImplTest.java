@@ -43,7 +43,7 @@ public class TournamentServiceImplTest {
     @BeforeAll
     public static void init() {
         testTournament = new Tournament(1, "Wimbledon", LocalDate.of(2022, Month.JULY, 10),
-                LocalDate.of(2022, Month.JULY, 24), new Country(1, "Great Britain", "GBR"), "Grand Slam", null);
+                LocalDate.of(2022, Month.JULY, 17), new Country(1, "Great Britain", "GBR"), "Grand Slam", null);
         optionalTournament = Optional.of(testTournament);
         emptyOptionalTournament = Optional.empty();
     }
@@ -99,7 +99,7 @@ public class TournamentServiceImplTest {
     @Test
     public void getAllTournamentsShouldBeOk() {
         Tournament tournament = new Tournament(1, "Roland Garros-2022", LocalDate.of(2022, Month.MAY, 10),
-                LocalDate.of(2022, Month.MAY, 24), new Country(1, "France", "FRA"), "Grand Slam", null);
+                LocalDate.of(2022, Month.MAY, 17), new Country(1, "France", "FRA"), "Grand Slam", null);
         List<Tournament> tournaments = new ArrayList<>();
         tournaments.add(tournament);
         tournaments.add(testTournament);
@@ -114,9 +114,9 @@ public class TournamentServiceImplTest {
         Player thirdPlayer = new Player(3);
         List<Match> matches = new ArrayList<>() {
             {
-                new Match(testTournament, firstPlayer, secondPlayer, LocalDate.of(2022, Month.MAY, 24), "first-round", "3-1", firstPlayer);
-                new Match(testTournament, firstPlayer, thirdPlayer, LocalDate.of(2022, Month.MAY, 24), "semi-finals", "3-0", secondPlayer);
-                new Match(testTournament, thirdPlayer, secondPlayer, LocalDate.of(2022, Month.MAY, 24), "finals", "2-3", secondPlayer);
+                new Match(testTournament, firstPlayer, secondPlayer, LocalDate.of(2022, Month.MAY, 17), "first-round", "3-1", firstPlayer);
+                new Match(testTournament, firstPlayer, thirdPlayer, LocalDate.of(2022, Month.MAY, 17), "semi-finals", "3-0", secondPlayer);
+                new Match(testTournament, thirdPlayer, secondPlayer, LocalDate.of(2022, Month.MAY, 17), "finals", "2-3", secondPlayer);
             }
         };
         testTournament.setMatches(matches);
