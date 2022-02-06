@@ -17,6 +17,10 @@ export class TournamentService {
     return this.httpClient.post<Tournament>(this.API_URL+"/tournament", tournament);
   }
 
+  public updateTournament(tournament:Tournament) : Observable<Tournament>{
+    return this.httpClient.put<Tournament>(this.API_URL+"/tournament", tournament);
+  }
+
   public getTournaments() : Observable<Tournament[]>{
     return this.httpClient.get<Tournament[]>(this.API_URL+"/tournament");
   }
