@@ -32,6 +32,7 @@ public class TournamentServiceImpl implements TournamentService {
         if(tournamentDao.findTournamentByName(name).isPresent()){
             throw new AtpEntityExistsException("Tournament with name "+name+" already exists");
         }
+        tournament.setCompletitionDate(tournament.getStartDate().plusDays(7));
         logger.debug("Adding new {} tournament", tournament.getName());
         return tournamentDao.save(tournament);
     }

@@ -24,6 +24,9 @@ import {OrderModule} from 'ngx-order-pipe';
 import { UpdatePlayerComponent } from './features/player-page/update-player/update-player.component';
 import { PlayerEventEmitterService } from './core/services/player-event-emitter.service';
 import { MatDialogModule } from '@angular/material/dialog';
+import { TournamentPageComponent } from './features/tournament-page/tournament-page.component';
+import { AddTournamentComponent } from './features/tournament-page/add-tournament/add-tournament.component';
+import { TournamentEventEmitterService } from './core/services/tournament-event-emitter.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     PlayerPageComponent,
     AddPlayerComponent,
     AllPlayersComponent,
-    UpdatePlayerComponent
+    UpdatePlayerComponent,
+    TournamentPageComponent,
+    AddTournamentComponent
     ],
   imports: [
     BrowserModule,
@@ -56,7 +61,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass:AuthInterceptor, multi:true},
-    PlayerEventEmitterService],
+    PlayerEventEmitterService, TournamentEventEmitterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
