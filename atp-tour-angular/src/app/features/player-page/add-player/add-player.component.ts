@@ -34,7 +34,6 @@ export class AddPlayerComponent implements OnInit {
 
   ngOnInit(): void {
     this.playerForm = this.formBuilder.group({
-      id: [],
       rank: [],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -75,8 +74,9 @@ export class AddPlayerComponent implements OnInit {
   addPlayer() {
     this.playerService.addPlayer(this.playerForm.value).subscribe({
       next: addedPlayer => {
-        this.playerForm.setValue(addedPlayer);
         this.eventEmitterService.updatePlayersTable(addedPlayer);
+        delete addedPlayer.id;
+        this.playerForm.setValue(addedPlayer);
         this.loading = false;
         this.success = true;
       },

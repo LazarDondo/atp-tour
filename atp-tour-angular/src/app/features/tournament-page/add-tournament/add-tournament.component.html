@@ -1,65 +1,100 @@
-<div class="center_div">
+<div id="flexDiv" class="d-flex p-3">
+    <div class="center_div">
+
+        <h2>Add Tournament</h2>
+
+        <form [formGroup]="tournamentForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" formControlName="name" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f['name'].errors }" />
+                <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                    <div *ngIf="f['name'].errors['required']">Tournament name is required</div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="startDate">Start date</label>
+                <input type="date" formControlName="startDate" class="form-control" onkeydown="return false"
+                    min="{{futureDate| date: 'yyyy-MM-dd'}}"
+                    [ngClass]="{ 'is-invalid': submitted && f['startDate'].errors }" />
+                <div *ngIf="submitted && f['startDate'].errors" class="invalid-feedback">
+                    <div *ngIf="f['startDate'].errors['required']">Start date is required</div>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <label for="hostCountry">Host country</label>
+                <input type="text" class="form-control" matInput [matAutocomplete]="autoCountry" [formControl]="myControl"
+                  [ngClass]="{ 'is-invalid': submitted && !validCountry }" />
+                <mat-autocomplete #autoCountry="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let country of filteredCountries | async" [value]="country">
+                        {{country.name}}
+                    </mat-option>
+                </mat-autocomplete>
+                <div *ngIf="submitted && !validCountry" class="invalid-feedback">
+                    <div>Host country must me valid</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="participants">Participants</label>
+                <input type="text" class="form-control" matInput [matAutocomplete]="autoParticipants" [formControl]="myControl"
+                [readonly]="numberOfParticipants===16"[ngClass]="{ 'is-invalid': submitted && numberOfParticipants!==16 }" />
+                <mat-autocomplete #autoParticipants="matAutocomplete" [displayWith]="displayPlayer">
+                    <mat-option *ngFor="let player of filteredPlayers | async" [value]="player" 
+                     (onSelectionChange)="addParticipant(player)">
+                        {{player.firstName+" "+player.lastName+" ("+player.birthCountry.codeName+")"}}
+                    </mat-option>
+                </mat-autocomplete>
+                <div *ngIf="submitted && numberOfParticipants!==16" class="invalid-feedback">
+                    <div>You must select 16 participants for the tournament</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="tournamentType">Tournament type</label>
+                <select id="tournamentType" class="form-select" formControlName="tournamentType">
+                    <option value="Grand Slam">Grand Slam</option>
+                    <option value="Masters 1000">Masters 1000</option>
+                </select>
+                <div *ngIf="submitted && f['tournamentType'].errors" class="invalid-feedback" style="display: inline;">
+                    <div *ngIf="f['tournamentType'].errors['required']">Tournament type is required</div>
+                </div>
+            </div>
+
+            <div *ngIf="success" class="alert-success requestMessage">
+                <p>Successfully added new tournament. Tournaments can't be updated once they have started</p>
+            </div>
+            <div *ngIf="error" class="alert-danger requestMessage">
+                <p>Failed to add new tournament</p>
+            </div>
+
+            <div class="form-group">
+                <button [disabled]="loading" class="btn btn-primary">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Add tournament
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="center_div tournament-participants">
+        <div class="d-flex">
+            <p class="participants-number">Participating: {{numberOfParticipants}}</p>
+            <p class="missing-number">Missing: {{16-numberOfParticipants}}</p>
+        </div>
+        <div *ngFor="let player of chosenPlayers">
+        <div class="participant d-flex">
+            <p>{{player.firstName+" "+player.lastName+" ("+player.birthCountry.codeName+")"}}</p>
+            <button class="btn-close remove-participant" (click)="removeParticipant(player)"></button>
+        </div>
+    </div>
+    </div>
     <button id="closeButton" class="btn-close" (click)="closeDialog()">
     </button>
-    <h2>Add Tournament</h2>
 
-    <form [formGroup]="tournamentForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" formControlName="name" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f['name'].errors }" />
-            <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-                <div *ngIf="f['name'].errors['required']">Tournament name is required</div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="startDate">Start date</label>
-            <input type="date" formControlName="startDate" class="form-control" onkeydown="return false"
-                min="{{futureDate| date: 'yyyy-MM-dd'}}"
-                [ngClass]="{ 'is-invalid': submitted && f['startDate'].errors }" />
-            <div *ngIf="submitted && f['startDate'].errors" class="invalid-feedback">
-                <div *ngIf="f['startDate'].errors['required']">Start date is required</div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="hostCountry">Host country</label>
-            <input type="text" class="form-control" matInput [matAutocomplete]="auto" [formControl]="myControl"
-                [ngClass]="{ 'is-invalid': submitted && !validCountry }" />
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                <mat-option *ngFor="let country of filteredCountries | async" [value]="country">
-                    {{country.name}}
-                </mat-option>
-            </mat-autocomplete>
-            <div *ngIf="submitted && !validCountry" class="invalid-feedback">
-                <div>Host country must me valid</div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="tournamentType">Tournament type</label>
-            <select id="tournamentType" class="form-select" formControlName="tournamentType">
-                <option value="Grand Slam" >Grand Slam</option>
-                <option value="Masters 1000">Masters 1000</option>
-              </select>
-            <div *ngIf="submitted && f['tournamentType'].errors" class="invalid-feedback" style="display: inline;">
-                <div *ngIf="f['tournamentType'].errors['required']">Tournament type is required</div>
-            </div>
-        </div>
-
-        <div *ngIf="success" class="alert-success requestMessage">
-            <p>Successfully added new tournament. Tournaments can't be updated once they have started</p>
-        </div>
-        <div *ngIf="error" class="alert-danger requestMessage">
-            <p>Failed to add new tournament</p>
-        </div>
-
-        <div class="form-group">
-            <button [disabled]="loading" class="btn btn-primary">
-                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                Add tournament
-            </button>
-        </div>
-    </form>
 </div>

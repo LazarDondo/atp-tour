@@ -1,3 +1,8 @@
+#flexDiv{
+   position: absolute;
+   left: 0px;
+}
+
 .center_div{
     padding-top: 7px;
     padding-left: 15%;
@@ -21,8 +26,39 @@
     margin-top: 3px;
   }
 
-  #closeButton{
+   .tournament-participants{
+    border:1px solid black; 
+    text-align: left; 
+    margin-left:10px; 
+    width: 450px;
+    height: 550px;
+    padding-left:0;
+   }
+
+   .participant{
+     height: 30px;
+     padding-top: 7px;
+     padding-left: 3px;
+   }
+
+   .participants-number{
+     padding-left:3px
+   }
+
+   .missing-number{
+    padding-left: 30%;
+   }
+
+   .remove-participant{
     float: right;
-    margin-right: 60px;
+    height: 20px;
+    background-color: red;
+    text-align: right;
+    position: absolute;
+    margin-left: 280px;
+   }
+
+   #closeButton{
+    margin-left: 5px;
    }
   
