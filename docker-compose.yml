@@ -1,0 +1,22 @@
+version: '3'
+
+services: 
+    mysql:
+        image: mysql:8.0
+        container_name: mysql
+        environment: 
+            - MYSQL_ROOT_PASSWORD=admin
+            - MYSQL_DATABASE=atp-tour
+        ports:
+            - 3307:3306
+    
+    atp-tour:
+        image: atp-tour:1.0
+        container_name: atp-tour
+        restart: on-failure
+        depends_on:
+            - mysql
+        ports:
+            - 8080:8080
+        environment:
+            - SPRING_PROFILES_ACTIVE = docker
