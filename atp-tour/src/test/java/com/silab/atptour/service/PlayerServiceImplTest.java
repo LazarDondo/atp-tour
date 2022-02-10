@@ -79,13 +79,13 @@ public class PlayerServiceImplTest {
     }
 
     @Test
-    public void getAllPlayersShouldBeOk() {
+    public void getAllRankedPlayersShouldBeOk() {
         Player player = new Player(2, "Filip", "Krajinovic", new Country(1, "Serbia", "SRB"),
                 LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2, null);
         List<Player> players = new ArrayList<>();
         players.add(testPlayer);
         players.add(player);
-        when(playerDao.findAll()).thenReturn(players);
+        when(playerDao.findAllRankedPlayers()).thenReturn(players);
         assertEquals(players, playerService.getAllPlayers());
     }
 

@@ -54,7 +54,7 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public List<Player> getAllPlayers() {
         logger.debug("Finding all tennis players");
-        return playerDao.findAll();
+        return playerDao.findAllRankedPlayers();
     }
 
     @Override
