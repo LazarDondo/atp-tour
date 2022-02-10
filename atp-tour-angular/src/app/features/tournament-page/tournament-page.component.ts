@@ -25,7 +25,7 @@ export class TournamentPageComponent implements OnInit {
 
   openDialog(): void {
     this.dialogRef = this.dialog.open(AddTournamentComponent, {
-      width: '600px'});
+      width: '1000px'});
   }
 
   displayTournament(tournament:Tournament){

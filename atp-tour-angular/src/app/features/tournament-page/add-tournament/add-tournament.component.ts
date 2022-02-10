@@ -119,7 +119,6 @@ export class AddTournamentComponent implements OnInit {
   }
 
   displayPlayer() {
-    startWith('');
     return '';
   }
 
@@ -136,18 +135,31 @@ export class AddTournamentComponent implements OnInit {
     this.eventEmitterService.closeDialog();
   }
 
-  addParticipant(player:Player){
-    this.chosenPlayers.push(player);
-    let index = this.players.indexOf(player);
-    this.players.splice(index,1);
+  addParticipant(chosenPlayer:Player){
+    this._addPlayerByRank(this.chosenPlayers,chosenPlayer);
+    this._removePlayer(this.players, chosenPlayer);
     this.numberOfParticipants++;
 
   }
 
-  removeParticipant(player:Player){
-    this.players.push(player);
-    let index = this.chosenPlayers.indexOf(player);
-    this.chosenPlayers.splice(index,1);
+  removeParticipant(chosenPlayer:Player){
+    this._addPlayerByRank(this.players,chosenPlayer);
+    this._removePlayer(this.chosenPlayers, chosenPlayer);
     this.numberOfParticipants--;
+  }
+
+  private _addPlayerByRank(players:Player[], chosenPlayer:Player){
+    let insertIndex = players.findIndex(p=>p.rank!>chosenPlayer.rank!);
+    if(insertIndex!=-1){
+      players.splice(insertIndex,0,chosenPlayer);
+      }
+      else{
+        players.push(chosenPlayer);
+      }
+  }
+
+  private _removePlayer(players: Player[], chosenPlayer:Player){
+    let removeIndex = players.indexOf(chosenPlayer);
+    players.splice(removeIndex,1);
   }
 }

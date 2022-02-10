@@ -1,4 +1,4 @@
-<div id="flexDiv" class="d-flex p-3">
+<div class="d-flex p-3">
     <div class="center_div">
 
         <h2>Add Tournament</h2>
@@ -47,7 +47,7 @@
                 <mat-autocomplete #autoParticipants="matAutocomplete" [displayWith]="displayPlayer">
                     <mat-option *ngFor="let player of filteredPlayers | async" [value]="player" 
                      (onSelectionChange)="addParticipant(player)">
-                        {{player.firstName+" "+player.lastName+" ("+player.birthCountry.codeName+")"}}
+                        {{'('+player.rank+') '+player.firstName+" "+player.lastName+" ("+player.birthCountry.codeName+")"}}
                     </mat-option>
                 </mat-autocomplete>
                 <div *ngIf="submitted && numberOfParticipants!==16" class="invalid-feedback">
@@ -89,7 +89,7 @@
         </div>
         <div *ngFor="let player of chosenPlayers">
         <div class="participant d-flex">
-            <p>{{player.firstName+" "+player.lastName+" ("+player.birthCountry.codeName+")"}}</p>
+            <p>{{'('+player.rank+') '+player.firstName+" "+player.lastName+" ("+player.birthCountry.codeName+")"}}</p>
             <button class="btn-close remove-participant" (click)="removeParticipant(player)"></button>
         </div>
     </div>
