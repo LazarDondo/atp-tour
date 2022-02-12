@@ -187,6 +187,8 @@ public class PlayerControllerTest {
     public void getPlayersShouldBeOk() throws Exception {
         Player player = playerDao.save(new Player(2, "Filip", "Krajinovic", testCountry,
                 LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2,null));
+        playerDao.save(new Player(3, "Test", "Test", testCountry, 
+                LocalDate.of(1995, Month.JANUARY, 12), 0, 0, 0, null));
         mockMvc
                 .perform(MockMvcRequestBuilders.get("/player"))
                 .andExpect(jsonPath("$", hasSize(2)))
@@ -228,7 +230,7 @@ public class PlayerControllerTest {
     public void getMatchesShouldBeOk() throws Exception {
 
         Tournament tournament = tournamentDao.save(new Tournament(1, "Serbia Open", LocalDate.of(2022, Month.JULY, 10),
-                LocalDate.of(2022, Month.JULY, 24), testCountry, "Grand Slam", null));
+                LocalDate.of(2022, Month.JULY, 16), testCountry, "Grand Slam", null, null));
         Player secondPlayer = playerDao.save(new Player(2));
         Player thirdPlayer = playerDao.save(new Player(3));
 

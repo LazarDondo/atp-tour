@@ -1,15 +1,12 @@
 package com.silab.atptour.controller;
 
 import com.silab.atptour.entity.Match;
-import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import com.silab.atptour.service.MatchesService;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,17 +42,12 @@ public class MatchesController {
         return ResponseEntity.ok(updatedMatches);
     }
 
-    @GetMapping("{firstPlayerId}/{secondPlayerId}")
-    public ResponseEntity<List<Match>> getH2HMatches(@PathVariable("firstPlayerId") long firstPlayerId,
-            @PathVariable("secondPlayerId") long secondPlayerId) {
-        logger.debug("Finding H2H matches between players with ids {} and {}", firstPlayerId, secondPlayerId);
-        try {
-            List<Match> foundMatches = matchesService.getH2HMatches(firstPlayerId, secondPlayerId);
-            logger.info("Successfully retrieved {} matches", foundMatches.size());
-            return ResponseEntity.ok(foundMatches);
-        } catch (AtpEntityNotFoundException ex) {
-            logger.error(ex.getMessage());
-            return ResponseEntity.notFound().build();
-        }
+    @PostMapping("/filter")
+    public ResponseEntity<List<Match>> filterMatches(@RequestBody Match searchValues) {
+        logger.debug("Finding matches");
+        List<Match> foundMatches = matchesService.filterMatches(searchValues.getTournament(),
+                searchValues.getFirstPlayer(), searchValues.getSecondPlayer());
+        logger.info("Successfully retrieved {} matches", foundMatches.size());
+        return ResponseEntity.ok(foundMatches);
     }
 }

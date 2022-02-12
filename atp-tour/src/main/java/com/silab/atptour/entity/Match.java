@@ -26,7 +26,10 @@ import lombok.Setter;
 @Entity
 @Table(name = "matches")
 @IdClass(MatchId.class)
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Match {
 
     @Id
@@ -44,7 +47,7 @@ public class Match {
     @JoinColumn(name = "second_player_id")
     private Player secondPlayer;
 
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate matchDate;
 
     @Column(length = 20)
@@ -56,6 +59,14 @@ public class Match {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinColumn(name = "winner")
     private Player winner;
+
+    public Match(Tournament tournament, Player firstPlayer, Player secondPlayer, LocalDate matchDate, String round) {
+        this.tournament = tournament;
+        this.firstPlayer = firstPlayer;
+        this.secondPlayer = secondPlayer;
+        this.matchDate = matchDate;
+        this.round = round;
+    }
 
     @Override
     public int hashCode() {
@@ -89,6 +100,5 @@ public class Match {
         }
         return true;
     }
-    
-    
+
 }

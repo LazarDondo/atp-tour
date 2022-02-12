@@ -1,11 +1,16 @@
 package com.silab.atptour.service.impl;
 
+import com.silab.atptour.dao.MatchDao;
 import com.silab.atptour.dao.TournamentDao;
 import com.silab.atptour.entity.Match;
+import com.silab.atptour.entity.Player;
 import com.silab.atptour.entity.Tournament;
 import com.silab.atptour.exceptions.AtpEntityExistsException;
 import com.silab.atptour.exceptions.AtpEntityNotFoundException;
+import com.silab.atptour.model.AtpModel;
 import com.silab.atptour.service.TournamentService;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -23,18 +28,27 @@ public class TournamentServiceImpl implements TournamentService {
     @Autowired
     TournamentDao tournamentDao;
 
+    @Autowired
+    MatchDao matchDao;
+
     private final Logger logger = LoggerFactory.getLogger(TournamentServiceImpl.class);
 
     @Override
     public Tournament addTournament(Tournament tournament) throws AtpEntityExistsException {
-        String name = tournament.getName()+"-"+tournament.getStartDate().getYear();
+        String name = tournament.getName() + "-" + tournament.getStartDate().getYear();
         tournament.setName(name);
-        if(tournamentDao.findTournamentByName(name).isPresent()){
-            throw new AtpEntityExistsException("Tournament with name "+name+" already exists");
+        if (tournamentDao.findTournamentByName(name).isPresent()) {
+            throw new AtpEntityExistsException("Tournament with name " + name + " already exists");
         }
-        tournament.setCompletitionDate(tournament.getStartDate().plusDays(7));
+
+        tournament.setCompletitionDate(tournament.getStartDate().plusDays(6));
         logger.debug("Adding new {} tournament", tournament.getName());
-        return tournamentDao.save(tournament);
+
+        Tournament savedTournament = tournamentDao.save(tournament);
+        if (savedTournament.getParticipants() != null) {
+            createMatches(savedTournament);
+        }
+        return savedTournament;
     }
 
     @Override
@@ -44,12 +58,12 @@ public class TournamentServiceImpl implements TournamentService {
         String name = tournament.getName();
         if (optionalTournament.isEmpty()) {
             throw new AtpEntityNotFoundException("Tournament " + tournament.getName() + " doesn't exist");
-        }  
-        name+="-"+tournament.getStartDate().getYear();
-        if(!optionalTournament.get().getName().equals(tournament.getName()) && tournamentDao.findTournamentByName(name).isPresent()){
-            throw new AtpEntityExistsException("Tournament with name "+name+" already exists");
         }
-        if(!optionalTournament.get().getName().equals(tournament.getName())){
+        name += "-" + tournament.getStartDate().getYear();
+        if (!optionalTournament.get().getName().equals(tournament.getName()) && tournamentDao.findTournamentByName(name).isPresent()) {
+            throw new AtpEntityExistsException("Tournament with name " + name + " already exists");
+        }
+        if (!optionalTournament.get().getName().equals(tournament.getName())) {
             tournament.setName(name);
         }
         logger.debug("Updating tournament {}", tournament.getName());
@@ -87,6 +101,23 @@ public class TournamentServiceImpl implements TournamentService {
             throw new AtpEntityNotFoundException("Tournament doesn't exist");
         }
         tournamentDao.deleteById(id);
+    }
+
+    private void createMatches(Tournament tournament) {
+        if (tournament.getParticipants() == null) {
+            return;
+        }
+
+        LocalDate startDate = tournament.getStartDate();
+        List<Match> matches = new ArrayList<>();
+        List<Player> participants = tournament.getParticipants();
+        int size = participants.size() - 1;
+        String roundName = AtpModel.GRAND_SLAM_FIRST_ROUND;
+        for (int i = 0; i <= size / 2; i++) {
+            matches.add(new Match(tournament, participants.get(i), participants.get(size - i),
+                    startDate.plusDays(i % 2), roundName));
+        }
+        matchDao.saveAll(matches);
     }
 
 }

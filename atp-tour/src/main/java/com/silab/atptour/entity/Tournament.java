@@ -2,6 +2,7 @@ package com.silab.atptour.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -17,6 +18,7 @@ import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +30,10 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "tournament")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Tournament {
 
     @Id
@@ -39,10 +44,10 @@ public class Tournament {
     @Column(unique = true, length = 50)
     private String name;
 
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate completitionDate;
 
     @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
@@ -55,9 +60,13 @@ public class Tournament {
     @MapKeyColumn(name = "id")
     @JsonIgnore
     private List<Match> matches;
-    
-    public Tournament(long id){
-        this.id=id;
+
+    @Transient
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Player> participants;
+
+    public Tournament(long id) {
+        this.id = id;
     }
 
     @Override
@@ -84,7 +93,10 @@ public class Tournament {
         }
         return true;
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return "name: " + name;
+    }
+
 }

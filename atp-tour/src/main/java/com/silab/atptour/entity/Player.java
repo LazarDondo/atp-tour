@@ -28,7 +28,11 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "player")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
 public class Player {
 
     @Id
@@ -45,22 +49,28 @@ public class Player {
     @JoinColumn(name = "birth_country", referencedColumnName = "id")
     private Country birthCountry;
 
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
     private int currentPoints;
 
     private int livePoints;
-    
-    @Column(name="player_rank")
+
+    @Column(name = "player_rank")
     private int rank;
 
     @OneToMany(mappedBy = "firstPlayer", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @MapKeyColumn(name = "id")
     @JsonIgnore
     private List<Match> matches;
-    
-    public Player(long id){
-        this.id=id;
+
+    public Player(long id) {
+        this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName + " (" + rank + ")";
+    }
+
 }

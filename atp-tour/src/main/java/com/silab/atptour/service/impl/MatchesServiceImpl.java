@@ -4,10 +4,9 @@ import com.silab.atptour.dao.MatchDao;
 import com.silab.atptour.dao.PlayerDao;
 import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
-import com.silab.atptour.exceptions.AtpEntityNotFoundException;
+import com.silab.atptour.entity.Tournament;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,18 +49,9 @@ public class MatchesServiceImpl implements MatchesService {
     }
 
     @Override
-    public List<Match> getH2HMatches(long firstPlayerId, long secondPlayerId) throws AtpEntityNotFoundException {
-        logger.debug("Finding matches for players with id {} and {}", firstPlayerId, secondPlayerId);
-        Optional<Player> optionalFirstPlayer = playerDao.findById(firstPlayerId);
-        if (optionalFirstPlayer.isEmpty()) {
-            throw new AtpEntityNotFoundException("Player with id " + firstPlayerId + " doesn't exist");
-        }
-
-        Optional<Player> optionalSecondPlayer = playerDao.findById(secondPlayerId);
-        if (optionalSecondPlayer.isEmpty()) {
-            throw new AtpEntityNotFoundException("Player with id " + secondPlayerId + " doesn't exist");
-        }
-        return matchDao.findByFirstPlayerAndSecondPlayer(optionalFirstPlayer.get(), optionalSecondPlayer.get());
+    public List<Match> filterMatches(Tournament tournament, Player firstPlayer, Player secondPlayer) {
+        logger.info("Filtering matches by tournament: {}, first player: {}, second player: {}", tournament, firstPlayer, secondPlayer);
+        return matchDao.filterMatches(tournament, firstPlayer, secondPlayer);
     }
 
 }
