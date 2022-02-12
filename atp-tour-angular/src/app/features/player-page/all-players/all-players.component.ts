@@ -13,7 +13,6 @@ export class AllPlayersComponent implements OnInit {
 
   players: Player[];
   searchPlayers: Player[];
-  columns: string[] = ['firstName', 'lastName', 'birthCountry', 'dateOfBirth', 'currentPoints', 'livePoints'];
   playerName: string;
   pageNumber: number = 1;
   playersPerPage: number = 7;
