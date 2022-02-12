@@ -23,7 +23,8 @@ export class AddTournamentComponent implements OnInit {
   error = false;
   validCountry = false;
   futureDate: Date
-  myControl = new FormControl();
+  countryControl = new FormControl();
+  participantControl = new FormControl();
   countries: Country[]
   filteredCountries: Observable<Country[]>
   players: Player[]
@@ -47,10 +48,10 @@ export class AddTournamentComponent implements OnInit {
       hostCountry: [],
       tournamentType: ['', Validators.required],
     });
-    this.myControl.addValidators
+    this.countryControl.addValidators
     this.countryService.getCountries().subscribe(countries => {
       this.countries = countries;
-      this.filteredCountries = this.myControl.valueChanges.pipe(
+      this.filteredCountries = this.countryControl.valueChanges.pipe(
         startWith(''),
         map(value => { return this._filter(value) })
       )
@@ -58,7 +59,7 @@ export class AddTournamentComponent implements OnInit {
 
     this.playerService.getPlayers().subscribe(players=>{
       this.players=players;
-      this.filteredPlayers = this.myControl.valueChanges.pipe(
+      this.filteredPlayers = this.participantControl.valueChanges.pipe(
         startWith(''),
         map(value=>{return this._playerFilter(value)})
       )
@@ -98,6 +99,7 @@ export class AddTournamentComponent implements OnInit {
       next: addedTournament => { 
         this.eventEmitterService.updateTournamentsTable(addedTournament);
         delete addedTournament.id;
+        delete addedTournament.id;
         console.log(addedTournament.id);
         this.tournamentForm.setValue(addedTournament);
         this.loading = false;
@@ -123,7 +125,7 @@ export class AddTournamentComponent implements OnInit {
   }
 
   validateCountry() {
-    var hostCountry = this.myControl.value
+    var hostCountry = this.countryControl.value
     this.validCountry = this.countries.filter(c => c == hostCountry || c.name == hostCountry).length > 0;
     if (this.validCountry && typeof (hostCountry) === 'string') {
       hostCountry = this.countries.find(country => country.name == hostCountry);
@@ -139,7 +141,6 @@ export class AddTournamentComponent implements OnInit {
     this._addPlayerByRank(this.chosenPlayers,chosenPlayer);
     this._removePlayer(this.players, chosenPlayer);
     this.numberOfParticipants++;
-
   }
 
   removeParticipant(chosenPlayer:Player){

@@ -28,7 +28,7 @@
 
             <div class="form-group">
                 <label for="hostCountry">Host country</label>
-                <input type="text" class="form-control" matInput [matAutocomplete]="autoCountry" [formControl]="myControl"
+                <input type="text" class="form-control" matInput [matAutocomplete]="autoCountry" [formControl]="countryControl"
                   [ngClass]="{ 'is-invalid': submitted && !validCountry }" />
                 <mat-autocomplete #autoCountry="matAutocomplete" [displayWith]="displayFn">
                     <mat-option *ngFor="let country of filteredCountries | async" [value]="country">
@@ -42,7 +42,7 @@
 
             <div class="form-group">
                 <label for="participants">Participants</label>
-                <input type="text" class="form-control" matInput [matAutocomplete]="autoParticipants" [formControl]="myControl"
+                <input type="text" class="form-control" matInput [matAutocomplete]="autoParticipants" [formControl]="participantControl"
                 [readonly]="numberOfParticipants===16"[ngClass]="{ 'is-invalid': submitted && numberOfParticipants!==16 }" />
                 <mat-autocomplete #autoParticipants="matAutocomplete" [displayWith]="displayPlayer">
                     <mat-option *ngFor="let player of filteredPlayers | async" [value]="player" 
