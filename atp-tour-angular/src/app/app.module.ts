@@ -29,6 +29,7 @@ import { AddTournamentComponent } from './features/tournament-page/add-tournamen
 import { AllTournamentsComponent } from './features/tournament-page/all-tournaments/all-tournaments.component';
 import { UpdateTournamentComponent } from './features/tournament-page/update-tournament/update-tournament.component';
 import { TournamentEventEmitterService } from './core/services/tournament-event-emitter.service';
+import { MatchesComponent } from './features/matches/matches.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { TournamentEventEmitterService } from './core/services/tournament-event-
     TournamentPageComponent,
     AddTournamentComponent,
     AllTournamentsComponent,
-    UpdateTournamentComponent
+    UpdateTournamentComponent,
+    MatchesComponent
     ],
   imports: [
     BrowserModule,

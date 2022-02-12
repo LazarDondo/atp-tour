@@ -1,0 +1,79 @@
+<h2>Matches</h2>
+<div style="position: absolute; left: 0px;" class="d-flex p-3">
+    <nav class="navbar">
+        <form [formGroup]="matchesForm" (ngSubmit)="onSubmit()">
+            <div class="d-flex p-3">
+
+                <div class="form-group">
+                    <label for="tournament">Tournament</label>
+                    <input type="text" class="form-control" matInput [matAutocomplete]="tournament"
+                        [formControl]="tournamentControl" />
+                    <mat-autocomplete #tournament="matAutocomplete" [displayWith]="displayTournament">
+                        <mat-option *ngFor="let tournament of filteredTournaments | async" [value]="tournament">
+                            {{tournament.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+
+                <div class="form-group">
+                    <label for="firstPlayer">First Player</label>
+                    <input type="text" class="form-control" matInput [matAutocomplete]="firstPlayer"
+                        [formControl]="firstPlayerControl" />
+                    <mat-autocomplete #firstPlayer="matAutocomplete" [displayWith]="displayPlayer">
+                        <mat-option *ngFor="let firstPlayer of filteredPlayersFirst | async" [value]="firstPlayer">
+                            {{firstPlayer.firstName+ " "+firstPlayer.lastName}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+
+                <div class="form-group">
+                    <label for="secondPlayer">Second Player</label>
+                    <input type="text" class="form-control" matInput [matAutocomplete]="secondPlayer"
+                        [formControl]="secondPlayerControl" />
+                    <mat-autocomplete #secondPlayer="matAutocomplete" [displayWith]="displayPlayer">
+                        <mat-option *ngFor="let secondPlayer of filteredPlayersSecond | async" [value]="secondPlayer">
+                            {{secondPlayer.firstName+ " "+secondPlayer.lastName}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+
+                <div class="form-group">
+                    <button id="search" [disabled]="loading" class="btn btn-primary">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                        Search
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <table id="matches" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 17%" class="tablesorter-header" (click)="sort('tournament')">Tournament <i
+                            class="fa fa-sort"></i></th>
+                    <th style="width: 17%" (click)="sort('lastName')">First Player <i class="fa fa-sort"></i></th>
+                    <th style="width: 17%" (click)="sort('lastName')">Second Player <i class="fa fa-sort"></i></th>
+                    <th style="width: 15%" (click)="sort('matchDate')">Match Date <i class="fa fa-sort"></i></th>
+                    <th style="width: 15%" (click)="sort('round')">Round <i class="fa fa-sort"></i></th>
+                    <th style="width: 7%">Result</th>
+                    <th style="width: 17%">Winner</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let match of matches | 
+            orderBy:key:this.reverse| paginate :{itemsPerPage:matchesPerPage, currentPage:pageNumber}"
+                    (click)="displayStatistics(match)">
+                    <td>{{match.tournament.name}}</td>
+                    <td>{{match.firstPlayer.firstName +" "+match.firstPlayer.lastName}}</td>
+                    <td>{{match.secondPlayer.firstName +" "+match.secondPlayer.lastName}}</td>
+                    <td>{{match.matchDate}}</td>
+                    <td>{{match.round}}</td>
+                    <td>{{match.result}}</td>
+                    <td *ngIf="match.winner">{{match.winner.firstName +" "+match.winner.lastName}}</td>
+                    <td *ngIf="!match.winner"></td>
+                </tr>
+            </tbody>
+        </table>
+        <pagination-controls (pageChange)="pageNumber = $event"></pagination-controls>
+    </nav>
+</div>

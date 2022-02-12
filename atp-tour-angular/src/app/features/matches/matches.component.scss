@@ -1,0 +1,38 @@
+.navbar{
+    width: 1000px;
+  }
+  
+  #matches{
+    text-align: center;
+    margin-left: 15px;
+  }
+  
+  #matches tr:nth-child(even){
+    background-color: #51bbf5;
+  }
+  
+  #matches tr:nth-child(odd){
+    background-color: #f2f2f2;
+  }
+  
+  #matches tr:hover {
+    background-color: #ddd;
+  }
+  
+  #matches th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #03b5fc;
+    color: white;
+  }
+
+  input{
+    width: 240px;
+    margin-right: 30px;
+  }
+
+  #search{
+    margin-top:22px
+  }
+  
