@@ -17,9 +17,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MatchDao extends JpaRepository<Match, MatchId> {
 
-    @Query("SELECT m FROM Match m WHERE (:tournament is null or m.tournament = :tournament)"
-            + "and (:firstPlayer is null or m.firstPlayer = :firstPlayer or m.secondPlayer = :firstPlayer)"
-            + " and (:secondPlayer is null or m.secondPlayer = :secondPlayer or m.firstPlayer = :secondPlayer)")
+    @Query("SELECT m FROM Match m WHERE (:tournament is null OR m.tournament = :tournament)"
+            + "AND (:firstPlayer is null or m.firstPlayer = :firstPlayer OR m.secondPlayer = :firstPlayer)"
+            + " AND (:secondPlayer is null or m.secondPlayer = :secondPlayer OR m.firstPlayer = :secondPlayer)"
+            + "ORDER BY m.matchDate")
     public List<Match> filterMatches(@Param("tournament") Tournament tournament,
             @Param("firstPlayer") Player firstPlayer, @Param("secondPlayer") Player secondPlayer);
 }

@@ -63,6 +63,11 @@ public class Player {
     @MapKeyColumn(name = "id")
     @JsonIgnore
     private List<Match> matches;
+    
+    @OneToMany(mappedBy = "player", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @MapKeyColumn(name = "id")
+    @JsonIgnore
+    private List<Income> incomes;
 
     public Player(long id) {
         this.id = id;

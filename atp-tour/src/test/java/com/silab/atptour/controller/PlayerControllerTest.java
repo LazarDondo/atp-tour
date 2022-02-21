@@ -61,7 +61,8 @@ public class PlayerControllerTest {
     @BeforeEach
     public void init() {
         testCountry = countryDao.save(new Country(1, "Serbia", "SRB"));
-        testPlayer = playerDao.save(new Player(1, "Novak", "Djokovic", testCountry, LocalDate.of(2022, Month.MAY, 22), 12000, 12000, 1,null));
+        testPlayer = playerDao.save(new Player(1, "Novak", "Djokovic", testCountry, LocalDate.of(2022, Month.MAY, 22), 12000,
+                12000, 1, null, null));
     }
 
     @AfterEach
@@ -73,7 +74,7 @@ public class PlayerControllerTest {
     @WithMockUser(username = "test", password = "test", authorities = "ADMIN")
     public void addPlayerShouldBeOk() throws Exception {
         Player player = new Player(2, "Filip", "Krajinovic", testCountry,
-                LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2,null);
+                LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2,null, null);
 
         mockMvc
                 .perform(MockMvcRequestBuilders.post("/player").contentType(MediaType.APPLICATION_JSON)
@@ -186,9 +187,9 @@ public class PlayerControllerTest {
     @WithMockUser(username = "test", password = "test", authorities = "USER")
     public void getPlayersShouldBeOk() throws Exception {
         Player player = playerDao.save(new Player(2, "Filip", "Krajinovic", testCountry,
-                LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2,null));
+                LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2,null, null));
         playerDao.save(new Player(3, "Test", "Test", testCountry, 
-                LocalDate.of(1995, Month.JANUARY, 12), 0, 0, 0, null));
+                LocalDate.of(1995, Month.JANUARY, 12), 0, 0, 0, null, null));
         mockMvc
                 .perform(MockMvcRequestBuilders.get("/player"))
                 .andExpect(jsonPath("$", hasSize(2)))
@@ -230,7 +231,7 @@ public class PlayerControllerTest {
     public void getMatchesShouldBeOk() throws Exception {
 
         Tournament tournament = tournamentDao.save(new Tournament(1, "Serbia Open", LocalDate.of(2022, Month.JULY, 10),
-                LocalDate.of(2022, Month.JULY, 16), testCountry, "Grand Slam", null, null));
+                LocalDate.of(2022, Month.JULY, 16), testCountry, "Grand Slam", null, null, null));
         Player secondPlayer = playerDao.save(new Player(2));
         Player thirdPlayer = playerDao.save(new Player(3));
 

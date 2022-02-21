@@ -61,7 +61,7 @@ public class TournamentControllerTest {
     public void init() {
         Country country = countryDao.save(new Country(1, "England", "ENG"));
         testTournament = tournamentDao.save(new Tournament(1, "Wimbledon-2022", LocalDate.of(2022, Month.JULY, 10),
-                LocalDate.of(2022, Month.JULY, 16), country, "Grand Slam", null, null));
+                LocalDate.of(2022, Month.JULY, 16), country, "Grand Slam", null, null, null));
     }
 
     @AfterEach
@@ -74,7 +74,7 @@ public class TournamentControllerTest {
     public void addTournamentShouldBeOk() throws Exception {
         Country country = countryDao.save(new Country(2, "France", "FRA"));
         Tournament tournament = new Tournament(2, "Roland Garros", LocalDate.of(2022, Month.MAY, 10),
-                LocalDate.of(2022, Month.MAY, 16), country, "Grand Slam", null, null);
+                LocalDate.of(2022, Month.MAY, 16), country, "Grand Slam", null, null, null);
         mockMvc
                 .perform(MockMvcRequestBuilders.post("/tournament").contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(tournament)))
@@ -208,7 +208,7 @@ public class TournamentControllerTest {
     @WithMockUser(username = "test", password = "test", authorities = "USER")
     public void getTournamentsShouldBeOk() throws Exception {
         Tournament tournament = tournamentDao.save(new Tournament(2, "Roland Garros", LocalDate.of(2022, Month.MAY, 10),
-                LocalDate.of(2022, Month.MAY, 16), new Country(2, "France", "FRA"), "Grand Slam", null, null));
+                LocalDate.of(2022, Month.MAY, 16), new Country(2, "France", "FRA"), "Grand Slam", null, null, null));
 
         mockMvc
                 .perform(MockMvcRequestBuilders.get("/tournament/"))

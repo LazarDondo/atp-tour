@@ -61,14 +61,27 @@
             </thead>
             <tbody>
                 <tr *ngFor="let match of matches | 
-            orderBy:key:this.reverse| paginate :{itemsPerPage:matchesPerPage, currentPage:pageNumber}"
+            orderBy:key:this.reverse| paginate :{itemsPerPage:matchesPerPage, currentPage:pageNumber};let i = index"
                     (click)="displayStatistics(match)">
                     <td>{{match.tournament.name}}</td>
                     <td>{{match.firstPlayer.firstName +" "+match.firstPlayer.lastName}}</td>
                     <td>{{match.secondPlayer.firstName +" "+match.secondPlayer.lastName}}</td>
                     <td>{{match.matchDate}}</td>
                     <td>{{match.round}}</td>
-                    <td>{{match.result}}</td>
+                    <td>
+                        <div *ngIf="match.result">
+                        {{match.result}}
+                        </div>
+                        <select *ngIf="!match.result && hasStarted(match.matchDate)" id="results" (change)="handleResultsUpdate($event, i+(pageNumber-1)*matchesPerPage)">
+                            <option></option>
+                            <option value="3-0">3-0</option>
+                            <option value="3-1">3-1</option>
+                            <option value="3-2">3-2</option>
+                            <option value="0-3">0-3</option>
+                            <option value="1-3">1-3</option>
+                            <option value="2-3">2-3</option>
+                        </select>
+                    </td>
                     <td *ngIf="match.winner">{{match.winner.firstName +" "+match.winner.lastName}}</td>
                     <td *ngIf="!match.winner"></td>
                 </tr>
@@ -76,4 +89,5 @@
         </table>
         <pagination-controls (pageChange)="pageNumber = $event"></pagination-controls>
     </nav>
+    <button *ngIf="tournamentStarted" id="updateMatchesButton" class="btn btn-info" (click)="updateTournamentMatches()">Update matches</button>
 </div>

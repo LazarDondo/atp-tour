@@ -38,7 +38,7 @@ public class MatchesController {
     public ResponseEntity<List<Match>> updateMatches(@RequestBody List<Match> matches) {
         logger.info("Updating {} matches", matches.size());
         List<Match> updatedMatches = matchesService.updateMatches(matches);
-        logger.info("Successfully updated {} matches", updatedMatches.size());
+        logger.info("Successfully updated {} matches", matches.size());
         return ResponseEntity.ok(updatedMatches);
     }
 

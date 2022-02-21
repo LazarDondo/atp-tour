@@ -66,14 +66,17 @@ public class MatchControllerTest {
     public void init() {
         Country country = countryDao.save(new Country(1, "England", "ENG"));
         Tournament tournament = tournamentDao.save(new Tournament(1, "Wimbledon", LocalDate.of(2022, Month.JULY, 10),
-                LocalDate.of(2022, Month.JULY, 16), country, "Grand Slam", null, null));
+                LocalDate.of(2022, Month.JULY, 16), country, "Grand Slam", null, null, null));
         
         Tournament otherTournament = tournamentDao.save(new Tournament(2, "Roland Garros", LocalDate.of(2022, Month.MAY, 22),
-                LocalDate.of(2022, Month.JULY, 28), country, "Grand Slam", null, null));
+                LocalDate.of(2022, Month.JULY, 28), country, "Grand Slam", null, null, null));
 
-        Player firstPlayer = playerDao.save(new Player(1));
-        Player secondPlayer = playerDao.save(new Player(2));
-        Player thirdPlayer = playerDao.save(new Player(3));
+        Player firstPlayer = playerDao.save(new Player(1, "Novak", "Djokovic", country, LocalDate.of(2022, Month.MAY, 22), 12000,
+                12000, 1, null, null));
+        Player secondPlayer = playerDao.save(new Player(2, "Filip", "Krajinovic", country,
+                LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2,null, null));
+        Player thirdPlayer = playerDao.save(new Player(3, "Miomir", "Kecmanovic", country, LocalDate.of(1999, Month.AUGUST, 31),
+                5000, 5000, 3, null, null));
 
         testMatches = new ArrayList<>();
         firstMatch = matchDao.save(new Match(tournament, firstPlayer, secondPlayer, LocalDate.of(2022, Month.JULY, 10),
@@ -440,8 +443,8 @@ public class MatchControllerTest {
                 .andExpect(jsonPath("$.[1]matchDate", is(secondMatch.getMatchDate().toString())))
                 .andExpect(jsonPath("$.[1]round", is(secondMatch.getRound())))
                 .andExpect(jsonPath("$.[1]result", is(secondMatch.getResult())))
-                .andExpect(jsonPath("$.[1]winner.firstName", is(otherTournamentMatch.getWinner().getFirstName())))
-                .andExpect(jsonPath("$.[1]winner.lastName", is(otherTournamentMatch.getWinner().getLastName())))
+                .andExpect(jsonPath("$.[1]winner.firstName", is(secondMatch.getWinner().getFirstName())))
+                .andExpect(jsonPath("$.[1]winner.lastName", is(secondMatch.getWinner().getLastName())))
                 
                 .andExpect(jsonPath("$.[2]tournament.name", is(thirdMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[2]firstPlayer.firstName", is(thirdMatch.getFirstPlayer().getFirstName())))
@@ -471,7 +474,7 @@ public class MatchControllerTest {
     @WithMockUser(username = "test", password = "test", authorities = "USER")
     public void filterMatchesShouldBeEmpty() throws Exception {
         Player player = playerDao.save(new Player(4, "Laslo", "Djere", firstMatch.getFirstPlayer().getBirthCountry(),
-                LocalDate.of(1996, Month.JUNE, 20), 4000, 4000, 4, null));
+                LocalDate.of(1996, Month.JUNE, 20), 4000, 4000, 4, null, null));
         matchDao.save(new Match(firstMatch.getTournament(), firstMatch.getSecondPlayer(), player, LocalDate.of(2022, Month.OCTOBER, 3),
                 "finals", "2-3", player));
         firstMatch.setSecondPlayer(player);

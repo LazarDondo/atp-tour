@@ -63,7 +63,7 @@ public class StatisticsControllerTest {
     public void init() {
         Country country = countryDao.save(new Country(1, "England", "ENG"));
         Tournament tournament = tournamentDao.save(new Tournament(1, "Wimbledon", LocalDate.of(2022, Month.JULY, 10),
-                LocalDate.of(2022, Month.JULY, 16), country, "Grand Slam", null, null));
+                LocalDate.of(2022, Month.JULY, 16), country, "Grand Slam", null, null, null));
 
         Player firstPlayer = playerDao.save(new Player(1));
         Player secondPlayer = playerDao.save(new Player(2));

@@ -60,6 +60,11 @@ public class Tournament {
     @MapKeyColumn(name = "id")
     @JsonIgnore
     private List<Match> matches;
+    
+    @OneToMany(mappedBy = "tournament", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @MapKeyColumn(name = "id")
+    @JsonIgnore
+    private List<Income> incomes;
 
     @Transient
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

@@ -5,6 +5,7 @@ import com.silab.atptour.dao.PlayerDao;
 import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
 import com.silab.atptour.entity.Tournament;
+import com.silab.atptour.model.AtpModel;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -41,17 +42,41 @@ public class MatchesServiceImpl implements MatchesService {
     @Override
     public List<Match> updateMatches(List<Match> matches) {
         logger.debug("Updating {} matches", matches.size());
-        List<Match> updatedMatches = new ArrayList<>();
         for (Match match : matches) {
-            updatedMatches.add(matchDao.save(match));
+            if(match.getWinner()!=null){
+                increasePlayerPoints(match);
+            }
         }
-        return updatedMatches;
+        matchDao.saveAll(matches);
+        return matchDao.filterMatches(matches.get(0).getTournament(), null, null);
     }
 
     @Override
     public List<Match> filterMatches(Tournament tournament, Player firstPlayer, Player secondPlayer) {
         logger.info("Filtering matches by tournament: {}, first player: {}, second player: {}", tournament, firstPlayer, secondPlayer);
         return matchDao.filterMatches(tournament, firstPlayer, secondPlayer);
+    }
+
+    private void increasePlayerPoints(Match match) {
+        int roundPoints = getRoundPoints(match.getRound());
+        Player winner = match.getWinner();
+        winner.setLivePoints(winner.getLivePoints()+roundPoints);
+        playerDao.save(winner);
+    }
+    
+    private int getRoundPoints(String round){
+        switch(round){
+            case AtpModel.GRAND_SLAM_EIGHTS_FINALS:
+                return AtpModel.GRAND_SLAM_EIGHTS_FINALS_POINTS;
+            case AtpModel.GRAND_SLAM_QUATER_FINALS:
+                return AtpModel.GRAND_SLAM_QUATER_FINALS_POINTS;
+            case AtpModel.GRAND_SLAM_SEMI_FINALS:
+                return AtpModel.GRAND_SLAM_SEMI_FINALS_POINTS;
+            case AtpModel.GRAND_SLAM_FINALS:
+                return AtpModel.GRAND_SLAM_FINALS_POINTS;
+            default:
+                return 0;
+        }
     }
 
 }

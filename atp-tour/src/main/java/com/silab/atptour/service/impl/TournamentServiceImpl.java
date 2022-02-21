@@ -1,7 +1,10 @@
 package com.silab.atptour.service.impl;
 
+import com.silab.atptour.dao.IncomeDao;
 import com.silab.atptour.dao.MatchDao;
+import com.silab.atptour.dao.PlayerDao;
 import com.silab.atptour.dao.TournamentDao;
+import com.silab.atptour.entity.Income;
 import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
 import com.silab.atptour.entity.Tournament;
@@ -30,6 +33,12 @@ public class TournamentServiceImpl implements TournamentService {
 
     @Autowired
     MatchDao matchDao;
+    
+    @Autowired
+    IncomeDao incomeDao;
+    
+    @Autowired
+    PlayerDao playerDao;
 
     private final Logger logger = LoggerFactory.getLogger(TournamentServiceImpl.class);
 
@@ -47,6 +56,7 @@ public class TournamentServiceImpl implements TournamentService {
         Tournament savedTournament = tournamentDao.save(tournament);
         if (savedTournament.getParticipants() != null) {
             createMatches(savedTournament);
+            substractPointsFromPreviousTournament(savedTournament);
         }
         return savedTournament;
     }
@@ -104,20 +114,32 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     private void createMatches(Tournament tournament) {
-        if (tournament.getParticipants() == null) {
-            return;
-        }
-
         LocalDate startDate = tournament.getStartDate();
         List<Match> matches = new ArrayList<>();
         List<Player> participants = tournament.getParticipants();
         int size = participants.size() - 1;
-        String roundName = AtpModel.GRAND_SLAM_FIRST_ROUND;
+        String roundName = AtpModel.GRAND_SLAM_EIGHTS_FINALS;
         for (int i = 0; i <= size / 2; i++) {
             matches.add(new Match(tournament, participants.get(i), participants.get(size - i),
                     startDate.plusDays(i % 2), roundName));
         }
         matchDao.saveAll(matches);
+    }
+
+    private void substractPointsFromPreviousTournament(Tournament tournament) {
+        logger.debug("Substracting points for players who participated in previous year");
+        String previousTournamentName = tournament.getName().split("-")[0]+(tournament.getStartDate().getYear()-1);
+        Optional<Tournament> previousTournament = tournamentDao.findTournamentByName(previousTournamentName);
+        if(previousTournament.isEmpty()){
+            logger.debug("{} hasn't been held in previous year", previousTournamentName);
+            return;
+        }
+        List<Income> playerIncomes = incomeDao.findIncomesByTournament(previousTournament.get());
+        for (Income playerIncome : playerIncomes) {
+            Player player = playerDao.findById(playerIncome.getPlayer().getId()).get();
+            player.setLivePoints(player.getLivePoints()-playerIncome.getPoints());
+            playerDao.save(player);
+        }  
     }
 
 }

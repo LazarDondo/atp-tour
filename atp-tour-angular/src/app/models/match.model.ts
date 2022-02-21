@@ -9,8 +9,8 @@ export class Match {
     tournament: Tournament;
     firstPlayer: Player;
     secondPlayer: Player;
-    matchDate: Date;
+    matchDate: string;
     round: string;
-    result: string;
-    winner: Player;
+    result?: string;
+    winner?: Player;
 }

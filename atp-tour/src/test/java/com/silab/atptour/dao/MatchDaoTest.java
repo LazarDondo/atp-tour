@@ -41,19 +41,21 @@ public class MatchDaoTest {
     public void init() {
         testCountry = countryDao.save(new Country(1, "Serbia", "SRB"));
         testTournament = tournamentDao.save(new Tournament(1, "Wimbledon-2020", LocalDate.of(2020, Month.MARCH, 22), LocalDate.of(2020, Month.MARCH, 28),
-                testCountry, "Grand Slam", null, null));
-        firstTestPlayer = playerDao.save(new Player(1, "Novak", "Djokovic", testCountry, LocalDate.of(1987, Month.MAY, 22), 12000, 12000, 1, null));
-        secondTestPlayer = playerDao.save(new Player(2, "Filip", "Krajinovic", testCountry, LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2, null));
+                testCountry, "Grand Slam", null, null, null));
+        firstTestPlayer = playerDao.save(new Player(1, "Novak", "Djokovic", testCountry, LocalDate.of(1987, Month.MAY, 22), 12000,
+                12000, 1, null, null));
+        secondTestPlayer = playerDao.save(new Player(2, "Filip", "Krajinovic", testCountry, LocalDate.of(1992, Month.SEPTEMBER, 27), 
+                10000, 10000, 2, null, null));
         testMatch = matchDao.save(new Match(testTournament, firstTestPlayer, secondTestPlayer, LocalDate.of(2022, Month.OCTOBER, 3),
                 "finals", "3-2", firstTestPlayer));
 
         Tournament tournament = tournamentDao.save(new Tournament(1, "Roland Garros-2020", LocalDate.of(2020, Month.MARCH, 22), LocalDate.of(2020, Month.MARCH, 28),
-                testCountry, "Grand Slam", null, null));
+                testCountry, "Grand Slam", null, null, null));
         matchDao.save(new Match(tournament, firstTestPlayer, secondTestPlayer, LocalDate.of(2022, Month.OCTOBER, 3),
                 "finals", "2-3", secondTestPlayer));
 
         Player player = playerDao.save(new Player(3, "Miomir", "Kecmanovic", testCountry,
-                LocalDate.of(1999, Month.AUGUST, 31), 5000, 5000, 3, null));
+                LocalDate.of(1999, Month.AUGUST, 31), 5000, 5000, 3, null, null));
         matchDao.save(new Match(testTournament, firstTestPlayer, player, LocalDate.of(2022, Month.OCTOBER, 3),
                 "finals", "2-3", secondTestPlayer));
         matchDao.save(new Match(testTournament, secondTestPlayer, player, LocalDate.of(2022, Month.OCTOBER, 3),
@@ -62,7 +64,8 @@ public class MatchDaoTest {
 
     @Test
     public void saveMatchShouldBeOk() {
-        Player player = playerDao.save(new Player(3, "Miomir", "Kecmanovic", testCountry, LocalDate.of(1999, Month.AUGUST, 31), 5000, 5000, 3, null));
+        Player player = playerDao.save(new Player(3, "Miomir", "Kecmanovic", testCountry, LocalDate.of(1999, Month.AUGUST, 31),
+                5000, 5000, 3, null, null));
         Match match = new Match(testTournament, firstTestPlayer, player, LocalDate.of(2022, Month.OCTOBER, 3),
                 "finals", "3-2", firstTestPlayer);
         assertEquals(match, matchDao.save(match));
@@ -70,7 +73,8 @@ public class MatchDaoTest {
 
     @Test
     public void updateMatchShouldBeOk() {
-        Player player = new Player(3, "Miomir", "Kecmanovic", testCountry, LocalDate.of(1999, Month.AUGUST, 31), 5000, 5000, 3, null);
+        Player player = new Player(3, "Miomir", "Kecmanovic", testCountry, LocalDate.of(1999, Month.AUGUST, 31),
+                5000, 5000, 3, null, null);
         testMatch.setSecondPlayer(player);
         assertEquals(testMatch, matchDao.save(testMatch));
     }
@@ -114,7 +118,7 @@ public class MatchDaoTest {
     @Test
     public void filterMatchesShouldBeEmpty() {
         Player player = playerDao.save(new Player(4, "Laslo", "Djere", testCountry,
-                LocalDate.of(1996, Month.JUNE, 20), 4000, 4000, 4, null));
+                LocalDate.of(1996, Month.JUNE, 20), 4000, 4000, 4, null, null));
         matchDao.save(new Match(testTournament, secondTestPlayer, player, LocalDate.of(2022, Month.OCTOBER, 3),
                 "finals", "2-3", secondTestPlayer));
         assertEquals(0, matchDao.filterMatches(testTournament, firstTestPlayer, player).size());

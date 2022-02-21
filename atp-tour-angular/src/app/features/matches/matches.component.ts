@@ -15,7 +15,8 @@ import { MatchesService } from 'src/app/core/services/matches.service';
   styleUrls: ['./matches.component.scss']
 })
 export class MatchesComponent implements OnInit {
-  @Input() matches: Match[];
+  matches: Match[];
+  updateMatches: Match[];
   matchesForm: FormGroup;
   tournaments: Tournament[];
   filteredTournaments: Observable<Tournament[]>;
@@ -32,10 +33,14 @@ export class MatchesComponent implements OnInit {
   submitted = false;
   success = false;
   error = false;
+  tournamentStarted = false;
+  today : Date;
 
 
   constructor(private tournamentService: TournamentService, private playerService: PlayerService,
     private matchesService: MatchesService, private formBuilder: FormBuilder) {
+    this.updateMatches = [];
+    this.today = new Date();
   }
 
   ngOnInit(): void {
@@ -43,7 +48,8 @@ export class MatchesComponent implements OnInit {
       tournament: [],
       firstPlayer: [],
       secondPlayer: [],
-    });
+    }
+    );
 
     this.tournamentService.getTournaments().subscribe(tournaments => {
       this.tournaments = tournaments;
@@ -66,7 +72,7 @@ export class MatchesComponent implements OnInit {
         })
       )
     });
-
+    this._filterMatches();
   }
 
   private _filterTournaments(value: string | Tournament): Tournament[] {
@@ -93,6 +99,7 @@ export class MatchesComponent implements OnInit {
     this.loading = true;
     this._validatePlayer();
     this._filterMatches();
+    this.hasTournamentStarted();
   }
 
   private _filterMatches() {
@@ -108,6 +115,8 @@ export class MatchesComponent implements OnInit {
       }
     });
 
+    this.updateMatches=[];
+
   }
 
 
@@ -121,7 +130,7 @@ export class MatchesComponent implements OnInit {
 
 
 
-  key: string = 'tournament';
+  key: string = 'matchDate';
   reverse: boolean = false;
   sort(key: string) {
     this.key = key;
@@ -133,10 +142,90 @@ export class MatchesComponent implements OnInit {
   }
 
   private _validatePlayer() {
-    this.matchesForm.value.tournament = this.tournamentControl.value==""? null : this.tournamentControl.value;
-    this.matchesForm.value.firstPlayer = this.firstPlayerControl.value==""? null : this.firstPlayerControl.value;
-    this.matchesForm.value.secondPlayer = this.secondPlayerControl.value==""? null : this.secondPlayerControl.value;
+    this.matchesForm.value.tournament = this.tournamentControl.value == "" ? null : this.tournamentControl.value;
+    this.matchesForm.value.firstPlayer = this.firstPlayerControl.value == "" ? null : this.firstPlayerControl.value;
+    this.matchesForm.value.secondPlayer = this.secondPlayerControl.value == "" ? null : this.secondPlayerControl.value;
 
+  }
+
+  handleResultsUpdate(event: any, rowIndex: number) {
+    console.log(rowIndex);
+    var match = this.matches[rowIndex];
+    var result = event.target.value;
+    if (result) {
+      match.result = event.target.value;
+      match.winner = result.split("-")[0] === '3' ? match.firstPlayer : match.secondPlayer;
+      this.updateMatches.push(match);
+      this.addNewMatch(match, rowIndex);
+    }
+    console.log(this.updateMatches)
+  }
+
+  private addNewMatch(match: Match, rowIndex: number) {
+    if (match.round === "finals") {
+      return;
+    }
+    var nextOpponent = rowIndex % 2 === 0 ? this.matches[rowIndex + 1].winner : this.matches[rowIndex - 1].winner
+    if (!nextOpponent) {
+      return;
+    }
+
+    var nextRound = this.getNextRound(match.round);
+    var nextDate = this.getNextDate(match);
+    var newMatch: Match = {
+      tournament: match.tournament, firstPlayer: match.winner!,
+      secondPlayer: nextOpponent, matchDate: nextDate, round: nextRound
+    };
+    this.updateMatches.push(newMatch)
+  }
+
+  private getNextRound(round: string): string {
+    switch (round) {
+      case 'eights-finals':
+        return 'quater-finals';
+      case 'quater-finals':
+        return 'semi-finals';
+      case 'semi-finals':
+        return 'finals';
+      default:
+        return '';
+    }
+  }
+
+  private getNextDate(match: Match): string {
+    if (match.round === "finals") {
+      console.log(match.tournament.completitionDate.toDateString);
+    }
+    var date = new Date(match.matchDate);
+    date.setDate(date.getDate() + 2);
+    return date.toISOString().split('T')[0];
+  }
+
+  hasTournamentStarted(){
+    if(!this.tournamentControl.value || !this.tournamentControl.value.startDate){
+      return;
+    }
+    var startDate = new Date(this.tournamentControl.value.startDate);
+    this.tournamentStarted = startDate.getTime()<=this.today.getTime();
+  }
+
+  updateTournamentMatches(){
+    if(this.updateMatches.length===0){
+      return;
+    }
+    this.matchesService.updateMatches(this.updateMatches).subscribe({
+      next: matches => { 
+        this.matches = matches;
+        this.updateMatches=[];
+      },
+      error: err => {
+      }
+    });
+  }
+
+  hasStarted(date : Date):boolean{
+    var matchDate = new Date(date);
+    return matchDate.getTime()<=this.today.getTime();
   }
 
 

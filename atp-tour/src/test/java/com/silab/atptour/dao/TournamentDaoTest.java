@@ -35,13 +35,13 @@ public class TournamentDaoTest {
     public void init() {
         testCountry = countryDao.save(new Country(1, "England", "ENG"));
         testTournament = tournamentDao.save(new Tournament(1, "Wimbledon-2020", LocalDate.of(2020, Month.MARCH, 22), LocalDate.of(2020, Month.MARCH, 28),
-                testCountry, "Grand Slam", null, null));
+                testCountry, "Grand Slam", null, null, null));
     }
 
     @Test
     public void addTournamentShouldBeOk() {
         Tournament tournament = (new Tournament(1, "Roland Garros-2020", LocalDate.of(2020, Month.APRIL, 22), LocalDate.of(2020, Month.APRIL, 28),
-                testCountry, "Grand Slam", null, null));
+                testCountry, "Grand Slam", null, null, null));
         assertEquals(tournament, tournamentDao.save(tournament));
     }
 
@@ -68,7 +68,7 @@ public class TournamentDaoTest {
     @Test
     public void findAllTournamentsShouldBeOk() {
         tournamentDao.save((new Tournament(1, "Roland Garros-2020", LocalDate.of(2020, Month.APRIL, 22),
-                LocalDate.of(2020, Month.APRIL, 28), testCountry, "Grand Slam", null, null)));
+                LocalDate.of(2020, Month.APRIL, 28), testCountry, "Grand Slam", null, null, null)));
         assertEquals(2, tournamentDao.findAll().size());
     }
 

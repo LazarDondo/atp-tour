@@ -43,7 +43,7 @@ public class TournamentServiceImplTest {
     @BeforeAll
     public static void init() {
         testTournament = new Tournament(1, "Wimbledon", LocalDate.of(2022, Month.JULY, 10),
-                LocalDate.of(2022, Month.JULY, 16), new Country(1, "Great Britain", "GBR"), "Grand Slam", null, null);
+                LocalDate.of(2022, Month.JULY, 16), new Country(1, "Great Britain", "GBR"), "Grand Slam", null, null, null);
         optionalTournament = Optional.of(testTournament);
         emptyOptionalTournament = Optional.empty();
     }
@@ -99,7 +99,7 @@ public class TournamentServiceImplTest {
     @Test
     public void getAllTournamentsShouldBeOk() {
         Tournament tournament = new Tournament(1, "Roland Garros-2022", LocalDate.of(2022, Month.MAY, 10),
-                LocalDate.of(2022, Month.MAY, 17), new Country(1, "France", "FRA"), "Grand Slam", null, null);
+                LocalDate.of(2022, Month.MAY, 17), new Country(1, "France", "FRA"), "Grand Slam", null, null, null);
         List<Tournament> tournaments = new ArrayList<>();
         tournaments.add(tournament);
         tournaments.add(testTournament);

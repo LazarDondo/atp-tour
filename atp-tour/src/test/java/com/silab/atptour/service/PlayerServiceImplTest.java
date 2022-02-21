@@ -42,7 +42,7 @@ public class PlayerServiceImplTest {
     @BeforeAll
     public static void init() {
         testPlayer = new Player(1, "Novak", "Djokovic", new Country(1, "Serbia", "SRB"),
-                LocalDate.of(2022, Month.MAY, 22), 12000, 12000, 1, null);
+                LocalDate.of(2022, Month.MAY, 22), 12000, 12000, 1, null, null);
         optionalPlayer = Optional.of(testPlayer);
         emptyOptionalPlayer = Optional.empty();
     }
@@ -81,7 +81,7 @@ public class PlayerServiceImplTest {
     @Test
     public void getAllRankedPlayersShouldBeOk() {
         Player player = new Player(2, "Filip", "Krajinovic", new Country(1, "Serbia", "SRB"),
-                LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2, null);
+                LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2, null, null);
         List<Player> players = new ArrayList<>();
         players.add(testPlayer);
         players.add(player);
