@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -15,12 +16,18 @@ export class LoginPageComponent implements OnInit {
   submitted = false;
   loginError=false;
   returnUrl: string;
+  redirect=false;
 
 
   constructor(
     private userService: UserService,
     private authService: AuthService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute) { 
+      this.route.queryParams.subscribe(params=>{
+        this.redirect = params['redirect'];
+      })
+    }
 
   ngOnInit(): void {
 

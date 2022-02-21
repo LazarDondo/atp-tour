@@ -1,4 +1,7 @@
 <div class="center_div">
+    <div *ngIf="redirect" class="alert-danger ">
+        <p>You have to login in order to continue</p>
+    </div> 
     <h2>Login</h2>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
