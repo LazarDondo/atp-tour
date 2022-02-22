@@ -4,6 +4,7 @@ import { PlayerEventEmitterService } from 'src/app/core/services/player-event-em
 import { Player } from 'src/app/models/player.model';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog'
 import { AddPlayerComponent } from './add-player/add-player.component';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 
 @Component({
@@ -15,15 +16,16 @@ export class PlayerPageComponent implements OnInit {
  
   selectedPlayer:Player;
   dialogRef:MatDialogRef<AddPlayerComponent, any>
+  isAdminUser : boolean;
 
-  constructor(private eventEmitterService:PlayerEventEmitterService, public dialog: MatDialog){}
+  constructor(private eventEmitterService:PlayerEventEmitterService, public dialog: MatDialog, private authService: AuthService){}
 
   ngOnInit(): void {
       this.eventEmitterService.subsVar = this.eventEmitterService.    
       invokeCloseDialogFunction.subscribe(()=>{ 
         this.dialogRef.close();
       });    
-    
+      this.isAdminUser = this.authService.isAdmin();   
   }
 
 

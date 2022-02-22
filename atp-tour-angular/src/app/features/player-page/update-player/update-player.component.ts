@@ -10,17 +10,18 @@ import { Player } from 'src/app/models/player.model';
   styleUrls: ['./update-player.component.scss']
 })
 export class UpdatePlayerComponent implements OnInit {
-  @Input() selectedPlayer:Player;
+  @Input() selectedPlayer: Player;
+  @Input() isAdminUser: boolean;
 
   playerForm: FormGroup;
   loading = false;
   submitted = false;
   success = false;
   error = false;
-  myControl = new FormControl();
+  playerControl = new FormControl();
 
   constructor(private playerService: PlayerService, private formBuilder: FormBuilder,
-    private eventEmitterService:PlayerEventEmitterService) {
+    private eventEmitterService: PlayerEventEmitterService) {
   }
 
   ngOnInit(): void {
@@ -32,16 +33,16 @@ export class UpdatePlayerComponent implements OnInit {
       birthCountry: [],
       dateOfBirth: [],
       currentPoints: ['', Validators.required],
-      livePoints:['', Validators.required]
+      livePoints: ['', Validators.required]
     });
-    this.myControl.addValidators
-    this.playerForm.setValue(this.selectedPlayer);
+    this.playerControl.addValidators
+    this.displayPlayer(this.selectedPlayer);
 
-      this.eventEmitterService.subsVar = this.eventEmitterService.    
-      invokeDisplayPlayerFunction.subscribe((player)=>{    
-        this.selectedPlayer=player;    
-        this.playerForm.setValue(player);
-      });    
+    this.eventEmitterService.subsVar = this.eventEmitterService.
+      invokeDisplayPlayerFunction.subscribe((player) => {
+        this.selectedPlayer = player;
+        this.displayPlayer(player);
+      });
   }
 
   onSubmit() {
@@ -56,10 +57,13 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   updatePlayer() {
-    this.playerService.updatePlayer(this.playerForm.value).subscribe({
+    this.selectedPlayer.firstName = this.playerForm.value.firstName;
+    this.selectedPlayer.lastName = this.playerForm.value.lastName;
+    this.selectedPlayer.livePoints = this.playerForm.value.livePoints;
+    this.playerService.updatePlayer(this.selectedPlayer).subscribe({
       next: updatedPlayer => {
-        this.selectedPlayer=updatedPlayer;
-        this.playerForm.setValue(updatedPlayer);
+        this.selectedPlayer = updatedPlayer;
+        this.displayPlayer(updatedPlayer);
         this.eventEmitterService.updatePlayersTable(updatedPlayer);
         this.loading = false;
         this.success = true;
@@ -75,7 +79,8 @@ export class UpdatePlayerComponent implements OnInit {
     return this.playerForm.controls;
   }
 
-  displayPlayer(player:Player){
-    this.selectedPlayer=player;
+  displayPlayer(player: Player) {
+    this.playerForm.setValue(player);
+    this.playerForm.controls['birthCountry'].setValue(player.birthCountry.name);
   }
 }

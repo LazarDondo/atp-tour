@@ -1,6 +1,5 @@
 <div style="position: absolute; left: 0px;"  class="d-flex p-3">
-  
     <app-all-players (selectedPlayer)="displayPlayer($event)"></app-all-players>
-    <button id="addPlayerButton" class="btn btn-info" (click)="openDialog()" >Add player</button>
-    <app-update-player *ngIf="selectedPlayer" [selectedPlayer]="selectedPlayer"></app-update-player>
+    <button *ngIf="isAdminUser" id="addPlayerButton" class="btn btn-info" (click)="openDialog()" >Add player</button>
+    <app-update-player *ngIf="selectedPlayer" [isAdminUser]="isAdminUser" [selectedPlayer]="selectedPlayer"></app-update-player>
   </div>

@@ -10,6 +10,6 @@ export class User {
     password: string;
     firstName?: string;
     lastName?: string;
-    enabled?: boolean;
-    roles?:Array<Role>;
+    enabled: boolean;
+    roles:Array<Role>;
 }

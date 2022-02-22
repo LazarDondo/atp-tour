@@ -9,7 +9,7 @@
         <div class="form-group">
             <label for="firstName">First name</label>
             <input type="text" formControlName="firstName" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f['firstName'].errors }" />
+            [ngClass]="{ 'is-invalid': submitted && f['firstName'].errors }" [readonly]="!isAdminUser" />
             <div *ngIf="submitted && f['firstName'].errors" class="invalid-feedback">
                 <div *ngIf="f['firstName'].errors['required']">First name is required</div>
             </div>
@@ -18,7 +18,7 @@
         <div class="form-group">
             <label for="lastName">Last name</label>
             <input type="text" formControlName="lastName" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f['lastName'].errors }" />
+            [ngClass]="{ 'is-invalid': submitted && f['lastName'].errors }" [readonly]="!isAdminUser" />
             <div *ngIf="submitted && f['lastName'].errors" class="invalid-feedback">
                 <div *ngIf="f['lastName'].errors['required']">Last name is required</div>
             </div>
@@ -42,7 +42,7 @@
         <div class="form-group">
             <label for="livePoints">Live points</label>
             <input type="number" formControlName="livePoints" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f['livePoints'].errors }" />
+                [ngClass]="{ 'is-invalid': submitted && f['livePoints'].errors }" [readonly]="!isAdminUser" />
             <div *ngIf="submitted && f['livePoints'].errors" class="invalid-feedback">
                 <div *ngIf="f['livePoints'].errors['required']">Live points are required</div>
             </div>
