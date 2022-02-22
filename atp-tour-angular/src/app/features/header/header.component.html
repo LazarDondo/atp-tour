@@ -16,13 +16,9 @@
         <a class="nav-link" href="matches">Matches</a>
       </li>
     </ul>
-    <a id="atp" class="navbar-brand" href="#"><img id="logo" src="/assets/images/logo.png" /></a>
-    <form id="search" class="form-inline ms-auto">
-      <div class="input-group">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
-      </div>
-    </form>
-    <a class="nav-link" href="login">Login</a>
+    <div id="atp" class="navbar-brand" href="#"><img id="logo" src="/assets/images/logo.png" /></div>
+    <div id="greetingsMessage" *ngIf="loggedIn">Greetings <br> {{userInfo}}</div>
+    <a *ngIf="!loggedIn" class="nav-link" href="login">Login</a>
+    <a *ngIf="loggedIn" class="nav-link" href="player" (click)="logout()">Logout</a>
   </div>
 </nav>
