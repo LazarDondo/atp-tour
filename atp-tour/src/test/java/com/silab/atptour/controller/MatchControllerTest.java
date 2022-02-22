@@ -3,10 +3,12 @@ package com.silab.atptour.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.silab.atptour.AtpTourApplication;
 import com.silab.atptour.dao.CountryDao;
+import com.silab.atptour.dao.IncomeDao;
 import com.silab.atptour.dao.MatchDao;
 import com.silab.atptour.dao.PlayerDao;
 import com.silab.atptour.dao.TournamentDao;
 import com.silab.atptour.entity.Country;
+import com.silab.atptour.entity.Income;
 import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
 import com.silab.atptour.entity.Tournament;
@@ -45,6 +47,9 @@ public class MatchControllerTest {
 
     @Autowired
     PlayerDao playerDao;
+    
+    @Autowired
+    IncomeDao incomeDao;
 
     @Autowired
     MatchDao matchDao;
@@ -160,6 +165,11 @@ public class MatchControllerTest {
     @Test
     @WithMockUser(username = "test", password = "test", authorities = "ADMIN")
     public void updateMatchesShouldBeOk() throws Exception {
+        
+        incomeDao.save(new Income(firstMatch.getTournament(), firstMatch.getFirstPlayer(), 0));
+        incomeDao.save(new Income(firstMatch.getTournament(), firstMatch.getSecondPlayer(), 0));
+        incomeDao.save(new Income(secondMatch.getTournament(), secondMatch.getSecondPlayer(), 0));
+        
         mockMvc
                 .perform(MockMvcRequestBuilders.put("/matches").contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(testMatches)))

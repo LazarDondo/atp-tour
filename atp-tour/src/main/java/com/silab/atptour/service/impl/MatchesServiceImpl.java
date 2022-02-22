@@ -1,10 +1,13 @@
 package com.silab.atptour.service.impl;
 
+import com.silab.atptour.dao.IncomeDao;
 import com.silab.atptour.dao.MatchDao;
 import com.silab.atptour.dao.PlayerDao;
+import com.silab.atptour.entity.Income;
 import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
 import com.silab.atptour.entity.Tournament;
+import com.silab.atptour.entity.id.IncomeId;
 import com.silab.atptour.model.AtpModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +29,9 @@ public class MatchesServiceImpl implements MatchesService {
 
     @Autowired
     PlayerDao playerDao;
+    
+    @Autowired
+    IncomeDao incomeDao;
 
     private final Logger logger = LoggerFactory.getLogger(MatchesServiceImpl.class);
 
@@ -61,6 +67,8 @@ public class MatchesServiceImpl implements MatchesService {
         int roundPoints = getRoundPoints(match.getRound());
         Player winner = match.getWinner();
         winner.setLivePoints(winner.getLivePoints()+roundPoints);
+        Income income = incomeDao.findById(new IncomeId(match.getTournament().getId(), match.getWinner().getId())).get();
+        income.setPoints(income.getPoints()+roundPoints);
         playerDao.save(winner);
     }
     
