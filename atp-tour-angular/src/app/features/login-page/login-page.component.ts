@@ -21,7 +21,6 @@ export class LoginPageComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private authService: AuthService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute) { 
       this.route.queryParams.subscribe(params=>{
@@ -53,9 +52,10 @@ export class LoginPageComponent implements OnInit {
     this.userService.loginUser(this.loginForm.value).subscribe({
       next: loggedUser => {
         loggedUser.password = this.loginForm.get('password')!.value;
-        this.authService.setLoggedUser(loggedUser);
-        this.loginError=false;
-        this.loading=false;
+        sessionStorage.setItem('loggedUser', JSON.stringify(loggedUser));
+        location.reload();
+        //this.loginError=false;
+        //this.loading=false;
       },
        error: err => {
         this.loginError=true;
