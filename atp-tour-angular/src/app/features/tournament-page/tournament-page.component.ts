@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { TournamentEventEmitterService } from 'src/app/core/services/tournament-event-emitter.service';
 import { Tournament } from 'src/app/models/tournament.model';
 import { AddTournamentComponent } from './add-tournament/add-tournament.component';
@@ -13,14 +14,16 @@ export class TournamentPageComponent implements OnInit {
 
   selectedTournament:Tournament;
   dialogRef:MatDialogRef<AddTournamentComponent, any>
+  isAdminUser : boolean;
 
-  constructor(private eventEmitterService:TournamentEventEmitterService, public dialog: MatDialog){}
+  constructor(private eventEmitterService:TournamentEventEmitterService, public dialog: MatDialog, private authService: AuthService){}
 
   ngOnInit(): void {
       this.eventEmitterService.    
       invokeCloseDialogFunction.subscribe(()=>{ 
         this.dialogRef.close();
-      });        
+      });  
+      this.isAdminUser = this.authService.isAdmin();      
   }
 
   openDialog(): void {
