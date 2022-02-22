@@ -8,6 +8,7 @@ import { Player } from 'src/app/models/player.model';
 import { Tournament } from 'src/app/models/tournament.model';
 import { Match } from 'src/app/models/match.model';
 import { MatchesService } from 'src/app/core/services/matches.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-matches',
@@ -25,7 +26,7 @@ export class MatchesComponent implements OnInit {
   filteredPlayersSecond: Observable<Player[]>;
   playerName: string;
   pageNumber: number = 1;
-  matchesPerPage: number = 7;
+  matchesPerPage: number = 8;
   tournamentControl = new FormControl();
   firstPlayerControl = new FormControl();
   secondPlayerControl = new FormControl();
@@ -33,12 +34,13 @@ export class MatchesComponent implements OnInit {
   submitted = false;
   success = false;
   error = false;
-  tournamentStarted = false;
-  today : Date;
+  displayUpdateButton = false;
+  today: Date;
+  isAdminUser : boolean;
 
 
   constructor(private tournamentService: TournamentService, private playerService: PlayerService,
-    private matchesService: MatchesService, private formBuilder: FormBuilder) {
+    private matchesService: MatchesService, private formBuilder: FormBuilder, private authService: AuthService) {
     this.updateMatches = [];
     this.today = new Date();
   }
@@ -73,6 +75,7 @@ export class MatchesComponent implements OnInit {
       )
     });
     this._filterMatches();
+    this.isAdminUser = this.authService.isAdmin(); 
   }
 
   private _filterTournaments(value: string | Tournament): Tournament[] {
@@ -99,10 +102,15 @@ export class MatchesComponent implements OnInit {
     this.loading = true;
     this._validatePlayer();
     this._filterMatches();
-    this.hasTournamentStarted();
+    this.validateUpdateMatchesCondition();
   }
 
   private _filterMatches() {
+
+    if (this.matchesForm.value.firstPlayer === this.matchesForm.value.secondPlayer) {
+      this.matchesForm.value.secondPlayer = null;
+    }
+
     this.matchesService.filterMatches(this.matchesForm.value).subscribe({
       next: matches => {
         this.matches = matches;
@@ -115,7 +123,7 @@ export class MatchesComponent implements OnInit {
       }
     });
 
-    this.updateMatches=[];
+    this.updateMatches = [];
 
   }
 
@@ -125,7 +133,7 @@ export class MatchesComponent implements OnInit {
   }
 
   displayPlayer(player: Player) {
-    return player ? player.firstName + " " + player.lastName : "";
+    return player ? '('+player.rank+') '+ player.firstName + " " + player.lastName : "";
   }
 
 
@@ -138,7 +146,7 @@ export class MatchesComponent implements OnInit {
   }
 
   displayStatistics(match: Match) {
-
+    console.log(312321);
   }
 
   private _validatePlayer() {
@@ -201,31 +209,33 @@ export class MatchesComponent implements OnInit {
     return date.toISOString().split('T')[0];
   }
 
-  hasTournamentStarted(){
-    if(!this.tournamentControl.value || !this.tournamentControl.value.startDate){
+  private validateUpdateMatchesCondition() {
+    if (!this.isAdminUser || !this.tournamentControl.value || !this.tournamentControl.value.startDate
+      || this.firstPlayerControl.value || this.secondPlayerControl.value) {
+      this.displayUpdateButton = false;
       return;
     }
     var startDate = new Date(this.tournamentControl.value.startDate);
-    this.tournamentStarted = startDate.getTime()<=this.today.getTime();
+    this.displayUpdateButton = startDate.getTime() <= this.today.getTime();
   }
 
-  updateTournamentMatches(){
-    if(this.updateMatches.length===0){
+  updateTournamentMatches() {
+    if (this.updateMatches.length === 0) {
       return;
     }
     this.matchesService.updateMatches(this.updateMatches).subscribe({
-      next: matches => { 
+      next: matches => {
         this.matches = matches;
-        this.updateMatches=[];
+        this.updateMatches = [];
       },
       error: err => {
       }
     });
   }
 
-  hasStarted(date : Date):boolean{
+  hasStarted(date: Date): boolean {
     var matchDate = new Date(date);
-    return matchDate.getTime()<=this.today.getTime();
+    return matchDate.getTime() <= this.today.getTime();
   }
 
 
