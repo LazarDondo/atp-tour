@@ -24,4 +24,8 @@ export class TournamentService {
   public getTournaments() : Observable<Tournament[]>{
     return this.httpClient.get<Tournament[]>(this.API_URL+"/tournament");
   }
+
+  public deleteTournament(id: number){
+    return this.httpClient.delete(this.API_URL+"/tournament/"+id);
+  }
 }
