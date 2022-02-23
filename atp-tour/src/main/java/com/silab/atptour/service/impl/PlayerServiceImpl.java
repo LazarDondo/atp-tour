@@ -56,15 +56,4 @@ public class PlayerServiceImpl implements PlayerService {
         logger.debug("Finding all tennis players");
         return playerDao.findAllRankedPlayers();
     }
-
-    @Override
-    public List<Match> getMatches(long id) throws AtpEntityNotFoundException {
-        logger.debug("Finding player with id {}", id);
-        Optional<Player> optionalPlayer = playerDao.findById(id);
-        if (optionalPlayer.isEmpty()) {
-            throw new AtpEntityNotFoundException("Player with id " + id + " doesn't exist");
-        }
-        return optionalPlayer.get().getMatches();
-    }
-
 }

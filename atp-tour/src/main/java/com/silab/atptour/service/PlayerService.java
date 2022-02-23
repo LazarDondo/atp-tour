@@ -18,6 +18,4 @@ public interface PlayerService {
     public Player getPlayer(long id) throws AtpEntityNotFoundException;
 
     public List<Player> getAllPlayers();
-    
-    public List<Match> getMatches(long id) throws AtpEntityNotFoundException;
 }

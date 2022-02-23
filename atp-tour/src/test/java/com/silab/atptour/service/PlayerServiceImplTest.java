@@ -88,26 +88,4 @@ public class PlayerServiceImplTest {
         when(playerDao.findAllRankedPlayers()).thenReturn(players);
         assertEquals(players, playerService.getAllPlayers());
     }
-
-    @Test
-    public void getMatchesShouldBeOk() throws AtpEntityNotFoundException {
-        Tournament tournament = new Tournament(1);
-        Player firstPlayer = new Player(1);
-        Player secondPlayer = new Player(2);
-        List<Match> matches = new ArrayList<>() {
-            {
-                new Match(tournament, testPlayer, secondPlayer, LocalDate.of(2022, Month.MAY, 24), "first-round", "3-1", testPlayer);
-                new Match(tournament, testPlayer, firstPlayer, LocalDate.of(2022, Month.MAY, 24), "semi-finals", "3-0", testPlayer);
-            }
-        };
-        testPlayer.setMatches(matches);
-        when(playerDao.findById(testPlayer.getId())).thenReturn(optionalPlayer);
-        assertEquals(matches, playerService.getMatches(testPlayer.getId()));
-    }
-
-    @Test
-    public void getMatchesShouldThrowAtpEntityNotFoundException() {
-        when(playerDao.findById(testPlayer.getId())).thenReturn(emptyOptionalPlayer);
-        Assertions.assertThrows(AtpEntityNotFoundException.class, () -> playerService.getMatches(testPlayer.getId()));
-    }
 }
