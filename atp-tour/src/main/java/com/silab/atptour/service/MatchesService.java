@@ -11,8 +11,6 @@ import java.util.List;
  */
 public interface MatchesService {
 
-    public List<Match> addMatches(List<Match> matches);
-
     public List<Match> updateMatches(List<Match> matches);
 
     public List<Match> filterMatches(Tournament tournament, Player firstPlayer, Player secondPlayer);

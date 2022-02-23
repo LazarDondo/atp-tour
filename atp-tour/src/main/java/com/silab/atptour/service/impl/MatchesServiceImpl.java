@@ -9,7 +9,6 @@ import com.silab.atptour.entity.Player;
 import com.silab.atptour.entity.Tournament;
 import com.silab.atptour.entity.id.IncomeId;
 import com.silab.atptour.model.AtpModel;
-import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,16 +33,6 @@ public class MatchesServiceImpl implements MatchesService {
     IncomeDao incomeDao;
 
     private final Logger logger = LoggerFactory.getLogger(MatchesServiceImpl.class);
-
-    @Override
-    public List<Match> addMatches(List<Match> matches) {
-        logger.debug("Adding {} matches", matches.size());
-        List<Match> savedMatches = new ArrayList<>();
-        for (Match match : matches) {
-            savedMatches.add(matchDao.save(match));
-        }
-        return savedMatches;
-    }
 
     @Override
     public List<Match> updateMatches(List<Match> matches) {
