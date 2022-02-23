@@ -54,7 +54,7 @@ public class TournamentServiceImpl implements TournamentService {
         logger.debug("Adding new {} tournament", tournament.getName());
         
         Tournament savedTournament = tournamentDao.save(tournament);
-        if (savedTournament.getParticipants() != null) {
+        if (savedTournament.getParticipants() != null && !savedTournament.getParticipants().isEmpty()) {
             createMatches(savedTournament);
             createIncomes(savedTournament);
             substractPointsFromPreviousTournament(savedTournament);
@@ -97,15 +97,6 @@ public class TournamentServiceImpl implements TournamentService {
     public List<Tournament> getAllTournaments() {
         logger.debug("Retreiving all tournaments");
         return tournamentDao.findAll();
-    }
-    
-    @Override
-    public List<Match> getMatches(long id) throws AtpEntityNotFoundException {
-        Optional<Tournament> optionalTournament = tournamentDao.findById(id);
-        if (optionalTournament.isEmpty()) {
-            throw new AtpEntityNotFoundException("Tournament doesn't exist");
-        }
-        return optionalTournament.get().getMatches();
     }
     
     @Override

@@ -108,29 +108,6 @@ public class TournamentServiceImplTest {
     }
 
     @Test
-    public void getMatchesShouldBeOk() throws AtpEntityNotFoundException {
-        Player firstPlayer = new Player(1);
-        Player secondPlayer = new Player(2);
-        Player thirdPlayer = new Player(3);
-        List<Match> matches = new ArrayList<>() {
-            {
-                new Match(testTournament, firstPlayer, secondPlayer, LocalDate.of(2022, Month.MAY, 17), "first-round", "3-1", firstPlayer);
-                new Match(testTournament, firstPlayer, thirdPlayer, LocalDate.of(2022, Month.MAY, 17), "semi-finals", "3-0", secondPlayer);
-                new Match(testTournament, thirdPlayer, secondPlayer, LocalDate.of(2022, Month.MAY, 17), "finals", "2-3", secondPlayer);
-            }
-        };
-        testTournament.setMatches(matches);
-        when(tournamentDao.findById(testTournament.getId())).thenReturn(optionalTournament);
-        assertEquals(matches, tournamentService.getMatches(testTournament.getId()));
-    }
-
-    @Test
-    public void getMatchesShouldThrowAtpEntityNotFoundException() {
-        when(tournamentDao.findById(testTournament.getId())).thenReturn(emptyOptionalTournament);
-        Assertions.assertThrows(AtpEntityNotFoundException.class, () -> tournamentService.getMatches(testTournament.getId()));
-    }
-
-    @Test
     public void deleteTournamentShouldAtpThrowEntityNotFoundException() {
         when(tournamentDao.findById(testTournament.getId())).thenReturn(emptyOptionalTournament);
         Assertions.assertThrows(AtpEntityNotFoundException.class, () -> tournamentService.deleteTournament(testTournament.getId()));

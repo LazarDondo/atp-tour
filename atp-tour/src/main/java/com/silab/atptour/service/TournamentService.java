@@ -20,7 +20,5 @@ public interface TournamentService {
     
     public List<Tournament> getAllTournaments();
     
-    public List<Match> getMatches(long id) throws AtpEntityNotFoundException;
-
     public void deleteTournament(long id) throws AtpEntityNotFoundException;
 }
