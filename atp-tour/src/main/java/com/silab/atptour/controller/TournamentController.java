@@ -82,19 +82,6 @@ public class TournamentController {
         return ResponseEntity.ok(tournaments);
     }
 
-    @GetMapping("{id}/matches")
-    public ResponseEntity<List<Match>> getMatches(@PathVariable long id) {
-        logger.info("Finding matches from tournament with id {}", id);
-        try {
-            List<Match> matches = tournamentService.getMatches(id);
-            logger.info("Successfully retrieved {} tournament matches", matches.size());
-            return ResponseEntity.ok(matches);
-        } catch (AtpEntityNotFoundException ex) {
-            logger.error(ex.getMessage());
-            return ResponseEntity.notFound().build();
-        }
-    }
-
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteTournament(@PathVariable long id) {
         logger.debug("Deleting tournament with id {}", id);
