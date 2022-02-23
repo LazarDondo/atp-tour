@@ -70,18 +70,4 @@ public class PlayerController {
         logger.info("Successfully retrieved {} players", players.size());
         return ResponseEntity.ok(players);
     }
-
-    @GetMapping("{id}/matches")
-    public ResponseEntity<List<Match>> getMatches(@PathVariable long id) {
-        logger.debug("Finding player with id {}", id);
-        try {
-            List<Match> matches = playerService.getMatches(id);
-            logger.info("Successfully retrieved {} players", matches.size());
-            return ResponseEntity.ok(matches);
-        } catch (AtpEntityNotFoundException ex) {
-            logger.error(ex.getMessage());
-            return ResponseEntity.notFound().build();
-        }
-    }
-
 }
