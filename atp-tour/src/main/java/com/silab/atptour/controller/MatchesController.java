@@ -26,14 +26,6 @@ public class MatchesController {
     @Autowired
     MatchesService matchesService;
 
-    @PostMapping
-    public ResponseEntity<List<Match>> addMatches(@RequestBody List<Match> matches) {
-        logger.info("Adding {} matches", matches.size());
-        List<Match> addedMatches = matchesService.addMatches(matches);
-        logger.info("Successfully added {} matches", addedMatches.size());
-        return ResponseEntity.ok(addedMatches);
-    }
-
     @PutMapping
     public ResponseEntity<List<Match>> updateMatches(@RequestBody List<Match> matches) {
         logger.info("Updating {} matches", matches.size());
