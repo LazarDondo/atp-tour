@@ -9,6 +9,9 @@ import { Tournament } from 'src/app/models/tournament.model';
 import { Match } from 'src/app/models/match.model';
 import { MatchesService } from 'src/app/core/services/matches.service';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { StatisticsComponent } from '../statistics/statistics.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { StatisticsEventEmitterService } from 'src/app/core/services/statistics-event-emitter.service';
 
 @Component({
   selector: 'app-matches',
@@ -36,11 +39,14 @@ export class MatchesComponent implements OnInit {
   error = false;
   displayUpdateButton = false;
   today: Date;
-  isAdminUser : boolean;
+  isAdminUser: boolean;
+  isStatisticsInitialized = false;
+  dialogRef: MatDialogRef<StatisticsComponent, any>
 
 
-  constructor(private tournamentService: TournamentService, private playerService: PlayerService,
-    private matchesService: MatchesService, private formBuilder: FormBuilder, private authService: AuthService) {
+  constructor(private tournamentService: TournamentService, private playerService: PlayerService, private dialog: MatDialog,
+    private matchesService: MatchesService, private formBuilder: FormBuilder, private authService: AuthService,
+    private eventEmitterService: StatisticsEventEmitterService) {
     this.updateMatches = [];
     this.today = new Date();
   }
@@ -74,8 +80,11 @@ export class MatchesComponent implements OnInit {
         })
       )
     });
+    this.eventEmitterService.invokeCloseDialogFunction.subscribe(() => {
+      this.dialogRef.close();
+    });
     this._filterMatches();
-    this.isAdminUser = this.authService.isAdmin(); 
+    this.isAdminUser = this.authService.isAdmin();
   }
 
   private _filterTournaments(value: string | Tournament): Tournament[] {
@@ -133,7 +142,7 @@ export class MatchesComponent implements OnInit {
   }
 
   displayPlayer(player: Player) {
-    return player ? '('+player.rank+') '+ player.firstName + " " + player.lastName : "";
+    return player ? '(' + player.rank + ') ' + player.firstName + " " + player.lastName : "";
   }
 
 
@@ -145,8 +154,14 @@ export class MatchesComponent implements OnInit {
     this.reverse = !this.reverse;
   }
 
-  displayStatistics(match: Match) {
-    console.log(312321);
+  openStatisticsDialog(match: Match) {
+    if (match.winner) {
+      this.dialogRef =this.dialog.open(StatisticsComponent, {
+        width: '600px'
+      });
+      this.dialogRef.componentInstance.selectedMatch = match;
+    }
+
   }
 
   private _validatePlayer() {

@@ -13,10 +13,6 @@ export class MatchesService {
 
   constructor(private httpClient:HttpClient) {}
 
-  public addMatches(matches:Match[]) : Observable<Match[]>{
-    return this.httpClient.post<Match[]>(this.API_URL+"/matches", matches);
-  }
-
   public updateMatches(matches:Match[]) : Observable<Match[]>{
     return this.httpClient.put<Match[]>(this.API_URL+"/matches", matches);
   }

@@ -62,7 +62,7 @@
             <tbody>
                 <tr *ngFor="let match of matches | 
             orderBy:key:this.reverse| paginate :{itemsPerPage:matchesPerPage, currentPage:pageNumber};let i = index"
-                    (dblclick)="displayStatistics(match)">
+                    (dblclick)="openStatisticsDialog(match)">
                     <td>{{match.tournament.name}}</td>
                     <td>{{match.firstPlayer.firstName +" "+match.firstPlayer.lastName}}</td>
                     <td>{{match.secondPlayer.firstName +" "+match.secondPlayer.lastName}}</td>
@@ -72,7 +72,7 @@
                         <div *ngIf="match.result">
                             {{match.result}}
                         </div>
-                        <select *ngIf="!match.result && hasStarted(match.matchDate) && isAdminUser" id="results"
+                        <select *ngIf="!match.result && hasStarted(match.matchDate) && isAdminUser && displayUpdateButton" id="results"
                             (change)="handleResultsUpdate($event, i+(pageNumber-1)*matchesPerPage)">
                             <option></option>
                             <option value="3-0">3-0</option>
@@ -93,3 +93,5 @@
     <button *ngIf="displayUpdateButton" id="updateMatchesButton" class="btn btn-info"
         (click)="updateTournamentMatches()">Update matches</button>
 </div>
+
+<app-statistics *ngIf="false"></app-statistics>

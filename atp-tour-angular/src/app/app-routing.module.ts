@@ -15,7 +15,7 @@ const routes: Routes = [
   {path:'player',component:PlayerPageComponent, canActivate:[AuthGuard]},
   {path:'tournament',component:TournamentPageComponent, canActivate:[AuthGuard]},
   {path:'matches',component:MatchesComponent, canActivate:[AuthGuard]},
-  {path:'',redirectTo:'/player', pathMatch:'full'}
+  {path:'',redirectTo:'/login', pathMatch:'full'}
 ];
 
 @NgModule({
