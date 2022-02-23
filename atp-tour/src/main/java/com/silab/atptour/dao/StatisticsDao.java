@@ -1,5 +1,6 @@
 package com.silab.atptour.dao;
 
+import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Statistics;
 import com.silab.atptour.entity.id.StatisticsId;
 import java.util.Optional;
@@ -13,5 +14,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface StatisticsDao extends JpaRepository<Statistics, StatisticsId>{
     
-    public Optional<Statistics> findStatisticsById(long id);
+    public Optional<Statistics> findStatisticsByMatch(Match match);
 }

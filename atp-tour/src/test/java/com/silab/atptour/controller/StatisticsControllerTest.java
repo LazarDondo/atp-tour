@@ -57,6 +57,7 @@ public class StatisticsControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    private Match testMatch;
     private Statistics testStatistics;
 
     @BeforeEach
@@ -68,9 +69,9 @@ public class StatisticsControllerTest {
         Player firstPlayer = playerDao.save(new Player(1));
         Player secondPlayer = playerDao.save(new Player(2));
 
-        Match match = matchDao.save(new Match(tournament, firstPlayer, secondPlayer, LocalDate.of(2022, Month.JULY, 10), "2. round", "3-0", firstPlayer));
+        testMatch = matchDao.save(new Match(tournament, firstPlayer, secondPlayer, LocalDate.of(2022, Month.JULY, 10), "2. round", "3-0", firstPlayer));
 
-        testStatistics = statisticsDao.save(new Statistics(1, match, 50, 30, 5, 3, 6, 2, 50, 30, 20, 10));
+        testStatistics = statisticsDao.save(new Statistics(1, testMatch, 50, 30, 5, 3, 6, 2, 50, 30, 20, 10));
     }
     
     @AfterEach
@@ -80,9 +81,9 @@ public class StatisticsControllerTest {
 
     @Test
     @WithMockUser(username = "test", password = "test", authorities = "ADMIN")
-    public void addStatisticsShouldBeOk() throws Exception {      
+    public void saveStatisticsStatisticsShouldBeOk() throws Exception {      
         mockMvc
-                .perform(MockMvcRequestBuilders.post("/statistics").contentType(MediaType.APPLICATION_JSON)
+                .perform(MockMvcRequestBuilders.put("/statistics").contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(testStatistics)))
                 .andExpect(jsonPath("$.firstPlayerPoints", is(testStatistics.getFirstPlayerPoints())))
                 .andExpect(jsonPath("$.secondPlayerPoints", is(testStatistics.getSecondPlayerPoints())))
@@ -98,28 +99,28 @@ public class StatisticsControllerTest {
     }
 
     @Test
-    public void addStatisticsShouldBeUnauthorized() throws Exception {
+    public void saveStatisticsShouldBeUnauthorized() throws Exception {
         mockMvc
-                .perform(MockMvcRequestBuilders.post("/statistics").contentType(MediaType.APPLICATION_JSON)
+                .perform(MockMvcRequestBuilders.put("/statistics").contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(testStatistics)))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     @WithMockUser(username = "test", password = "test", authorities = "USER")
-    public void addStatisticsShouldBeForbidden() throws Exception {
+    public void saveStatisticsShouldBeForbidden() throws Exception {
         mockMvc
-                .perform(MockMvcRequestBuilders.post("/statistics").contentType(MediaType.APPLICATION_JSON)
+                .perform(MockMvcRequestBuilders.put("/statistics").contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(testStatistics)))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    @WithMockUser(username = "test", password = "test", authorities = "ADMIN")
-    public void updateStatisticsShouldBeOk() throws Exception {
+    @WithMockUser(username = "test", password = "test", authorities = "USER")
+    public void findStatisticsShouldBeOk() throws Exception {
         mockMvc
-                .perform(MockMvcRequestBuilders.put("/statistics").contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(testStatistics)))
+                .perform(MockMvcRequestBuilders.post("/statistics/find").contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(testMatch)))
                 .andExpect(jsonPath("$.firstPlayerPoints", is(testStatistics.getFirstPlayerPoints())))
                 .andExpect(jsonPath("$.secondPlayerPoints", is(testStatistics.getSecondPlayerPoints())))
                 .andExpect(jsonPath("$.firstPlayerAces", is(testStatistics.getFirstPlayerAces())))
@@ -133,31 +134,22 @@ public class StatisticsControllerTest {
                 .andExpect(status().isOk());
     }
     
-    @Test
-    @WithMockUser(username = "test", password = "test", authorities = "ADMIN")
-    public void updateStatisticsShouldBeNotFound() throws Exception {
-        testStatistics.setId(55);
-        mockMvc
-                .perform(MockMvcRequestBuilders.put("/statistics").contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(testStatistics)))
-                .andExpect(status().isNotFound());
-    }
 
     @Test
-    public void updateStatisticsShouldBeUnauthorized() throws Exception {
+    public void findStatisticsShouldBeUnauthorized() throws Exception {
         mockMvc
-                .perform(MockMvcRequestBuilders.put("/statistics").contentType(MediaType.APPLICATION_JSON)
+                .perform(MockMvcRequestBuilders.post("/statistics/find").contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(testStatistics)))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
-    @WithMockUser(username = "test", password = "test", authorities = "USER")
-    public void updateStatisticsShouldBeForbidden() throws Exception {
+    @WithMockUser(username = "test", password = "test", authorities = "ADMIN")
+    public void findStatisticsShouldBeOkForAdminUser() throws Exception {
         mockMvc
-                .perform(MockMvcRequestBuilders.put("/statistics").contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(testStatistics)))
-                .andExpect(status().isForbidden());
+                .perform(MockMvcRequestBuilders.post("/statistics/find").contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(testMatch)))
+                .andExpect(status().isOk());
     }
 
 }

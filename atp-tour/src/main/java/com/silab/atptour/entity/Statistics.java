@@ -2,6 +2,7 @@ package com.silab.atptour.entity;
 
 import com.silab.atptour.entity.id.StatisticsId;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,7 +32,7 @@ public class Statistics {
     private long id;
 
     @Id
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumns(value = {
         @JoinColumn(name = "tournament_id", referencedColumnName = "tournament_id"),
         @JoinColumn(name = "first_player_id", referencedColumnName = "first_player_id"),

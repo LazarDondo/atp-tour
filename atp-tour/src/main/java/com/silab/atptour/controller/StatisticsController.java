@@ -1,7 +1,7 @@
 package com.silab.atptour.controller;
 
+import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Statistics;
-import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import com.silab.atptour.service.StatisticsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,24 +26,17 @@ public class StatisticsController {
     @Autowired
     StatisticsService statisticsService;
 
-    @PostMapping
-    public ResponseEntity<Statistics> addStatistics(@RequestBody Statistics statistics) {
-        logger.info("Adding new statistics");
-        Statistics addedStatistics = statisticsService.addStatistics(statistics);
-        logger.info("Successfully added new statistics");
-        return ResponseEntity.ok(addedStatistics);
+    @PutMapping
+    public ResponseEntity<Statistics> saveStatistics(@RequestBody Statistics statistics) {
+        logger.info("Saving new statistics");
+        Statistics savedStatistics = statisticsService.saveStatistics(statistics);
+        return ResponseEntity.ok(savedStatistics);
     }
 
-    @PutMapping
-    public ResponseEntity<Statistics> updateStatistics(@RequestBody Statistics statistics) {
-        logger.info("Updating statistics");
-        try {
-            Statistics updatedStatistics = statisticsService.updateStatistics(statistics);
-            logger.info("Successfully updated statistics");
-            return ResponseEntity.ok(updatedStatistics);
-        } catch (AtpEntityNotFoundException ex) {
-            logger.error(ex.getMessage());
-            return ResponseEntity.notFound().build();
-        }
+    @PostMapping("/find")
+    public ResponseEntity<Statistics> findStatistics(@RequestBody Match match) {
+        logger.debug("Finding statistics for match between {} and {} on {}",
+                match.getFirstPlayer(), match.getSecondPlayer(), match.getTournament().getName());
+        return ResponseEntity.ok(statisticsService.findStatistics(match));
     }
 }

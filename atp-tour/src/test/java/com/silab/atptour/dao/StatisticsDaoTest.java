@@ -57,7 +57,7 @@ public class StatisticsDaoTest {
     }
     
     @Test
-    public void addStatisticsShouldBeOk(){
+    public void saveStatisticsShouldBeOk(){
         Tournament tournament = tournamentDao.save(new Tournament(1, "Roland Garros-2020", LocalDate.of(2020, Month.MAY, 11), LocalDate.of(2020, Month.MAY, 17),
                 testCountry, "Grand Slam", null, null, null));
         Match match = matchDao.save(new Match(tournament, firstTestPlayer, secondTestPlayer, LocalDate.of(2022, Month.MAY, 11),
@@ -67,8 +67,14 @@ public class StatisticsDaoTest {
     }
     
     @Test
-    public void updateStatisticsShouldBeOk(){
-        testStatistics.setFirstPlayerPoints(3);
-        assertEquals(testStatistics, statisticsDao.save(testStatistics));
+    public void findStatisticsByMatchShouldBeOk(){
+        assertEquals(testStatistics, statisticsDao.findStatisticsByMatch(testMatch).get());
+    }
+    
+    @Test
+    public void findStatisticsByMatchShouldBeEmpty(){
+        Player player = playerDao.save(new Player(55));
+        Match match = matchDao.save(new Match(testTournament, player, secondTestPlayer, LocalDate.of(2022, Month.OCTOBER, 22), "3-2"));
+        assertEquals(true, statisticsDao.findStatisticsByMatch(match).isEmpty());
     }
 }
