@@ -54,7 +54,6 @@ export class AllTournamentsComponent implements OnInit {
   }
 
   subscribeToUpdateTournamentEvent(){
-    
       this.eventEmitterService.    
       invokeUpdateTournamentsTableFunction.subscribe((tournament)=>{  
         let index = this.tournaments.findIndex(t=>tournament.id===t.id)
