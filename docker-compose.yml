@@ -20,3 +20,9 @@ services:
             - 8080:8080
         environment:
             - SPRING_PROFILES_ACTIVE = docker
+            
+    atp-tour-angular:
+        image: atp-tour-angular:1.0
+        container_name: atp-tour-angular
+        ports:
+            - 4200:4200
