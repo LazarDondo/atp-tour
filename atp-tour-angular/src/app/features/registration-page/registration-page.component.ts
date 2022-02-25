@@ -13,6 +13,7 @@ export class RegistrationPageComponent implements OnInit {
   loading = false;
   submitted = false;
   registrationError = false;
+  success = false;
 
   constructor(private userService: UserService, private formBuilder: FormBuilder) {
   }
@@ -32,22 +33,22 @@ export class RegistrationPageComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-
+    this.success=false;
     if (this.registerForm.invalid) {
       return;
     }
-
     this.loading = true;
     this.register();
   }
 
   register() {
     this.userService.registerUser(this.registerForm.value).subscribe({
-      next: registeredUser => {
+      next:() => {
         this.registrationError=false;
         this.loading=false;
+        this.success=true;
       },
-       error: err => {
+       error: () => {
         this.registrationError=true;
         this.loading=false;
       }

@@ -36,6 +36,10 @@
             </div>
         </div>
 
+        <div *ngIf="success" class="alert-success requestMessage">
+            <p>Registration was successful</p>
+        </div>
+
         <div id="registrationError" *ngIf="registrationError" class="alert-danger ">
             <p>Username already exists. Please choose another username.</p>
         </div> 
