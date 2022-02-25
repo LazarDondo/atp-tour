@@ -49,19 +49,17 @@
         <table id="matches" class="table table-bordered">
             <thead>
                 <tr>
-                    <th style="width: 17%" class="tablesorter-header" (click)="sort('tournament')">Tournament <i
-                            class="fa fa-sort"></i></th>
-                    <th style="width: 17%" (click)="sort('lastName')">First Player <i class="fa fa-sort"></i></th>
-                    <th style="width: 17%" (click)="sort('lastName')">Second Player <i class="fa fa-sort"></i></th>
-                    <th style="width: 15%" (click)="sort('matchDate')">Match Date <i class="fa fa-sort"></i></th>
-                    <th style="width: 15%" (click)="sort('round')">Round <i class="fa fa-sort"></i></th>
+                    <th style="width: 17%" class="tablesorter-header">Tournament</th>
+                    <th style="width: 17%" >First Player</th>
+                    <th style="width: 17%">Second Player</th>   
+                    <th style="width: 15%">Match Date</th>
+                    <th style="width: 15%">Round</th>
                     <th style="width: 7%">Result</th>
                     <th style="width: 17%">Winner</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let match of matches | 
-            orderBy:key:this.reverse| paginate :{itemsPerPage:matchesPerPage, currentPage:pageNumber};let i = index"
+                <tr *ngFor="let match of matches | paginate :{itemsPerPage:matchesPerPage, currentPage:pageNumber};let i = index"
                     (dblclick)="openStatisticsDialog(match)">
                     <td>{{match.tournament.name}}</td>
                     <td>{{match.firstPlayer.firstName +" "+match.firstPlayer.lastName}}</td>

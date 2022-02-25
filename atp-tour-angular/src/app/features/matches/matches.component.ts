@@ -145,15 +145,6 @@ export class MatchesComponent implements OnInit {
     return player ? '(' + player.rank + ') ' + player.firstName + " " + player.lastName : "";
   }
 
-
-
-  key: string = 'matchDate';
-  reverse: boolean = false;
-  sort(key: string) {
-    this.key = key;
-    this.reverse = !this.reverse;
-  }
-
   openStatisticsDialog(match: Match) {
     if (match.winner) {
       this.dialogRef =this.dialog.open(StatisticsComponent, {
@@ -248,7 +239,7 @@ export class MatchesComponent implements OnInit {
     });
   }
 
-  hasStarted(date: Date): boolean {
+  hasStarted(date: string): boolean {
     var matchDate = new Date(date);
     return matchDate.getTime() <= this.today.getTime();
   }
