@@ -74,7 +74,6 @@ export class AddPlayerComponent implements OnInit {
   addPlayer() {
     this.playerService.addPlayer(this.playerForm.value).subscribe({
       next: addedPlayer => {
-        this.eventEmitterService.updatePlayersTable(addedPlayer);
         delete addedPlayer.id;
         this.playerForm.setValue(addedPlayer);
         this.loading = false;

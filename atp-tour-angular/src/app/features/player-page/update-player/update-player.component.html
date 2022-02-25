@@ -56,7 +56,7 @@
             <p>Failed to update player {{selectedPlayer.firstName}} {{selectedPlayer.lastName}}</p>
         </div>
 
-        <div class="form-group">
+        <div *ngIf="isAdminUser" class="form-group">
             <button [disabled]="loading" class="btn btn-primary">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                 Update player
