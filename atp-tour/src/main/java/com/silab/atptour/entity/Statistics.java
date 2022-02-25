@@ -16,6 +16,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  *
@@ -32,7 +34,8 @@ public class Statistics {
     private long id;
 
     @Id
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumns(value = {
         @JoinColumn(name = "tournament_id", referencedColumnName = "tournament_id"),
         @JoinColumn(name = "first_player_id", referencedColumnName = "first_player_id"),
