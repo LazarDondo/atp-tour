@@ -52,7 +52,7 @@ export class UpdateTournamentComponent implements OnInit {
       id: [],
       name: ['', Validators.required],
       startDate: ['', Validators.required],
-      completitionDate: [],
+      completionDate: [],
       hostCountry: [],
       tournamentType: ['', Validators.required],
     });

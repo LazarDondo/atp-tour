@@ -2,7 +2,7 @@
     <button id="closeButton" class="btn-close" (click)="closeDialog()">
     </button>
     <h2>Add Player</h2>
-    
+
     <form [formGroup]="playerForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <label for="firstName">First name</label>
@@ -46,7 +46,7 @@
         </div>
         <div class="form-group">
             <label for="currentPoints">Current points</label>
-            <input type="number" formControlName="currentPoints" class="form-control"
+            <input type="number" formControlName="currentPoints" class="form-control" min="0"
                 [ngClass]="{ 'is-invalid': submitted && f['currentPoints'].errors }" />
             <div *ngIf="submitted && f['currentPoints'].errors" class="invalid-feedback">
                 <div *ngIf="f['currentPoints'].errors['required']">Current points are required</div>

@@ -13,7 +13,7 @@ export class AllTournamentsComponent implements OnInit {
 
   tournaments: Tournament[];
   searchTournaments: Tournament[];
-  columns: string[] = ['name', 'startDate', 'completitionDate', 'hostCountry', 'tournamentType'];
+  columns: string[] = ['name', 'startDate', 'completionDate', 'hostCountry', 'tournamentType'];
   tournamentName: string;
   pageNumber: number = 1;
   tournamentsPerPage: number = 7;

@@ -8,7 +8,7 @@
             <tr>
                 <th style="width: 25%" class="tablesorter-header" (click)="sort('name')">Name <i class="fa fa-sort"></i></th>
                 <th style="width: 15%" (click)="sort('startDate')">Start date <i class="fa fa-sort"></i></th>
-                <th style="width: 15%" (click)="sort('completitionDate')">Completition date <i class="fa fa-sort"></i></th>
+                <th style="width: 15%" (click)="sort('completionDate')">Completion date <i class="fa fa-sort"></i></th>
                 <th style="width: 20%" (click)="sort('hostCountry')">Host country <i class="fa fa-sort"></i></th>
                 <th style="width: 20%" (click)="sort('tournamentType')">Tournament type <i class="fa fa-sort"></i></th>
             </tr>
@@ -19,7 +19,7 @@
             (click)="displayTournament(tournament)">
                 <td>{{tournament.name}}</td>
                 <td>{{tournament.startDate}}</td>
-                <td>{{tournament.completitionDate}}</td>
+                <td>{{tournament.completionDate}}</td>
                 <td>{{tournament.hostCountry.name}}</td>
                 <td>{{tournament.tournamentType}}</td>
             </tr>

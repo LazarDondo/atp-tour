@@ -8,7 +8,7 @@ export class Tournament {
     id?: number;
     name: string;
     startDate: Date;
-    completitionDate: Date;
+    completionDate: Date;
     hostCountry: Country;
     tournamentType: string;
 }

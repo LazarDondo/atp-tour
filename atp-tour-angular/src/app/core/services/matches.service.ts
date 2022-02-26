@@ -40,7 +40,7 @@ export class MatchesService {
 
   private getNextDate(match: Match): string {
     if (match.round === "finals") {
-      console.log(match.tournament.completitionDate.toDateString);
+      console.log(match.tournament.completionDate.toDateString);
     }
     var date = new Date(match.matchDate);
     date.setDate(date.getDate() + 2);
