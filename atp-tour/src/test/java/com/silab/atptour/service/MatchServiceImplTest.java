@@ -1,7 +1,6 @@
 package com.silab.atptour.service;
 
 import com.silab.atptour.dao.MatchDao;
-import com.silab.atptour.dao.PlayerDao;
 import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
 import com.silab.atptour.entity.Tournament;
@@ -26,19 +25,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(MockitoExtension.class)
 public class MatchServiceImplTest {
 
-    @Mock
-    PlayerDao playerDao;
-
-    @Mock
-    MatchDao matchDao;
-
-    @InjectMocks
-    MatchesServiceImpl matchService;
-
     private static Tournament testTournament;
     private static Player firstTestPlayer;
     private static Player secondTestPlayer;
     private static Match testMatch;
+
+    @Mock
+    private MatchDao matchDao;
+
+    @InjectMocks
+    private MatchesServiceImpl matchService;
 
     @BeforeAll
     public static void init() {

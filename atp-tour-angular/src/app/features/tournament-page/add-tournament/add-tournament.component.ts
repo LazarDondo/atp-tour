@@ -32,60 +32,33 @@ export class AddTournamentComponent implements OnInit {
   chosenPlayers: Player[];
   numberOfParticipants: number;
 
-  constructor(private tournamentService: TournamentService, private formBuilder: FormBuilder, private playerService:PlayerService,
+  constructor(private tournamentService: TournamentService, private formBuilder: FormBuilder, private playerService: PlayerService,
     private countryService: CountryService, private eventEmitterService: TournamentEventEmitterService) {
     this.futureDate = new Date();
     this.futureDate.setDate(this.futureDate.getDate() + 1);
-    this.chosenPlayers=[];
-    this.numberOfParticipants=0;
+    this.chosenPlayers = [];
+    this.numberOfParticipants = 0;
   }
 
   ngOnInit(): void {
-    this.tournamentForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      startDate: ['', Validators.required],
-      completitionDate: [],
-      hostCountry: [],
-      tournamentType: ['', Validators.required],
-    });
-    this.countryControl.addValidators
-    this.countryService.getCountries().subscribe(countries => {
-      this.countries = countries;
-      this.filteredCountries = this.countryControl.valueChanges.pipe(
-        startWith(''),
-        map(value => { return this._filter(value) })
-      )
-    });
+    this.tournamentForm = this.configureFormFields();
+    this.getCountries();
 
-    this.playerService.getPlayers().subscribe(players=>{
-      this.players=players;
+    this.playerService.getPlayers().subscribe(players => {
+      this.players = players;
       this.filteredPlayers = this.participantControl.valueChanges.pipe(
         startWith(''),
-        map(value=>{return this._playerFilter(value)})
+        map(value => { return this.playerService.filterPlayers(value, this.players); })
       )
     })
   }
-
-  private _filter(value: string | Country): Country[] {
-    const filterValue = (value instanceof Country) ? value.name : value;
-    return this.countries.filter(option => {
-      return option.name.toLowerCase().includes(filterValue)
-    })
-  }
-
-  private _playerFilter(value: string | Player):Player[]{
-    const filterValue = (value instanceof Player) ? value.lastName : value;
-    return this.players.filter(option=>{
-      return option.lastName.toLowerCase().includes(filterValue)
-  })
-} 
 
   onSubmit() {
     this.submitted = true;
     this.error = false;
     this.success = false;
     this.validateCountry();
-    if (this.tournamentForm.invalid || !this.validCountry ||this.numberOfParticipants!==16) {
+    if (this.tournamentForm.invalid || !this.validCountry || this.numberOfParticipants !== 16) {
       return;
     }
     this.loading = true;
@@ -94,18 +67,38 @@ export class AddTournamentComponent implements OnInit {
     this.addTournament();
   }
 
+  private configureFormFields(): FormGroup {
+    var form = this.formBuilder.group({
+      name: ['', Validators.required],
+      startDate: ['', Validators.required],
+      completitionDate: [],
+      hostCountry: [],
+      tournamentType: ['', Validators.required],
+    });
+    return form;
+  }
+
+  private getCountries() {
+    this.countryService.getCountries().subscribe(countries => {
+      this.countries = countries;
+      this.filteredCountries = this.countryControl.valueChanges.pipe(
+        startWith(''),
+        map(value => { return this.countryService.filterCountries(value, this.countries); })
+      )
+    });
+  }
+
   addTournament() {
     this.tournamentService.addTournament(this.tournamentForm.value).subscribe({
-      next: addedTournament => { 
+      next: addedTournament => {
         this.eventEmitterService.updateTournamentsTable(addedTournament);
         delete addedTournament.id;
         delete addedTournament.id;
-        console.log(addedTournament.id);
         this.tournamentForm.setValue(addedTournament);
         this.loading = false;
         this.success = true;
       },
-      error: err => {
+      error: () => {
         this.error = true;
         this.loading = false;
       }
@@ -137,30 +130,30 @@ export class AddTournamentComponent implements OnInit {
     this.eventEmitterService.closeDialog();
   }
 
-  addParticipant(chosenPlayer:Player){
-    this._addPlayerByRank(this.chosenPlayers,chosenPlayer);
+  addParticipant(chosenPlayer: Player) {
+    this._addPlayerByRank(this.chosenPlayers, chosenPlayer);
     this._removePlayer(this.players, chosenPlayer);
     this.numberOfParticipants++;
   }
 
-  removeParticipant(chosenPlayer:Player){
-    this._addPlayerByRank(this.players,chosenPlayer);
+  removeParticipant(chosenPlayer: Player) {
+    this._addPlayerByRank(this.players, chosenPlayer);
     this._removePlayer(this.chosenPlayers, chosenPlayer);
     this.numberOfParticipants--;
   }
 
-  private _addPlayerByRank(players:Player[], chosenPlayer:Player){
-    let insertIndex = players.findIndex(p=>p.rank!>chosenPlayer.rank!);
-    if(insertIndex!=-1){
-      players.splice(insertIndex,0,chosenPlayer);
-      }
-      else{
-        players.push(chosenPlayer);
-      }
+  private _addPlayerByRank(players: Player[], chosenPlayer: Player) {
+    let insertIndex = players.findIndex(p => p.rank! > chosenPlayer.rank!);
+    if (insertIndex != -1) {
+      players.splice(insertIndex, 0, chosenPlayer);
+    }
+    else {
+      players.push(chosenPlayer);
+    }
   }
 
-  private _removePlayer(players: Player[], chosenPlayer:Player){
+  private _removePlayer(players: Player[], chosenPlayer: Player) {
     let removeIndex = players.indexOf(chosenPlayer);
-    players.splice(removeIndex,1);
+    players.splice(removeIndex, 1);
   }
 }

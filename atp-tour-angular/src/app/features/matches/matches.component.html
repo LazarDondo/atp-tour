@@ -3,7 +3,6 @@
     <nav class="navbar">
         <form [formGroup]="matchesForm" (ngSubmit)="onSubmit()">
             <div class="d-flex p-3">
-
                 <div class="form-group">
                     <label for="tournament">Tournament</label>
                     <input type="text" class="form-control" matInput [matAutocomplete]="tournament"
@@ -70,7 +69,7 @@
                         <div *ngIf="match.result">
                             {{match.result}}
                         </div>
-                        <select *ngIf="!match.result && hasStarted(match.matchDate) && isAdminUser && displayUpdateButton" id="results"
+                        <select *ngIf="allowResultsUpdate(match)" id="results"
                             (change)="handleResultsUpdate($event, i+(pageNumber-1)*matchesPerPage)">
                             <option></option>
                             <option value="3-0">3-0</option>

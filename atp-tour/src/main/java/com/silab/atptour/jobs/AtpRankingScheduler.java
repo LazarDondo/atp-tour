@@ -15,16 +15,16 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class AtpRankingScheduler {
-    
+
     @Autowired
     private PlayerDao playerDao;
-    
+
     private final Logger logger = LoggerFactory.getLogger(AtpRankingScheduler.class);
-    
+
     @Scheduled(cron = "${scheduling.rank.cron}")
-    public void rankPlayers(){
+    public void rankPlayers() {
         logger.info("Ranking ATP list players");
-        int rank=1;
+        int rank = 1;
         List<Player> players = playerDao.findAllPlayersOrderedByLivePoints();
         for (Player player : players) {
             player.setRank(rank++);
@@ -32,6 +32,5 @@ public class AtpRankingScheduler {
         }
         playerDao.saveAll(players);
     }
-    
-    
+
 }

@@ -36,29 +36,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class StatisticsControllerTest {
 
-    @Autowired
-    CountryDao countryDao;
+    private Match testMatch;
+    private Statistics testStatistics;
 
     @Autowired
-    TournamentDao tournamentDao;
+    private CountryDao countryDao;
 
     @Autowired
-    PlayerDao playerDao;
+    private PlayerDao playerDao;
 
     @Autowired
-    MatchDao matchDao;
+    private TournamentDao tournamentDao;
 
     @Autowired
-    StatisticsDao statisticsDao;
+    private MatchDao matchDao;
+
+    @Autowired
+    private StatisticsDao statisticsDao;
 
     @Autowired
     private ObjectMapper mapper;
 
     @Autowired
     private MockMvc mockMvc;
-
-    private Match testMatch;
-    private Statistics testStatistics;
 
     @BeforeEach
     public void init() {
@@ -73,15 +73,15 @@ public class StatisticsControllerTest {
 
         testStatistics = statisticsDao.save(new Statistics(1, testMatch, 50, 30, 5, 3, 6, 2, 50, 30, 20, 10));
     }
-    
+
     @AfterEach
-    public void destroy(){
+    public void destroy() {
         statisticsDao.deleteAll();
     }
 
     @Test
     @WithMockUser(username = "test", password = "test", authorities = "ADMIN")
-    public void saveStatisticsStatisticsShouldBeOk() throws Exception {      
+    public void saveStatisticsStatisticsShouldBeOk() throws Exception {
         mockMvc
                 .perform(MockMvcRequestBuilders.put("/statistics").contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(testStatistics)))
@@ -133,7 +133,6 @@ public class StatisticsControllerTest {
                 .andExpect(jsonPath("$.secondPlayerSecondServesIn", is(testStatistics.getSecondPlayerSecondServesIn())))
                 .andExpect(status().isOk());
     }
-    
 
     @Test
     public void findStatisticsShouldBeUnauthorized() throws Exception {

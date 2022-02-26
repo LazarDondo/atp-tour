@@ -26,10 +26,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "matches")
 @IdClass(MatchId.class)
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Match {
 
     @Id

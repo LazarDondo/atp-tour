@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("matches")
 public class MatchesController {
 
-    private final Logger logger = LoggerFactory.getLogger(MatchesController.class);
-
     @Autowired
-    MatchesService matchesService;
+    private MatchesService matchesService;
+
+    private final Logger logger = LoggerFactory.getLogger(MatchesController.class);
 
     @PutMapping
     public ResponseEntity<List<Match>> updateMatches(@RequestBody List<Match> matches) {

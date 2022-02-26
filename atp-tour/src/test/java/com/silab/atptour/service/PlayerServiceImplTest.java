@@ -2,9 +2,7 @@ package com.silab.atptour.service;
 
 import com.silab.atptour.dao.PlayerDao;
 import com.silab.atptour.entity.Country;
-import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
-import com.silab.atptour.entity.Tournament;
 import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import com.silab.atptour.service.impl.PlayerServiceImpl;
 import java.time.LocalDate;
@@ -29,15 +27,15 @@ import org.junit.jupiter.api.Test;
 @ExtendWith(MockitoExtension.class)
 public class PlayerServiceImplTest {
 
-    @Mock
-    PlayerDao playerDao;
-
-    @InjectMocks
-    PlayerServiceImpl playerService;
-
     private static Player testPlayer;
     private static Optional<Player> optionalPlayer;
     private static Optional<Player> emptyOptionalPlayer;
+
+    @Mock
+    private PlayerDao playerDao;
+
+    @InjectMocks
+    private PlayerServiceImpl playerService;
 
     @BeforeAll
     public static void init() {

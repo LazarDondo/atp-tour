@@ -13,30 +13,30 @@ import org.junit.jupiter.api.Test;
  */
 @DataJpaTest
 public class RoleDaoTest {
-    
+
+    private Role testRole;
+
     @Autowired
     private RoleDao roleDao;
-    
-    private Role testRole;
-    
+
     @BeforeEach
-    public void init(){
+    public void init() {
         testRole = roleDao.save(new Role(1, "USER"));
     }
-    
+
     @Test
-    public void saveRoleShouldBeOk(){
+    public void saveRoleShouldBeOk() {
         Role role = new Role(2, "ADMIN");
         assertEquals(role, roleDao.save(role));
     }
-    
+
     @Test
-    public void findRoleByNameShouldBeOk(){
+    public void findRoleByNameShouldBeOk() {
         assertEquals(testRole, roleDao.findRoleByName(testRole.getName()).get());
     }
-    
+
     @Test
-    public void findRoleByNameShouldNotReturnRole(){
+    public void findRoleByNameShouldNotReturnRole() {
         assertEquals(true, roleDao.findRoleByName("TEST").isEmpty());
     }
 }

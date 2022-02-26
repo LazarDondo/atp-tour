@@ -19,32 +19,33 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DataJpaTest
 public class MatchDaoTest {
 
-    @Autowired
-    CountryDao countryDao;
-
-    @Autowired
-    TournamentDao tournamentDao;
-
-    @Autowired
-    PlayerDao playerDao;
-
-    @Autowired
-    MatchDao matchDao;
-
     private Country testCountry;
     private Tournament testTournament;
     private Player firstTestPlayer;
     private Player secondTestPlayer;
     private Match testMatch;
 
+    @Autowired
+    private CountryDao countryDao;
+
+    @Autowired
+    private PlayerDao playerDao;
+
+    @Autowired
+    private TournamentDao tournamentDao;
+
+    @Autowired
+    private MatchDao matchDao;
+
     @BeforeEach
     public void init() {
         testCountry = countryDao.save(new Country(1, "Serbia", "SRB"));
+
         testTournament = tournamentDao.save(new Tournament(1, "Wimbledon-2020", LocalDate.of(2020, Month.MARCH, 22), LocalDate.of(2020, Month.MARCH, 28),
                 testCountry, "Grand Slam", null, null, null));
         firstTestPlayer = playerDao.save(new Player(1, "Novak", "Djokovic", testCountry, LocalDate.of(1987, Month.MAY, 22), 12000,
                 12000, 1, null, null));
-        secondTestPlayer = playerDao.save(new Player(2, "Filip", "Krajinovic", testCountry, LocalDate.of(1992, Month.SEPTEMBER, 27), 
+        secondTestPlayer = playerDao.save(new Player(2, "Filip", "Krajinovic", testCountry, LocalDate.of(1992, Month.SEPTEMBER, 27),
                 10000, 10000, 2, null, null));
         testMatch = matchDao.save(new Match(testTournament, firstTestPlayer, secondTestPlayer, LocalDate.of(2022, Month.OCTOBER, 3),
                 "finals", "3-2", firstTestPlayer));

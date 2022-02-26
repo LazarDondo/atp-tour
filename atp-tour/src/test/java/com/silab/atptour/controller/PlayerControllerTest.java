@@ -3,17 +3,11 @@ package com.silab.atptour.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.silab.atptour.AtpTourApplication;
 import com.silab.atptour.dao.CountryDao;
-import com.silab.atptour.dao.MatchDao;
 import com.silab.atptour.dao.PlayerDao;
-import com.silab.atptour.dao.TournamentDao;
 import com.silab.atptour.entity.Country;
-import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
-import com.silab.atptour.entity.Tournament;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.AfterEach;
@@ -37,26 +31,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class PlayerControllerTest {
 
-    @Autowired
-    CountryDao countryDao;
+    private Country testCountry;
+    private Player testPlayer;
 
     @Autowired
-    TournamentDao tournamentDao;
+    private CountryDao countryDao;
 
     @Autowired
-    PlayerDao playerDao;
-
-    @Autowired
-    MatchDao matchDao;
+    private PlayerDao playerDao;
 
     @Autowired
     private ObjectMapper mapper;
-
+    
     @Autowired
     private MockMvc mockMvc;
-
-    private Country testCountry;
-    private Player testPlayer;
 
     @BeforeEach
     public void init() {
@@ -74,7 +62,7 @@ public class PlayerControllerTest {
     @WithMockUser(username = "test", password = "test", authorities = "ADMIN")
     public void addPlayerShouldBeOk() throws Exception {
         Player player = new Player(2, "Filip", "Krajinovic", testCountry,
-                LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2,null, null);
+                LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2, null, null);
 
         mockMvc
                 .perform(MockMvcRequestBuilders.post("/player").contentType(MediaType.APPLICATION_JSON)
@@ -187,8 +175,8 @@ public class PlayerControllerTest {
     @WithMockUser(username = "test", password = "test", authorities = "USER")
     public void getPlayersShouldBeOk() throws Exception {
         Player player = playerDao.save(new Player(2, "Filip", "Krajinovic", testCountry,
-                LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2,null, null));
-        playerDao.save(new Player(3, "Test", "Test", testCountry, 
+                LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2, null, null));
+        playerDao.save(new Player(3, "Test", "Test", testCountry,
                 LocalDate.of(1995, Month.JANUARY, 12), 0, 0, 0, null, null));
         mockMvc
                 .perform(MockMvcRequestBuilders.get("/player"))
@@ -200,7 +188,6 @@ public class PlayerControllerTest {
                 .andExpect(jsonPath("$.[0]currentPoints", is(testPlayer.getCurrentPoints())))
                 .andExpect(jsonPath("$.[0]livePoints", is(testPlayer.getLivePoints())))
                 .andExpect(jsonPath("$.[0]rank", is(testPlayer.getRank())))
-                
                 .andExpect(jsonPath("$.[1]firstName", is(player.getFirstName())))
                 .andExpect(jsonPath("$.[1]lastName", is(player.getLastName())))
                 .andExpect(jsonPath("$.[1]birthCountry.name", is(player.getBirthCountry().getName())))

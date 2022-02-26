@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class CountryServiceImpl implements CountryService {
 
     @Autowired
-    CountryDao countryDao;
+    private CountryDao countryDao;
 
     private final Logger logger = LoggerFactory.getLogger(CountryServiceImpl.class);
 

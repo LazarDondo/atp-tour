@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { from } from 'rxjs';
 import { PlayerEventEmitterService } from 'src/app/core/services/player-event-emitter.service';
 import { PlayerService } from 'src/app/core/services/player.service';
 import { Player } from 'src/app/models/player.model';
@@ -25,7 +26,22 @@ export class UpdatePlayerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.playerForm = this.formBuilder.group({
+    this.playerForm = this.configureFormFields();
+    this.displayPlayer(this.selectedPlayer);
+    this.subscribeToDisplayPlayerEvent();
+  }
+
+  onSubmit() {
+    this.setFormVariables();
+    if (this.playerForm.invalid) {
+      return;
+    }
+    this.loading = true;
+    this.updatePlayer();
+  }
+
+  private configureFormFields(): FormGroup {
+    var form = this.formBuilder.group({
       id: [],
       rank: [],
       firstName: ['', Validators.required],
@@ -35,31 +51,24 @@ export class UpdatePlayerComponent implements OnInit {
       currentPoints: ['', Validators.required],
       livePoints: ['', Validators.required]
     });
-    this.playerControl.addValidators
-    this.displayPlayer(this.selectedPlayer);
+    return form;
+  }
 
-    this.eventEmitterService.subsVar = this.eventEmitterService.
-      invokeDisplayPlayerFunction.subscribe((player) => {
+  private subscribeToDisplayPlayerEvent() {
+    this.eventEmitterService.invokeDisplayPlayerFunction.subscribe((player) => {
         this.selectedPlayer = player;
         this.displayPlayer(player);
       });
   }
 
-  onSubmit() {
+  private setFormVariables(){
     this.submitted = true;
     this.error = false;
     this.success = false;
-    if (this.playerForm.invalid) {
-      return;
-    }
-    this.loading = true;
-    this.updatePlayer();
   }
 
-  updatePlayer() {
-    this.selectedPlayer.firstName = this.playerForm.value.firstName;
-    this.selectedPlayer.lastName = this.playerForm.value.lastName;
-    this.selectedPlayer.livePoints = this.playerForm.value.livePoints;
+  private updatePlayer() {
+    this.setPlayerProperties();
     this.playerService.updatePlayer(this.selectedPlayer).subscribe({
       next: updatedPlayer => {
         this.selectedPlayer = updatedPlayer;
@@ -74,6 +83,13 @@ export class UpdatePlayerComponent implements OnInit {
       }
     });
   }
+
+  private setPlayerProperties(){
+    this.selectedPlayer.firstName = this.playerForm.value.firstName;
+    this.selectedPlayer.lastName = this.playerForm.value.lastName;
+    this.selectedPlayer.livePoints = this.playerForm.value.livePoints;
+  }
+
 
   get f() {
     return this.playerForm.controls;

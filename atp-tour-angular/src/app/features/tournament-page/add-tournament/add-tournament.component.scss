@@ -1,59 +1,48 @@
 .center_div{
-    padding-top: 7px;
-    padding-left: 9%;
-  }
-  
-  .form-group{
-    padding: 5px;
-  }
-  
-  .requestMessage{
-    margin-left: 5px;
-    width: 400px;
-  }
-  
-  input{
-    width: 400px;
-  }
-
-  #tournamentType{
-    width:400px;
-    margin-top: 3px;
-  }
-
-   .tournament-participants{
-    border:1px solid black; 
-    text-align: left; 
-    margin-left:10px; 
-    width: 320px;
-    height: 550px;
-    padding-left:0;
-   }
-
-   .participant{
-     height: 30px;
-     padding-top: 7px;
-     padding-left: 3px;
-   }
-
-   .participants-number{
-     padding-left:3px
-   }
-
-   .missing-number{
-    padding-left: 40%;
-   }
-
-   .remove-participant{
-    float: right;
-    height: 20px;
-    background-color: red;
-    text-align: right;
-    position: absolute;
-    margin-left: 280px;
-   }
-
-   #closeButton{
-    margin-left: 5px;
-   }
-  
+  padding-top: 7px;
+  padding-left: 9%;
+}
+.form-group{
+  padding: 5px;
+}
+input{
+  width: 400px;
+}
+#tournamentType{
+  width:400px;
+  margin-top: 3px;
+}
+.response-message{
+  margin-left: 5px;
+  width: 400px;
+}
+.tournament-participants{
+  border:1px solid black;
+  text-align: left;
+  margin-left:10px;
+  width: 320px;
+  height: 550px;
+  padding-left:0;
+}
+.participant{
+  height: 30px;
+  padding-top: 7px;
+  padding-left: 3px;
+}
+.participants-number{
+  padding-left:3px 
+}
+.missing-number{
+  padding-left: 40%;
+}
+.remove-participant{
+  float: right;
+  height: 20px;
+  background-color: red;
+  text-align: right;
+  position: absolute;
+  margin-left: 280px;
+}
+#closeButton{
+  margin-left: 5px;
+}

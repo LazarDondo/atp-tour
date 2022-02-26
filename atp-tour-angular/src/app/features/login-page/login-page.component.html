@@ -1,7 +1,7 @@
 <div class="center_div">
     <div *ngIf="redirect" class="alert-danger ">
         <p>You have to login in order to continue</p>
-    </div> 
+    </div>
     <h2>Login</h2>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
@@ -13,21 +13,21 @@
                 <div *ngIf="f['username'].errors['email']">Username must be in email format</div>
             </div>
         </div>
+
         <div class="form-group">
             <label for="password">Password</label>
             <input type="password" formControlName="password" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
             <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
                 <div *ngIf="f['password'].errors['required']">Password is required</div>
-            </div>      
+            </div>
         </div>
 
         <div id="loginError" *ngIf="loginError" class="alert-danger ">
             <p>Invalid username or password. Please try again.</p>
-        </div> 
-
-        <div class="form-group">    
-            
+        </div>
+        
+        <div class="form-group">
             <button [disabled]="loading" class="btn btn-primary">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                 Login

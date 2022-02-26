@@ -14,7 +14,7 @@ import { PlayerEventEmitterService } from 'src/app/core/services/player-event-em
   styleUrls: ['./add-player.component.scss']
 })
 export class AddPlayerComponent implements OnInit {
-  
+
   playerForm: FormGroup;
   loading = false;
   submitted = false;
@@ -27,13 +27,18 @@ export class AddPlayerComponent implements OnInit {
   filteredCountries: Observable<Country[]>
 
   constructor(private playerService: PlayerService, private formBuilder: FormBuilder,
-    private countryService: CountryService, private eventEmitterService:PlayerEventEmitterService) {
+    private countryService: CountryService, private eventEmitterService: PlayerEventEmitterService) {
     this.maximumDate = new Date();
     this.maximumDate.setFullYear(this.maximumDate.getFullYear() - 16);
   }
 
   ngOnInit(): void {
-    this.playerForm = this.formBuilder.group({
+    this.playerForm = this.configureFormFields();
+    this.getCountries();
+  }
+
+  private configureFormFields() : FormGroup{
+    var form = this.formBuilder.group({
       rank: [],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -42,27 +47,21 @@ export class AddPlayerComponent implements OnInit {
       currentPoints: ['', Validators.required],
       livePoints: []
     });
-    this.myControl.addValidators
+    return form;
+  }
+
+  private getCountries(){
     this.countryService.getCountries().subscribe(countries => {
       this.countries = countries;
       this.filteredCountries = this.myControl.valueChanges.pipe(
         startWith(''),
-        map(value => { return this._filter(value) })
+        map(value => { return this.countryService.filterCountries(value, this.countries) })
       )
     });
   }
 
-  private _filter(value: string | Country): Country[] {
-    const filterValue = (value instanceof Country)? value.name : value;
-    return this.countries.filter(option => {
-      return option.name.toLowerCase().includes(filterValue)
-    })
-  }
-
   onSubmit() {
-    this.submitted = true;
-    this.error = false;
-    this.success = false;
+    this.setFormVariables();
     this.validateCountry();
     if (this.playerForm.invalid || !this.validCountry) {
       return;
@@ -79,7 +78,7 @@ export class AddPlayerComponent implements OnInit {
         this.loading = false;
         this.success = true;
       },
-      error: err => {
+      error: () => {
         this.error = true;
         this.loading = false;
       }
@@ -94,7 +93,13 @@ export class AddPlayerComponent implements OnInit {
     return country ? country.name : "";
   }
 
-  validateCountry() {
+  private setFormVariables(){
+    this.submitted = true;
+    this.error = false;
+    this.success = false;
+  }
+
+  private validateCountry() {
     var birthCountry = this.myControl.value
     this.validCountry = this.countries.filter(c => c == birthCountry || c.name == birthCountry).length > 0;
     if (this.validCountry && typeof (birthCountry) === 'string') {
@@ -103,7 +108,7 @@ export class AddPlayerComponent implements OnInit {
     this.playerForm.value.birthCountry = birthCountry;
   }
 
-  closeDialog(){
+  closeDialog() {
     this.eventEmitterService.closeDialog();
   }
 }

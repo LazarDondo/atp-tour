@@ -2,52 +2,53 @@
     <button id="closeButton" class="btn-close" (click)="closeDialog()"></button>
     <h2 id="title">Statistics</h2>
     <div class="d-flex p-3">
-        <div class="left-player">{{selectedMatch.firstPlayer.firstName}} <br> {{selectedMatch.firstPlayer.lastName}}</div>
+        <div class="left-player">{{selectedMatch.firstPlayer.firstName}} <br> {{selectedMatch.firstPlayer.lastName}}
+        </div>
         <div>vs</div>
         <div class="right-player">{{selectedMatch.secondPlayer.firstName+" "+selectedMatch.secondPlayer.lastName}}</div>
     </div>
     <form [formGroup]="statisticsForm" (ngSubmit)="onSubmit()">
         <div class="d-flex p-3">
-            <input type="number" formControlName="firstPlayerPoints" readonly class="form-control left-player"
+            <input type="number" formControlName="firstPlayerPoints" readonly class="form-control left-player" min="0"
                 [readonly]="!isAdminUser" />
             <label for="points">Points</label>
-            <input type="number" formControlName="secondPlayerPoints" readonly class="form-control right-player"
+            <input type="number" formControlName="secondPlayerPoints" readonly class="form-control right-player" min="0"
                 [readonly]="!isAdminUser" />
         </div>
         <div class="d-flex p-3">
-            <input type="number" formControlName="firstPlayerAces" readonly class="form-control left-player"
-                [readonly]="!isAdminUser" />
+            <input type="number" formControlName="firstPlayerAces" readonly class="form-control left-player" min="0"
+                min="0" [readonly]="!isAdminUser" />
             <label for="aces">Aces</label>
-            <input type="number" formControlName="secondPlayerAces" readonly class="form-control right-player"
-                [readonly]="!isAdminUser" />
+            <input type="number" formControlName="secondPlayerAces" readonly class="form-control right-player" min="0"
+                min="0" [readonly]="!isAdminUser" />
         </div>
         <div class="d-flex p-3">
             <input type="number" formControlName="firstPlayerBreakPoints" readonly class="form-control left-player"
-                [readonly]="!isAdminUser" />
+                min="0" [readonly]="!isAdminUser" />
             <label for="breakPoints">Break Points</label>
             <input type="number" formControlName="secondPlayerBreakPoints" readonly class="form-control right-player"
-                [readonly]="!isAdminUser" />
+                min="0" [readonly]="!isAdminUser" />
         </div>
         <div class="d-flex p-3">
             <input type="number" formControlName="firstPlayerFirstServesIn" readonly class="form-control left-player"
-                [readonly]="!isAdminUser" />
+                min="0" [readonly]="!isAdminUser" />
             <label for="firstServesIn">First Serves In</label>
             <input type="number" formControlName="secondPlayerFirstServesIn" readonly class="form-control right-player"
-                [readonly]="!isAdminUser" />
+                min="0" [readonly]="!isAdminUser" />
         </div>
         <div class="d-flex p-3">
             <input type="number" formControlName="firstPlayerSecondServesIn" readonly class="form-control left-player"
-                [readonly]="!isAdminUser" />
+                min="0" [readonly]="!isAdminUser" />
             <label for="secondServesIn">Second Serves In</label>
             <input type="number" formControlName="secondPlayerSecondServesIn" readonly class="form-control right-player"
-                [readonly]="!isAdminUser" />
+                min="0" [readonly]="!isAdminUser" />
         </div>
 
-        <div *ngIf="success" class="alert-success requestMessage">
+        <div *ngIf="success" class="alert-success response-message">
             <p>Successfully saved match statistics</p>
         </div>
 
-        <div *ngIf="error" class="alert-danger requestMessage">
+        <div *ngIf="error" class="alert-danger response-message">
             <p>Failed to save match statistics</p>
         </div>
 

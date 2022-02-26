@@ -10,7 +10,6 @@ import { Player } from 'src/app/models/player.model';
 })
 export class AllPlayersComponent implements OnInit {
   @Output()  selectedPlayer = new EventEmitter<Player>();
-
   players: Player[];
   searchPlayers: Player[];
   playerName: string;

@@ -1,8 +1,6 @@
 <div class="d-flex p-3">
     <div class="center_div">
-
         <h2>Add Tournament</h2>
-
         <form [formGroup]="tournamentForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
                 <label for="name">Name</label>
@@ -66,10 +64,10 @@
                 </div>
             </div>
 
-            <div *ngIf="success" class="alert-success requestMessage">
+            <div *ngIf="success" class="alert-success response-message">
                 <p>Successfully added new tournament. Tournaments can't be updated once they have started</p>
             </div>
-            <div *ngIf="error" class="alert-danger requestMessage">
+            <div *ngIf="error" class="alert-danger response-message">
                 <p>Failed to add new tournament</p>
             </div>
 

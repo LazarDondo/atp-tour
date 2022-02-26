@@ -1,24 +1,19 @@
 .navbar{
   width: 900px;
 }
-
 #players{
   text-align: center;
   margin-top: 10px;
 }
-
 #players tr:nth-child(even){
   background-color: #51bbf5;
 }
-
 #players tr:nth-child(odd){
   background-color: #f2f2f2;
 }
-
 #players tr:hover {
   background-color: #ddd;
 }
-
 #players th {
   padding-top: 12px;
   padding-bottom: 12px;

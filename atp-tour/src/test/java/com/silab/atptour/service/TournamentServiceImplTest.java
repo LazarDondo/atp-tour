@@ -30,15 +30,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(MockitoExtension.class)
 public class TournamentServiceImplTest {
 
-    @Mock
-    TournamentDao tournamentDao;
-
-    @InjectMocks
-    TournamentServiceImpl tournamentService;
-
     private static Tournament testTournament;
     private static Optional<Tournament> optionalTournament;
     private static Optional<Tournament> emptyOptionalTournament;
+
+    @Mock
+    private TournamentDao tournamentDao;
+
+    @InjectMocks
+    private TournamentServiceImpl tournamentService;
 
     @BeforeAll
     public static void init() {
@@ -79,6 +79,7 @@ public class TournamentServiceImplTest {
         Tournament tournament = new Tournament(1L);
         tournament.setName("Roland Garros");
         tournament.setStartDate(LocalDate.of(2022, Month.MAY, 10));
+        
         when(tournamentDao.findById(testTournament.getId())).thenReturn(optionalTournament);
         when(tournamentDao.findTournamentByName(tournament.getName() + "-" + tournament.getStartDate().getYear())).thenReturn(Optional.of(tournament));
         Assertions.assertThrows(AtpEntityExistsException.class, () -> tournamentService.updateTournament(tournament));
@@ -103,6 +104,7 @@ public class TournamentServiceImplTest {
         List<Tournament> tournaments = new ArrayList<>();
         tournaments.add(tournament);
         tournaments.add(testTournament);
+        
         when(tournamentDao.findAll()).thenReturn(tournaments);
         assertEquals(tournaments, tournamentService.getAllTournaments());
     }

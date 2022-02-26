@@ -23,4 +23,12 @@ export class PlayerService {
   public getPlayers() : Observable<Player[]>{
     return this.httpClient.get<Player []>(this.API_URL+"/player")
   }
+
+  
+  public filterPlayers(value: string | Player, players: Player[]): Player[] {
+    const filterValue = (value instanceof Player) ? value.lastName : value;
+    return players.filter(option => {
+      return option.lastName.toLowerCase().includes(filterValue)
+    })
+  }
 }

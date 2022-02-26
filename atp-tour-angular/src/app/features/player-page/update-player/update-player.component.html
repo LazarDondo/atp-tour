@@ -48,11 +48,11 @@
             </div>
         </div>
 
-        <div *ngIf="success" class="alert-success requestMessage">
+        <div *ngIf="success" class="alert-success response-message">
             <p>Successfully updated player {{selectedPlayer.firstName}} {{selectedPlayer.lastName}}</p>
         </div>
 
-        <div *ngIf="error" class="alert-danger requestMessage">
+        <div *ngIf="error" class="alert-danger response-message">
             <p>Failed to update player {{selectedPlayer.firstName}} {{selectedPlayer.lastName}}</p>
         </div>
 
@@ -61,6 +61,6 @@
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                 Update player
             </button>
-        </div>
+        </div> 
     </form>
 </div>

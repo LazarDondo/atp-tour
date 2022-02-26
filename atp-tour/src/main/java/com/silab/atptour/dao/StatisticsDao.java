@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
  * @author Lazar
  */
 @Repository
-public interface StatisticsDao extends JpaRepository<Statistics, StatisticsId>{
-    
+public interface StatisticsDao extends JpaRepository<Statistics, StatisticsId> {
+
     public Optional<Statistics> findStatisticsByMatch(Match match);
 }

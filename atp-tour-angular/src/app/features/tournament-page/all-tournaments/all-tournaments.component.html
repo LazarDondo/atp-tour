@@ -1,6 +1,6 @@
 <h2>Tournaments</h2>
 <nav class="navbar">
-    <input id="search" class="form-control" type="text" name="tournamentName" [(ngModel)]="tournamentName" (ngModelChange)="search()"
+    <input class="form-control" type="text" name="tournamentName" [(ngModel)]="tournamentName" (ngModelChange)="search()"
         placeholder="Enter tournament's name to search" (keyup.enter)="search()" />
 
     <table id="tournaments" class="table table-bordered">

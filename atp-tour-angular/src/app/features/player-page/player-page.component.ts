@@ -18,7 +18,7 @@ export class PlayerPageComponent implements OnInit {
   dialogRef:MatDialogRef<AddPlayerComponent, any>
   isAdminUser : boolean;
 
-  constructor(private eventEmitterService:PlayerEventEmitterService, public dialog: MatDialog, private authService: AuthService){}
+  constructor(private eventEmitterService:PlayerEventEmitterService, private dialog: MatDialog, private authService: AuthService){}
 
   ngOnInit(): void {
       this.eventEmitterService.subsVar = this.eventEmitterService.    

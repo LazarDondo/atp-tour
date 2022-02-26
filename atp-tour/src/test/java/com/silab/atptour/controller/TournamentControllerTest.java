@@ -3,17 +3,11 @@ package com.silab.atptour.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.silab.atptour.AtpTourApplication;
 import com.silab.atptour.dao.CountryDao;
-import com.silab.atptour.dao.MatchDao;
-import com.silab.atptour.dao.PlayerDao;
 import com.silab.atptour.dao.TournamentDao;
 import com.silab.atptour.entity.Country;
-import com.silab.atptour.entity.Match;
-import com.silab.atptour.entity.Player;
 import com.silab.atptour.entity.Tournament;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.AfterEach;
@@ -37,17 +31,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class TournamentControllerTest {
 
-    @Autowired
-    CountryDao countryDao;
+    private Tournament testTournament;
 
     @Autowired
-    TournamentDao tournamentDao;
+    private CountryDao countryDao;
 
     @Autowired
-    PlayerDao playerDao;
-
-    @Autowired
-    MatchDao matchDao;
+    private TournamentDao tournamentDao;
 
     @Autowired
     private ObjectMapper mapper;
@@ -55,8 +45,6 @@ public class TournamentControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private Tournament testTournament;
-    
     @BeforeEach
     public void init() {
         Country country = countryDao.save(new Country(1, "England", "ENG"));
@@ -218,7 +206,6 @@ public class TournamentControllerTest {
                 .andExpect(jsonPath("$.[0]completitionDate", is(testTournament.getCompletitionDate().toString())))
                 .andExpect(jsonPath("$.[0]hostCountry.name", is(testTournament.getHostCountry().getName())))
                 .andExpect(jsonPath("$.[0]tournamentType", is(testTournament.getTournamentType())))
-                
                 .andExpect(jsonPath("$.[1]name", is(tournament.getName())))
                 .andExpect(jsonPath("$.[1]startDate", is(tournament.getStartDate().toString())))
                 .andExpect(jsonPath("$.[1]completitionDate", is(tournament.getCompletitionDate().toString())))

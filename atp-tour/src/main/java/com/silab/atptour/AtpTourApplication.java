@@ -8,8 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 public class AtpTourApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(AtpTourApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(AtpTourApplication.class, args);
+    }
 
 }

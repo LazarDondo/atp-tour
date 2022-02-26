@@ -9,12 +9,12 @@ import { RegistrationPageComponent } from './features/registration-page/registra
 import { TournamentPageComponent } from './features/tournament-page/tournament-page.component';
 
 const routes: Routes = [
-  {path:'login',component:LoginPageComponent, canActivate:[LoggedInGuard]},
-  {path:'register',component:RegistrationPageComponent, canActivate:[LoggedInGuard]},
-  {path:'player',component:PlayerPageComponent, canActivate:[AuthGuard]},
-  {path:'tournament',component:TournamentPageComponent, canActivate:[AuthGuard]},
-  {path:'matches',component:MatchesComponent, canActivate:[AuthGuard]},
-  {path:'',redirectTo:'/login', pathMatch:'full'}
+  { path: 'login', component: LoginPageComponent, canActivate: [LoggedInGuard] },
+  { path: 'register', component: RegistrationPageComponent, canActivate: [LoggedInGuard] },
+  { path: 'player', component: PlayerPageComponent, canActivate: [AuthGuard] },
+  { path: 'tournament', component: TournamentPageComponent, canActivate: [AuthGuard] },
+  { path: 'matches', component: MatchesComponent, canActivate: [AuthGuard] },
+  { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
 
 @NgModule({

@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("statistics")
 public class StatisticsController {
 
-    private final Logger logger = LoggerFactory.getLogger(StatisticsController.class);
-
     @Autowired
-    StatisticsService statisticsService;
+    private StatisticsService statisticsService;
+
+    private final Logger logger = LoggerFactory.getLogger(StatisticsController.class);
 
     @PutMapping
     public ResponseEntity<Statistics> saveStatistics(@RequestBody Statistics statistics) {

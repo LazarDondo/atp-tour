@@ -12,7 +12,8 @@ import lombok.Setter;
  * @author Lazar
  */
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
-public class IncomeId implements Serializable{
+public class IncomeId implements Serializable {
+
     private long tournament;
     private long player;
 }

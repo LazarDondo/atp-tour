@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author Lazar
  */
-public interface CountryDao extends JpaRepository<Country, Long>{
-    
+public interface CountryDao extends JpaRepository<Country, Long> {
+
 }

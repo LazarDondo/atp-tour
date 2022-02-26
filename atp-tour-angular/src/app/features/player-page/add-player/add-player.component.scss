@@ -1,23 +1,18 @@
 .center_div{
-    padding-top: 7px;
-    padding-left: 15%;
-  }
-  
-  .form-group{
-    padding: 5px;
-  }
-  
-  .requestMessage{
-    margin-left: 5px;
-    width: 400px;
-  }
-  
-  input{
-    width: 400px;
-  }
-
-  #closeButton{
-   float: right;
-   margin-right: 60px;
-  }
-  
+  padding-top: 7px;
+  padding-left: 15%;
+}
+#closeButton{
+  float: right;
+  margin-right: 60px;
+}
+.form-group{
+  padding: 5px;
+}
+input{
+  width: 400px;
+}
+.response-message{
+  margin-left: 5px;
+  width: 400px;
+}

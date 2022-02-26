@@ -24,13 +24,13 @@ import com.silab.atptour.service.MatchesService;
 public class MatchesServiceImpl implements MatchesService {
 
     @Autowired
-    MatchDao matchDao;
-
-    @Autowired
     PlayerDao playerDao;
     
     @Autowired
-    IncomeDao incomeDao;
+    private MatchDao matchDao;
+    
+    @Autowired
+    private IncomeDao incomeDao;
 
     private final Logger logger = LoggerFactory.getLogger(MatchesServiceImpl.class);
 
@@ -58,6 +58,7 @@ public class MatchesServiceImpl implements MatchesService {
         winner.setLivePoints(winner.getLivePoints()+roundPoints);
         Income income = incomeDao.findById(new IncomeId(match.getTournament().getId(), match.getWinner().getId())).get();
         income.setPoints(income.getPoints()+roundPoints);
+        incomeDao.save(income);
         playerDao.save(winner);
     }
     

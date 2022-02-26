@@ -19,10 +19,9 @@ export class AllTournamentsComponent implements OnInit {
   tournamentsPerPage: number = 7;
 
 
-  constructor(private tournamentService: TournamentService, private eventEmitterService:TournamentEventEmitterService) {
-    this.tournamentService.getTournaments().subscribe(tournaments =>
-       { this.tournaments = tournaments; this.searchTournaments = tournaments });
-       this.subscribeToUpdateTournamentEvent();
+  constructor(private tournamentService: TournamentService, private eventEmitterService: TournamentEventEmitterService) {
+    this.tournamentService.getTournaments().subscribe(tournaments => { this.tournaments = tournaments; this.searchTournaments = tournaments });
+    this.subscribeToUpdateTournamentEvent();
   }
 
   ngOnInit(): void {
@@ -53,13 +52,13 @@ export class AllTournamentsComponent implements OnInit {
     this.selectedTournament.emit(tournament);
   }
 
-  subscribeToUpdateTournamentEvent(){
-      this.eventEmitterService.    
-      invokeUpdateTournamentsTableFunction.subscribe((tournament)=>{  
-        let index = this.tournaments.findIndex(t=>tournament.id===t.id)
-        index===-1 ? this.tournaments.push(tournament) : this.tournaments[index] = tournament;
-        this.ngOnInit(); 
-      }); 
+  subscribeToUpdateTournamentEvent() {
+    this.eventEmitterService.
+      invokeUpdateTournamentsTableFunction.subscribe((tournament) => {
+        let index = this.tournaments.findIndex(t => tournament.id === t.id)
+        index === -1 ? this.tournaments.push(tournament) : this.tournaments[index] = tournament;
+        this.ngOnInit();
+      });
   }
 
 }

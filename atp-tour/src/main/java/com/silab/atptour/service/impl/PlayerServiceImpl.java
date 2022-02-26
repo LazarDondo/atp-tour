@@ -1,7 +1,6 @@
 package com.silab.atptour.service.impl;
 
 import com.silab.atptour.dao.PlayerDao;
-import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
 import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import com.silab.atptour.service.PlayerService;
@@ -20,7 +19,7 @@ import org.springframework.stereotype.Service;
 public class PlayerServiceImpl implements PlayerService {
 
     @Autowired
-    PlayerDao playerDao;
+    private PlayerDao playerDao;
 
     private final Logger logger = LoggerFactory.getLogger(TournamentServiceImpl.class);
 

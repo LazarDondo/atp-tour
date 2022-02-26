@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("country")
 public class CountryController {
 
-    private final Logger logger = LoggerFactory.getLogger(CountryController.class);
-
     @Autowired
-    CountryService countryService;
+    private CountryService countryService;
+
+    private final Logger logger = LoggerFactory.getLogger(CountryController.class);
 
     @GetMapping
     public ResponseEntity<List<Country>> getCountries() {

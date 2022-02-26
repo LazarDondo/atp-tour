@@ -1,6 +1,5 @@
 package com.silab.atptour.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.silab.atptour.AtpTourApplication;
 import com.silab.atptour.dao.CountryDao;
 import com.silab.atptour.entity.Country;
@@ -25,10 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CountryControllerTest {
 
     @Autowired
-    CountryDao countryDao;
-
-    @Autowired
-    private ObjectMapper mapper;
+    private CountryDao countryDao;
 
     @Autowired
     private MockMvc mockMvc;
@@ -43,7 +39,6 @@ public class CountryControllerTest {
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$.[0]name", is(firstCountry.getName())))
                 .andExpect(jsonPath("$.[0]codeName", is(firstCountry.getCodeName())))
-                
                 .andExpect(jsonPath("$.[1]name", is(secondCountry.getName())))
                 .andExpect(jsonPath("$.[1]codeName", is(secondCountry.getCodeName())))
                 .andExpect(status().isOk());

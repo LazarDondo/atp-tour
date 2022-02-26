@@ -14,13 +14,13 @@ import { PlayerPageComponent } from './features/player-page/player-page.componen
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MatOptionModule } from '@angular/material/core';
 import { AddPlayerComponent } from './features/player-page/add-player/add-player.component';
 import { AllPlayersComponent } from './features/player-page/all-players/all-players.component';
-import {MatTableModule} from '@angular/material/table';
-import {NgxPaginationModule} from 'ngx-pagination';
-import {OrderModule} from 'ngx-order-pipe';
+import { MatTableModule } from '@angular/material/table';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { OrderModule } from 'ngx-order-pipe';
 import { UpdatePlayerComponent } from './features/player-page/update-player/update-player.component';
 import { PlayerEventEmitterService } from './core/services/player-event-emitter.service';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -49,7 +49,7 @@ import { StatisticsComponent } from './features/statistics/statistics.component'
     UpdateTournamentComponent,
     MatchesComponent,
     StatisticsComponent
-    ],
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -66,9 +66,9 @@ import { StatisticsComponent } from './features/statistics/statistics.component'
     NgxPaginationModule,
     OrderModule,
     MatDialogModule,
-    ],
+  ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass:AuthInterceptor, multi:true},
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     PlayerEventEmitterService, TournamentEventEmitterService],
   bootstrap: [AppComponent]
 })

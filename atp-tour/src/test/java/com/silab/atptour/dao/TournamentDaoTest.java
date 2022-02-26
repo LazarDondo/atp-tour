@@ -19,17 +19,14 @@ import org.springframework.dao.EmptyResultDataAccessException;
 @DataJpaTest
 public class TournamentDaoTest {
 
-    @Autowired
-    TournamentDao tournamentDao;
-
-    @Autowired
-    CountryDao countryDao;
-
-    @Autowired
-    PlayerDao playerDao;
-
     private Tournament testTournament;
     private Country testCountry;
+
+    @Autowired
+    private TournamentDao tournamentDao;
+
+    @Autowired
+    private CountryDao countryDao;
 
     @BeforeEach
     public void init() {

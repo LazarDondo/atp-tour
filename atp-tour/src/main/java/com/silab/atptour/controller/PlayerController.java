@@ -1,6 +1,5 @@
 package com.silab.atptour.controller;
 
-import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
 import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import com.silab.atptour.service.PlayerService;
@@ -25,10 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("player")
 public class PlayerController {
 
-    private final Logger logger = LoggerFactory.getLogger(PlayerController.class);
-
     @Autowired
-    PlayerService playerService;
+    private PlayerService playerService;
+
+    private final Logger logger = LoggerFactory.getLogger(PlayerController.class);
 
     @PostMapping
     public ResponseEntity<Player> addPlayer(@RequestBody Player player) {

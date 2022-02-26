@@ -24,7 +24,18 @@ export class StatisticsComponent implements OnInit {
     private eventEmitterService: StatisticsEventEmitterService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.statisticsForm = this.formBuilder.group({
+    this.statisticsForm = this.configureFormFields();
+    this.isAdminUser = this.authService.isAdmin();
+    this.previewStatistics();
+  }
+
+  onSubmit() {
+    this.setFormVariables();
+    this.saveStatistics();
+  }
+
+  private configureFormFields(): FormGroup{
+    var form = this.formBuilder.group({
       id: [],
       match: [],
       firstPlayerPoints: [],
@@ -38,17 +49,14 @@ export class StatisticsComponent implements OnInit {
       firstPlayerSecondServesIn: [],
       secondPlayerSecondServesIn: []
     });
-    this.statisticsControl.addValidators;
-    this.isAdminUser = this.authService.isAdmin();
-    this.previewStatistics();
+    return form;
   }
 
-  onSubmit() {
+  private setFormVariables(){
     this.submitted = true;
     this.error = false;
     this.success = false;
     this.loading = true;
-    this.saveStatistics();
   }
 
   private saveStatistics() {

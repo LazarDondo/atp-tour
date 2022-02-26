@@ -16,43 +16,43 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @DataJpaTest
 public class UserDaoTest {
-    
-    @Autowired
-    RoleDao roleDao;
-    
-    @Autowired
-    UserDao userDao;
-    
+
+    private User testUser;
     private Set<Role> testRoles;
-    private User testUser;    
     
+    @Autowired
+    private RoleDao roleDao;
+
+    @Autowired
+    private UserDao userDao;
+
     @BeforeEach
     public void init() {
         testRoles = new HashSet<>();
         testRoles.add(roleDao.save(new Role(1, "USER")));
         testUser = userDao.save(new User(1, "admin@atp.com", "admin", "Bart", "Simpson", true, testRoles));
     }
-    
+
     @Test
     public void addUserShouldBeOk() {
         User user = new User(1, "homersimpson@gmail.com", "maxpower", "Homer", "Simpson", true, testRoles);
         assertEquals(user, userDao.save(user));
     }
-    
+
     @Test
     public void findUserByIdShouldBeOk() {
         assertEquals(testUser, userDao.findById(testUser.getId()).get());
     }
-    
+
     @Test
     public void findUserByUsernameShouldNotFindUser() {
         assertEquals(true, userDao.findById(55L).isEmpty());
     }
-    
+
     @Test
     public void updateUserShouldBeOK() {
         testUser.setUsername("bartsimpson@gmail.com");
         assertEquals(testUser, userDao.save(testUser));
     }
-    
+
 }

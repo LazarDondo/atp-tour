@@ -33,7 +33,22 @@ export class UpdateTournamentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.tournamentForm = this.formBuilder.group({
+    this.tournamentForm = this.configureFormFields();
+    this.displayTournament(this.selectedTournament);
+  }
+
+
+  onSubmit() {
+    this.setFormVariables();
+    if (this.tournamentForm.invalid) {
+      return;
+    }
+    this.loading = true;
+    this.updateTournament();
+  }
+
+  private configureFormFields(): FormGroup{
+    var form = this.formBuilder.group({
       id: [],
       name: ['', Validators.required],
       startDate: ['', Validators.required],
@@ -41,20 +56,13 @@ export class UpdateTournamentComponent implements OnInit {
       hostCountry: [],
       tournamentType: ['', Validators.required],
     });
-    this.myControl.addValidators;
-    this.displayTournament(this.selectedTournament);
+    return form;
   }
 
-
-  onSubmit() {
+  private setFormVariables(){
     this.submitted = true;
     this.error = false;
     this.success = false;
-    if (this.tournamentForm.invalid) {
-      return;
-    }
-    this.loading = true;
-    this.updateTournament();
   }
 
   updateTournament() {
@@ -68,7 +76,7 @@ export class UpdateTournamentComponent implements OnInit {
         this.loading = false;
         this.success = true;
       },
-      error: err => {
+      error: () => {
         this.error = true;
         this.loading = false;
       }
@@ -80,8 +88,7 @@ export class UpdateTournamentComponent implements OnInit {
   }
 
   subscribeToDisplayTournamentEvent() {
-    this.eventEmitterService.
-      invokeDisplayTournamentFunction.subscribe((tournament) => {
+    this.eventEmitterService.invokeDisplayTournamentFunction.subscribe((tournament) => {
         this.selectedTournament = tournament;
         this.tournamentStarted = this.today >= tournament.startDate;
         this.displayTournament(tournament);
@@ -97,5 +104,4 @@ export class UpdateTournamentComponent implements OnInit {
     this.tournamentForm.setValue(tournament);
     this.tournamentForm.controls['hostCountry'].setValue(tournament.hostCountry.name);
   }
-
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
  * @author Lazar
  */
 @Repository
-public interface IncomeDao extends JpaRepository<Income, IncomeId>{
+public interface IncomeDao extends JpaRepository<Income, IncomeId> {
+
     public List<Income> findIncomesByTournament(Tournament tournament);
 }

@@ -11,11 +11,7 @@ import lombok.Setter;
  *
  * @author Lazar
  */
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
 public class MatchId implements Serializable {
 
     private long tournament;

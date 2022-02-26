@@ -30,9 +30,9 @@ public class Country {
 
     @Column(unique = true, length = 3)
     private String codeName;
-    
-    public Country(long id){
-        this.id=id;
+
+    public Country(long id) {
+        this.id = id;
     }
 
     @Override
@@ -62,5 +62,5 @@ public class Country {
             return false;
         }
         return true;
-    }       
+    }
 }

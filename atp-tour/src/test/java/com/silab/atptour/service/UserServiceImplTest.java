@@ -31,6 +31,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @ExtendWith(MockitoExtension.class)
 public class UserServiceImplTest {
 
+    @Value("${default.user.role}")
+    private static String defaultUserRole;
+    private static Role testRole;
+    private static User testUser;
+    private static Optional<User> optionalUser;
+    private static Optional<User> emptyUser;
+    private final String password = "maxpower";
+    private static final String hashedPassword = "hashedpassowrd";
+
     @Mock
     RoleDao roleDao;
 
@@ -42,15 +51,6 @@ public class UserServiceImplTest {
 
     @InjectMocks
     UserServiceImpl userService;
-
-    @Value("${default.user.role}")
-    private static String defaultUserRole;
-    private static Role testRole;
-    private static User testUser;
-    private static Optional<User> optionalUser;
-    private static Optional<User> emptyUser;
-    private final String password = "maxpower";
-    private static final String hashedPassword = "hashedpassowrd";
 
     @BeforeAll
     public static void init() {

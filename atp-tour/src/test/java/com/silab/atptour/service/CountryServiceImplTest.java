@@ -21,10 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CountryServiceImplTest {
 
     @Mock
-    CountryDao countryDao;
+    private CountryDao countryDao;
 
     @InjectMocks
-    CountryServiceImpl countryService;
+    private CountryServiceImpl countryService;
 
     @Test
     public void getCountriesShouldBeOk() {
@@ -34,7 +34,6 @@ public class CountryServiceImplTest {
                 new Country(2, "Greece", "GRE");
             }
         };
-
         when(countryDao.findAll()).thenReturn(countries);
         assertEquals(countries, countryService.getCountries());
     }

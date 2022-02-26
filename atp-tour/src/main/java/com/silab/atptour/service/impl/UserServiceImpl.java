@@ -27,23 +27,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    UserDao userDao;
-
-    @Autowired
-    RoleDao roleDao;
-
-    @Autowired
-    BCryptPasswordEncoder passwordEncoder;
-
-    private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-
     @Value("${default.user.role}")
     private String defaultUserRole;
 
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private RoleDao roleDao;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+    private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
     @Override
     public User login(String username, String password) throws AtpEntityNotFoundException {
-        logger.debug("Login for  user with username {} ", username);
+        logger.debug("Login for user with username {} ", username);
         Optional<User> optionalUser = userDao.findUserByUsername(username);
         if (optionalUser.isEmpty() || !passwordEncoder.matches(password, optionalUser.get().getPassword())) {
             throw new AtpEntityNotFoundException("User with the given username or password doesn't exist");
@@ -60,6 +60,7 @@ public class UserServiceImpl implements UserService {
         Set<Role> roles = getUserRoles(defaultUserRole);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(roles);
+        user.setEnabled(true);
         return userDao.save(user);
     }
 
@@ -70,7 +71,7 @@ public class UserServiceImpl implements UserService {
         if (optionalUser.isEmpty()) {
             throw new AtpEntityNotFoundException("User doesn't exist");
         }
-        if (!optionalUser.get().getUsername().equals(user.getUsername()) && userDao.findUserByUsername(user.getUsername()).isPresent()){
+        if (!optionalUser.get().getUsername().equals(user.getUsername()) && userDao.findUserByUsername(user.getUsername()).isPresent()) {
             throw new AtpEntityExistsException("User with username " + user.getUsername() + " already exists");
         }
         user.setPassword(optionalUser.get().getPassword());

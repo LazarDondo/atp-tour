@@ -48,7 +48,7 @@ public class User {
 
     @Column(length = 50)
     private String lastName;
-    
+
     private boolean enabled;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -84,6 +84,5 @@ public class User {
         }
         return true;
     }
-    
-    
+
 }

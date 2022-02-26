@@ -14,22 +14,17 @@ export class LoginPageComponent implements OnInit {
   loginForm: FormGroup;
   loading = false;
   submitted = false;
-  loginError=false;
-  returnUrl: string;
-  redirect=false;
+  loginError = false;
+  redirect = false;
 
 
-  constructor(
-    private userService: UserService,
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute) { 
-      this.route.queryParams.subscribe(params=>{
-        this.redirect = params['redirect'];
-      })
-    }
+  constructor(private userService: UserService, private formBuilder: FormBuilder, private route: ActivatedRoute) {
+    this.route.queryParams.subscribe(params => {
+      this.redirect = params['redirect'];
+    })
+  }
 
   ngOnInit(): void {
-
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
@@ -38,11 +33,9 @@ export class LoginPageComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-
     if (this.loginForm.invalid) {
       return;
     }
-
     this.loading = true;
     this.login();
   }
@@ -54,12 +47,10 @@ export class LoginPageComponent implements OnInit {
         loggedUser.password = this.loginForm.get('password')!.value;
         sessionStorage.setItem('loggedUser', JSON.stringify(loggedUser));
         location.reload();
-        //this.loginError=false;
-        //this.loading=false;
       },
-       error: err => {
-        this.loginError=true;
-        this.loading=false;
+      error: () => {
+        this.loginError = true;
+        this.loading = false;
       }
     });
   }

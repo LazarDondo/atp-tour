@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author Lazar
  */
-public interface RoleDao extends JpaRepository<Role, Long>{
-    
+public interface RoleDao extends JpaRepository<Role, Long> {
+
     public Optional<Role> findRoleByName(String name);
 }

@@ -16,8 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  *
  * @author Lazar
  */
-@AllArgsConstructor
-@EqualsAndHashCode
+@AllArgsConstructor @EqualsAndHashCode
 public class MyUserDetails implements UserDetails {
 
     private User user;

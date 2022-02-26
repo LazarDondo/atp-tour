@@ -1,6 +1,6 @@
 <h2>Players</h2>
 <nav class="navbar">
-    <input id="search" class="form-control" type="text" name="playerName" [(ngModel)]="playerName" (ngModelChange)="search()"
+    <input class="form-control" type="text" name="playerName" [(ngModel)]="playerName" (ngModelChange)="search()"
         placeholder="Enter player's name to search" (keyup.enter)="search()" />
 
     <table id="players" class="table table-bordered">

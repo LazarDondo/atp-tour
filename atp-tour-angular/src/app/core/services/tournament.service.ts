@@ -28,4 +28,11 @@ export class TournamentService {
   public deleteTournament(id: number){
     return this.httpClient.delete(this.API_URL+"/tournament/"+id);
   }
+
+  public filterTournaments(value: string | Tournament, tournaments: Tournament[]): Tournament[] {
+    const filterValue = (value instanceof Tournament) ? value.name : value;
+    return tournaments.filter(option => {
+      return option.name.toLowerCase().includes(filterValue);
+    })
+  }
 }

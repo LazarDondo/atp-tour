@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Role } from "./role.model";
 
 @Injectable({
-    providedIn:'root'
+    providedIn: 'root'
 })
 export class User {
     id?: number;
@@ -11,5 +11,5 @@ export class User {
     firstName?: string;
     lastName?: string;
     enabled: boolean;
-    roles:Array<Role>;
+    roles: Array<Role>;
 }

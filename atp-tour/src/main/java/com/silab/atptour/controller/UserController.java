@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("user")
 public class UserController {
 
-    private final Logger logger = LoggerFactory.getLogger(UserController.class);
-
     @Autowired
-    UserService userService;
+    private UserService userService;
+
+    private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @PostMapping("login")
     public ResponseEntity<User> login(@RequestBody User user) {

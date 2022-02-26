@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
  * @author Lazar
  */
 @Repository
-public interface TournamentDao extends JpaRepository<Tournament, Long>{
-    
+public interface TournamentDao extends JpaRepository<Tournament, Long> {
+
     public Optional<Tournament> findTournamentByName(String name);
 }

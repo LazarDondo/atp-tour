@@ -39,20 +39,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class MatchControllerTest {
 
-    @Autowired
-    CountryDao countryDao;
+    private Match firstMatch;
+    private Match secondMatch;
+    private Match thirdMatch;
+    private Match otherTournamentMatch;
+    private List<Match> testMatches;
 
     @Autowired
-    TournamentDao tournamentDao;
+    private CountryDao countryDao;
 
     @Autowired
-    PlayerDao playerDao;
-    
-    @Autowired
-    IncomeDao incomeDao;
+    private PlayerDao playerDao;
 
     @Autowired
-    MatchDao matchDao;
+    private TournamentDao tournamentDao;
+
+    @Autowired
+    private IncomeDao incomeDao;
+
+    @Autowired
+    private MatchDao matchDao;
 
     @Autowired
     private ObjectMapper mapper;
@@ -60,26 +66,19 @@ public class MatchControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private Match firstMatch;
-    private Match secondMatch;
-    private Match thirdMatch;
-    private Match otherTournamentMatch;
-    
-    private List<Match> testMatches;
-
     @BeforeEach
     public void init() {
         Country country = countryDao.save(new Country(1, "England", "ENG"));
         Tournament tournament = tournamentDao.save(new Tournament(1, "Wimbledon", LocalDate.of(2022, Month.JULY, 10),
                 LocalDate.of(2022, Month.JULY, 16), country, "Grand Slam", null, null, null));
-        
+
         Tournament otherTournament = tournamentDao.save(new Tournament(2, "Roland Garros", LocalDate.of(2022, Month.MAY, 22),
                 LocalDate.of(2022, Month.JULY, 28), country, "Grand Slam", null, null, null));
 
         Player firstPlayer = playerDao.save(new Player(1, "Novak", "Djokovic", country, LocalDate.of(2022, Month.MAY, 22), 12000,
                 12000, 1, null, null));
         Player secondPlayer = playerDao.save(new Player(2, "Filip", "Krajinovic", country,
-                LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2,null, null));
+                LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2, null, null));
         Player thirdPlayer = playerDao.save(new Player(3, "Miomir", "Kecmanovic", country, LocalDate.of(1999, Month.AUGUST, 31),
                 5000, 5000, 3, null, null));
 
@@ -90,9 +89,9 @@ public class MatchControllerTest {
                 "semi-finals", "3-2", firstPlayer));
         thirdMatch = matchDao.save(new Match(tournament, thirdPlayer, secondPlayer, LocalDate.of(2022, Month.JULY, 12),
                 "quater-finals", "1-3", secondPlayer));
-        otherTournamentMatch = matchDao.save(new Match(otherTournament, firstPlayer, secondPlayer, 
+        otherTournamentMatch = matchDao.save(new Match(otherTournament, firstPlayer, secondPlayer,
                 LocalDate.of(2022, Month.JULY, 22), "eights-finals", "2-3", secondPlayer));
-      
+
         testMatches.add(firstMatch);
         testMatches.add(secondMatch);
         testMatches.add(thirdMatch);
@@ -106,11 +105,10 @@ public class MatchControllerTest {
     @Test
     @WithMockUser(username = "test", password = "test", authorities = "ADMIN")
     public void updateMatchesShouldBeOk() throws Exception {
-        
+
         incomeDao.save(new Income(firstMatch.getTournament(), firstMatch.getFirstPlayer(), 0));
         incomeDao.save(new Income(firstMatch.getTournament(), firstMatch.getSecondPlayer(), 0));
         incomeDao.save(new Income(secondMatch.getTournament(), secondMatch.getSecondPlayer(), 0));
-        
         mockMvc
                 .perform(MockMvcRequestBuilders.put("/matches").contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(testMatches)))
@@ -169,7 +167,7 @@ public class MatchControllerTest {
     @WithMockUser(username = "test", password = "test", authorities = "USER")
     public void filterMatchesShouldBeOk() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/matches/filter").contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(firstMatch)))
+                .content(mapper.writeValueAsString(firstMatch)))
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$.[0]tournament.name", is(firstMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[0]firstPlayer.firstName", is(firstMatch.getFirstPlayer().getFirstName())))
@@ -183,14 +181,14 @@ public class MatchControllerTest {
                 .andExpect(jsonPath("$.[0]winner.lastName", is(firstMatch.getWinner().getLastName())))
                 .andExpect(status().isOk());
     }
-    
+
     @Test
     @WithMockUser(username = "test", password = "test", authorities = "USER")
     public void filterAllMatchesBetweenPlayersShouldBeOk() throws Exception {
         secondMatch.setSecondPlayer(firstMatch.getSecondPlayer());
         secondMatch.setTournament(null);
         mockMvc.perform(MockMvcRequestBuilders.post("/matches/filter").contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(secondMatch)))
+                .content(mapper.writeValueAsString(secondMatch)))
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$.[0]tournament.name", is(firstMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[0]firstPlayer.firstName", is(firstMatch.getFirstPlayer().getFirstName())))
@@ -215,7 +213,7 @@ public class MatchControllerTest {
                 .andExpect(jsonPath("$.[1]winner.lastName", is(otherTournamentMatch.getWinner().getLastName())))
                 .andExpect(status().isOk());
     }
-    
+
     @Test
     @WithMockUser(username = "test", password = "test", authorities = "USER")
     public void filterFirstPlayerMatchesShouldBeOk() throws Exception {
@@ -223,7 +221,7 @@ public class MatchControllerTest {
         thirdMatch.setSecondPlayer(null);
         thirdMatch.setTournament(null);
         mockMvc.perform(MockMvcRequestBuilders.post("/matches/filter").contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(thirdMatch)))
+                .content(mapper.writeValueAsString(thirdMatch)))
                 .andExpect(jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$.[0]tournament.name", is(firstMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[0]firstPlayer.firstName", is(firstMatch.getFirstPlayer().getFirstName())))
@@ -259,14 +257,14 @@ public class MatchControllerTest {
                 .andExpect(jsonPath("$.[2]winner.lastName", is(otherTournamentMatch.getWinner().getLastName())))
                 .andExpect(status().isOk());
     }
-    
+
     @Test
     @WithMockUser(username = "test", password = "test", authorities = "USER")
     public void filterFirstPlayerMatchesOnTournamentShouldBeOk() throws Exception {
         thirdMatch.setFirstPlayer(firstMatch.getFirstPlayer());
         thirdMatch.setSecondPlayer(null);
         mockMvc.perform(MockMvcRequestBuilders.post("/matches/filter").contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(thirdMatch)))
+                .content(mapper.writeValueAsString(thirdMatch)))
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$.[0]tournament.name", is(firstMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[0]firstPlayer.firstName", is(firstMatch.getFirstPlayer().getFirstName())))
@@ -291,7 +289,7 @@ public class MatchControllerTest {
                 .andExpect(jsonPath("$.[1]winner.lastName", is(secondMatch.getWinner().getLastName())))
                 .andExpect(status().isOk());
     }
-    
+
     @Test
     @WithMockUser(username = "test", password = "test", authorities = "USER")
     public void filterSecondPlayerMatchesShouldBeOk() throws Exception {
@@ -299,7 +297,7 @@ public class MatchControllerTest {
         secondMatch.setFirstPlayer(null);
         secondMatch.setTournament(null);
         mockMvc.perform(MockMvcRequestBuilders.post("/matches/filter").contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(secondMatch)))
+                .content(mapper.writeValueAsString(secondMatch)))
                 .andExpect(jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$.[0]tournament.name", is(firstMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[0]firstPlayer.firstName", is(firstMatch.getFirstPlayer().getFirstName())))
@@ -335,14 +333,14 @@ public class MatchControllerTest {
                 .andExpect(jsonPath("$.[2]winner.lastName", is(otherTournamentMatch.getWinner().getLastName())))
                 .andExpect(status().isOk());
     }
-    
+
     @Test
     @WithMockUser(username = "test", password = "test", authorities = "USER")
     public void filterSecondPlayerMatchesOnTournamentShouldBeOk() throws Exception {
         secondMatch.setSecondPlayer(firstMatch.getSecondPlayer());
         secondMatch.setFirstPlayer(null);
         mockMvc.perform(MockMvcRequestBuilders.post("/matches/filter").contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(secondMatch)))
+                .content(mapper.writeValueAsString(secondMatch)))
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$.[0]tournament.name", is(firstMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[0]firstPlayer.firstName", is(firstMatch.getFirstPlayer().getFirstName())))
@@ -367,13 +365,13 @@ public class MatchControllerTest {
                 .andExpect(jsonPath("$.[1]winner.lastName", is(thirdMatch.getWinner().getLastName())))
                 .andExpect(status().isOk());
     }
-    
+
     @Test
     @WithMockUser(username = "test", password = "test", authorities = "USER")
     public void filterAllMatchesShouldBeOk() throws Exception {
         Match match = new Match();
         mockMvc.perform(MockMvcRequestBuilders.post("/matches/filter").contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(match)))
+                .content(mapper.writeValueAsString(match)))
                 .andExpect(jsonPath("$", hasSize(4)))
                 .andExpect(jsonPath("$.[0]tournament.name", is(firstMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[0]firstPlayer.firstName", is(firstMatch.getFirstPlayer().getFirstName())))
@@ -420,7 +418,7 @@ public class MatchControllerTest {
                 .andExpect(jsonPath("$.[3]winner.lastName", is(otherTournamentMatch.getWinner().getLastName())))
                 .andExpect(status().isOk());
     }
-    
+
     @Test
     @WithMockUser(username = "test", password = "test", authorities = "USER")
     public void filterMatchesShouldBeEmpty() throws Exception {
@@ -430,7 +428,7 @@ public class MatchControllerTest {
                 "finals", "2-3", player));
         firstMatch.setSecondPlayer(player);
         mockMvc.perform(MockMvcRequestBuilders.post("/matches/filter").contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(firstMatch)))
+                .content(mapper.writeValueAsString(firstMatch)))
                 .andExpect(jsonPath("$", hasSize(0)))
                 .andExpect(status().isOk());
     }
@@ -439,14 +437,14 @@ public class MatchControllerTest {
     @WithMockUser(username = "test", password = "test", authorities = "ADMIN")
     public void getH2HMatchesShouldBeOkForAdminUser() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/matches/filter").contentType(MediaType.APPLICATION_JSON)
-                    .content(mapper.writeValueAsString(firstMatch)))
-                    .andExpect(status().isOk());
+                .content(mapper.writeValueAsString(firstMatch)))
+                .andExpect(status().isOk());
     }
 
     @Test
     public void getH2HMatchesShouldBeUnauthorized() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/matches/filter").contentType(MediaType.APPLICATION_JSON)
-                    .content(mapper.writeValueAsString(firstMatch)))
-                    .andExpect(status().isUnauthorized());
+                .content(mapper.writeValueAsString(firstMatch)))
+                .andExpect(status().isUnauthorized());
     }
 }

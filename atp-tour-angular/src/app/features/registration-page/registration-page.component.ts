@@ -32,8 +32,7 @@ export class RegistrationPageComponent implements OnInit {
   }
 
   onSubmit() {
-    this.submitted = true;
-    this.success=false;
+    this.setFormVariables();
     if (this.registerForm.invalid) {
       return;
     }
@@ -53,5 +52,10 @@ export class RegistrationPageComponent implements OnInit {
         this.loading=false;
       }
     });
+  }
+
+  private setFormVariables(){
+    this.submitted = true;
+    this.success=false;
   }
 }

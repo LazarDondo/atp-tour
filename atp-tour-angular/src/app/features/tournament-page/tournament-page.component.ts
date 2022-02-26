@@ -16,7 +16,7 @@ export class TournamentPageComponent implements OnInit {
   dialogRef:MatDialogRef<AddTournamentComponent, any>
   isAdminUser : boolean;
 
-  constructor(private eventEmitterService:TournamentEventEmitterService, public dialog: MatDialog, private authService: AuthService){}
+  constructor(private eventEmitterService:TournamentEventEmitterService, private dialog: MatDialog, private authService: AuthService){}
 
   ngOnInit(): void {
       this.eventEmitterService.    

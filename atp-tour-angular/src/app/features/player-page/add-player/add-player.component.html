@@ -52,10 +52,10 @@
                 <div *ngIf="f['currentPoints'].errors['required']">Current points are required</div>
             </div>
         </div>
-        <div *ngIf="success" class="alert-success requestMessage">
+        <div *ngIf="success" class="alert-success response-message">
             <p>Successfully added new player. Player will be ranked on the first Monday at midnight</p>
         </div>
-        <div *ngIf="error" class="alert-danger requestMessage">
+        <div *ngIf="error" class="alert-danger response-message">
             <p>Failed to add new player</p>
         </div>
 

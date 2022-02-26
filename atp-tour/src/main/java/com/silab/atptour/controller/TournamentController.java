@@ -1,6 +1,5 @@
 package com.silab.atptour.controller;
 
-import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Tournament;
 import com.silab.atptour.exceptions.AtpEntityExistsException;
 import com.silab.atptour.exceptions.AtpEntityNotFoundException;
@@ -28,10 +27,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("tournament")
 public class TournamentController {
 
-    private final Logger logger = LoggerFactory.getLogger(TournamentController.class);
-
     @Autowired
-    TournamentService tournamentService;
+    private TournamentService tournamentService;
+
+    private final Logger logger = LoggerFactory.getLogger(TournamentController.class);
 
     @PostMapping
     public ResponseEntity<Tournament> addTournament(@RequestBody Tournament tournament) {

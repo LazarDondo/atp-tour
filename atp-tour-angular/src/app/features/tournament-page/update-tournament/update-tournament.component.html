@@ -1,7 +1,5 @@
 <div class="center_div">
-
     <h2>Update Tournament</h2>
-
     <form [formGroup]="tournamentForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <label for="name">Name</label>
@@ -35,10 +33,10 @@
             <input type="text" formControlName="tournamentType" class="form-control" readonly  />
         </div>
 
-        <div *ngIf="success" class="alert-success requestMessage">
+        <div *ngIf="success" class="alert-success response-message">
             <p>Tournament updated successfully</p>
         </div>
-        <div *ngIf="error" class="alert-danger requestMessage">
+        <div *ngIf="error" class="alert-danger response-message">
             <p>Failed to update tournament</p>
         </div>
 

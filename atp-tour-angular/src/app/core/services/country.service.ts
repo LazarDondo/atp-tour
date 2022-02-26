@@ -16,5 +16,10 @@ export class CountryService {
     return this.httpClient.get<Country[]>(this.API_URL+"/country");
   }
 
-
+  public filterCountries(value: string | Country, countries: Country[]): Country[] {
+    const filterValue = (value instanceof Country) ? value.name : value;
+    return countries.filter(option => {
+      return option.name.toLowerCase().includes(filterValue)
+    })
+  }
 }

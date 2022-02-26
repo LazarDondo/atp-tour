@@ -19,19 +19,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DataJpaTest
 public class PlayerDaoTest {
 
-    @Autowired
-    CountryDao countryDao;
-
-    @Autowired
-    PlayerDao playerDao;
-
     private Country testCountry;
     private Player testPlayer;
+
+    @Autowired
+    private CountryDao countryDao;
+
+    @Autowired
+    private PlayerDao playerDao;
 
     @BeforeEach
     public void init() {
         testCountry = countryDao.save(new Country(1, "Serbia", "SRB"));
-        testPlayer = playerDao.save(new Player(1, "Novak", "Djokovic", testCountry, 
+        testPlayer = playerDao.save(new Player(1, "Novak", "Djokovic", testCountry,
                 LocalDate.of(1987, Month.MAY, 22), 12000, 12000, 1, null, null));
     }
 
@@ -47,9 +47,9 @@ public class PlayerDaoTest {
 
     @Test
     public void findAllRankedPlayersShouldBeOk() {
-        Player player = playerDao.save(new Player(2, "Filip", "Krajinovic", testCountry, 
+        Player player = playerDao.save(new Player(2, "Filip", "Krajinovic", testCountry,
                 LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2, null, null));
-        playerDao.save(new Player(3, "Test", "Test", testCountry, 
+        playerDao.save(new Player(3, "Test", "Test", testCountry,
                 LocalDate.of(1995, Month.JANUARY, 12), 0, 0, 0, null, null));
         List<Player> players = new ArrayList<>();
         players.add(testPlayer);

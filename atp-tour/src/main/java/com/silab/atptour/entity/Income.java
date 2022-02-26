@@ -23,16 +23,16 @@ import lombok.Setter;
 @IdClass(IncomeId.class)
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Income {
-    
+
     @Id
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
-    
+
     @Id
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinColumn(name = "player_id")
     private Player player;
-    
+
     private int points;
 }

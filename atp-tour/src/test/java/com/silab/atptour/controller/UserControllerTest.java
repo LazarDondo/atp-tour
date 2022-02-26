@@ -3,7 +3,6 @@ package com.silab.atptour.controller;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.silab.atptour.AtpTourApplication;
-import com.silab.atptour.dao.RoleDao;
 import com.silab.atptour.dao.UserDao;
 import com.silab.atptour.entity.Role;
 import com.silab.atptour.entity.User;
@@ -32,22 +31,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class UserControllerTest {
 
-    @Autowired
-    UserDao userDao;
+    private User testUser;
 
     @Autowired
-    RoleDao roleDao;
+    private UserDao userDao;
 
     @Autowired
-    BCryptPasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     private ObjectMapper mapper;
 
     @Autowired
     private MockMvc mockMvc;
-
-    private User testUser;
 
     @BeforeEach
     public void init() {
@@ -56,9 +52,9 @@ public class UserControllerTest {
         testUser = userDao.save(new User(1, "homersimpson@gmail.com", passwordEncoder.encode("maxpower"), "Homer", "Simpson", true, null));
         mapper.disable(MapperFeature.USE_ANNOTATIONS);
     }
-    
+
     @AfterEach
-    public void destroy(){
+    public void destroy() {
         userDao.deleteAll();
     }
 

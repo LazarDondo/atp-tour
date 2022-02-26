@@ -25,34 +25,34 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 @ExtendWith(MockitoExtension.class)
 public class StatisticsServiceImplTest {
-    
-    @Mock
-    StatisticsDao statisticsDao;
-    
-    @InjectMocks
-    StatisticsServiceImpl statisticsService;
-    
+
     private static Match testMatch;
     private static Statistics testStatistics;
     private static Optional<Statistics> optionalStatistics;
-    
+
+    @Mock
+    private StatisticsDao statisticsDao;
+
+    @InjectMocks
+    private StatisticsServiceImpl statisticsService;
+
     @BeforeAll
-    public static void init(){
+    public static void init() {
         Player player = new Player(1);
-        testMatch = new Match(new Tournament(1), player, new Player(2), 
+        testMatch = new Match(new Tournament(1), player, new Player(2),
                 LocalDate.of(2022, Month.MARCH, 8), "finals", "2-0", player);
         testStatistics = new Statistics(1, testMatch, 50, 35, 10, 3, 5, 1, 33, 25, 33, 20);
-        optionalStatistics=Optional.of(testStatistics);
+        optionalStatistics = Optional.of(testStatistics);
     }
-    
+
     @Test
-    public void saveStatisticsShouldBeOk(){
+    public void saveStatisticsShouldBeOk() {
         when(statisticsDao.save(testStatistics)).thenReturn(testStatistics);
         assertEquals(testStatistics, statisticsService.saveStatistics(testStatistics));
     }
-    
+
     @Test
-    public void findStatisticsShouldBeOk() throws AtpEntityNotFoundException{
+    public void findStatisticsShouldBeOk() throws AtpEntityNotFoundException {
         when(statisticsDao.findStatisticsByMatch(testMatch)).thenReturn(optionalStatistics);
         assertEquals(testStatistics, statisticsService.findStatistics(testMatch));
     }

@@ -3,7 +3,6 @@ package com.silab.atptour.service.impl;
 import com.silab.atptour.dao.StatisticsDao;
 import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Statistics;
-import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import com.silab.atptour.service.StatisticsService;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -19,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class StatisticsServiceImpl implements StatisticsService {
 
     @Autowired
-    StatisticsDao statisticsDao;
+    private StatisticsDao statisticsDao;
 
     private final Logger logger = LoggerFactory.getLogger(TournamentServiceImpl.class);
 
@@ -32,6 +31,6 @@ public class StatisticsServiceImpl implements StatisticsService {
     @Override
     public Statistics findStatistics(Match match) {
         Optional<Statistics> foundStatistics = statisticsDao.findStatisticsByMatch(match);
-        return foundStatistics.isPresent()? foundStatistics.get() : null;
+        return foundStatistics.isPresent() ? foundStatistics.get() : null;
     }
 }

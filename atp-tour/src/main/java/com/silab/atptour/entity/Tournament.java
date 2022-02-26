@@ -30,10 +30,7 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "tournament")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Tournament {
 
     @Id
@@ -60,7 +57,7 @@ public class Tournament {
     @MapKeyColumn(name = "id")
     @JsonIgnore
     private List<Match> matches;
-    
+
     @OneToMany(mappedBy = "tournament", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @MapKeyColumn(name = "id")
     @JsonIgnore

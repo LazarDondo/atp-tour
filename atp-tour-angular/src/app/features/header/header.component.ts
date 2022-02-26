@@ -14,12 +14,12 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedIn = this.authService.isLoggedIn();
-    if(this.loggedIn){
-      this.userInfo=this.authService.getUserInfo();
+    if (this.loggedIn) {
+      this.userInfo = this.authService.getUserInfo();
     }
   }
 
-  logout(){
+  logout() {
     sessionStorage.removeItem('loggedUser');
   }
 
