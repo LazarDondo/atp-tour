@@ -4,6 +4,7 @@ import com.silab.atptour.entity.Country;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
+ * Represents repository for country data management
  *
  * @author Lazar
  */

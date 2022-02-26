@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
+ * Class representing composite primary key for Statistics class
+ * 
  * @author Lazar
  */
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode

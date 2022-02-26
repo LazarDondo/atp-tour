@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- *
+ * Rest controller for user data management
+ * 
  * @author Lazar
  */
 @RestController
@@ -28,6 +29,17 @@ public class UserController {
 
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
+    /**
+     * POST request for user login
+     * 
+     * @param user A {@link User} object with credentials for logging in
+     * 
+     * @return 
+    *      <ul>
+     *          <li>A {@link ResponseEntity} instance with the logged user and OK HTTP status if the user has been found</li>
+     *          <li>A {@link ResponseEntity} instance with error message and NOT_FOUND HTTP status if the user doesn't exist</li>
+     *      </ul> 
+     */
     @PostMapping("login")
     public ResponseEntity<User> login(@RequestBody User user) {
         logger.info("Login for user {}", user.getUsername());
@@ -41,6 +53,17 @@ public class UserController {
         }
     }
 
+    /**
+     * POST request for registering new user
+     *
+     * @param user A {@link User} object to be registered
+     *
+     * @return
+     *      <ul>
+     *          <li>A {@link ResponseEntity} instance with the registered user and OK HTTP status if the user has been registered successfully</li>
+     *          <li>A {@link ResponseEntity} instance with error message and CONFLICT HTTP status if a user with the same name already exists</li>
+     *      </ul>       
+     */
     @PostMapping("register")
     public ResponseEntity<User> register(@RequestBody User user) {
         logger.info("Registering user {} {}", user.getFirstName(), user.getLastName());
@@ -56,6 +79,18 @@ public class UserController {
 
     }
 
+    /**
+     * PUT request for updating user's data
+     *
+     * @param user A {@link User} object to be updated
+     *
+     * @return
+     *      <ul>
+     *          <li>A {@link ResponseEntity} instance with the updated user and OK HTTP status if the user has been updated successfully</li>
+     *          <li>A {@link ResponseEntity} instance with error message and NOT_FOUND HTTP status if the user doesn't exist</li>
+     *          <li>A {@link ResponseEntity} instance with error message and CONFLICT HTTP status if a user with the same username already exists</li>
+     *      </ul>       
+     */
     @PutMapping
     public ResponseEntity<User> updateUser(@RequestBody User user) {
         logger.info("Updating user {}", user.getUsername());

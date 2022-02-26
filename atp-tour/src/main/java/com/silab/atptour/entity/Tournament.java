@@ -25,7 +25,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
+ * Class representing a tennis tournament
+ * 
  * @author Lazar
  */
 @Entity
@@ -45,7 +46,7 @@ public class Tournament {
     private LocalDate startDate;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate completitionDate;
+    private LocalDate completionDate;
 
     @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinColumn(name = "host_country", referencedColumnName = "id")

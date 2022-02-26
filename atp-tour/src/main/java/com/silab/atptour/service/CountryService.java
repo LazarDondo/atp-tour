@@ -4,10 +4,16 @@ import com.silab.atptour.entity.Country;
 import java.util.List;
 
 /**
+ * Represents a service containing all the logic for managing country data
  *
  * @author Lazar
  */
 public interface CountryService {
 
+    /**
+     * Retrieves all countries from the database
+     *
+     * @return A {@link List} of countries
+     */
     public List<Country> getCountries();
 }

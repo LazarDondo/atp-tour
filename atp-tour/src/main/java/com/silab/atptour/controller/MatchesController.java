@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- *
+ * Rest controller for matches data management
+ * 
  * @author Lazar
  */
 @RestController
@@ -26,6 +27,13 @@ public class MatchesController {
 
     private final Logger logger = LoggerFactory.getLogger(MatchesController.class);
 
+    /**
+     * PUT request for saving existing and new matches
+     * 
+     * @param matches A {@link List} of {@link Match} entities
+     * 
+     * @return A {@link ResponseEntity} instance with matches from the tournament and OK HTTP status
+     */
     @PutMapping
     public ResponseEntity<List<Match>> updateMatches(@RequestBody List<Match> matches) {
         logger.info("Updating {} matches", matches.size());
@@ -34,6 +42,13 @@ public class MatchesController {
         return ResponseEntity.ok(updatedMatches);
     }
 
+    /**
+     * POST request for filtering matches by tournament and players
+     * 
+     * @param searchValues A {@link Match} instance containing filtering data
+     * 
+     * @return A {@link ResponseEntity} instance with filtered matches and OK HTTP status
+     */
     @PostMapping("/filter")
     public ResponseEntity<List<Match>> filterMatches(@RequestBody Match searchValues) {
         logger.debug("Finding matches");

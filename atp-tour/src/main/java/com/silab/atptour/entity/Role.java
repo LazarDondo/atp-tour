@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
+ * Class representing a user's role
+ * 
  * @author Lazar
  */
 @Entity

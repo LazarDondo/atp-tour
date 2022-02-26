@@ -20,7 +20,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
+ * Class representing match between two players on the tournament
+ * 
  * @author Lazar
  */
 @Entity

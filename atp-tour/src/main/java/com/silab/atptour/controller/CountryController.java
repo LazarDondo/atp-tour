@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- *
+ * Rest controller for country data management
+ * 
  * @author Lazar
  */
 @RestController
@@ -24,6 +25,12 @@ public class CountryController {
 
     private final Logger logger = LoggerFactory.getLogger(CountryController.class);
 
+    /**
+     * GET request for retrieving all countries from the database
+     * 
+     * @return  A {@link ResponseEntity} instance with found countries and OK HTTP status
+     *  
+     */
     @GetMapping
     public ResponseEntity<List<Country>> getCountries() {
         List<Country> countries = countryService.getCountries();

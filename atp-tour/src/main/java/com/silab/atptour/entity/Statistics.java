@@ -19,7 +19,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 /**
- *
+ * Class representing match statistics
+ * 
  * @author Lazar
  */
 @Entity

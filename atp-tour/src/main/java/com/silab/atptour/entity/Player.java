@@ -23,7 +23,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
+ * Class representing a professional tennis player
+ * 
  * @author Lazar
  */
 @Entity

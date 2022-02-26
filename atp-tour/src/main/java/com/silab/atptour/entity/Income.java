@@ -15,7 +15,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
+ * Class representing player's income from the tournaments
+ * 
  * @author Lazar
  */
 @Entity

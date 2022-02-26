@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
+ * Class representing a country
+ * 
  * @author Lazar
  */
 @Entity

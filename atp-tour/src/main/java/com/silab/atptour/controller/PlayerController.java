@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * Rest controller for player data management
  *
  * @author Lazar
  */
@@ -29,6 +30,13 @@ public class PlayerController {
 
     private final Logger logger = LoggerFactory.getLogger(PlayerController.class);
 
+    /**
+     * POST request for adding new player to the database
+     *
+     * @param player A {@link Player} object to be added to the database
+     *
+     * @return A {@link ResponseEntity} instance with the added player and OK HTTP status
+     */
     @PostMapping
     public ResponseEntity<Player> addPlayer(@RequestBody Player player) {
         logger.info("Adding new player {} {}", player.getFirstName(), player.getLastName());
@@ -37,6 +45,17 @@ public class PlayerController {
         return ResponseEntity.ok(addedPlayer);
     }
 
+    /**
+     * PUT request for updating player's data
+     *
+     * @param player A {@link Player} object to be updated
+     *
+     * @return
+     *      <ul>
+     *          <li>A {@link ResponseEntity} instance with the updated player and OK HTTP status if player has been updated successfully</li>
+     *          <li>A {@link ResponseEntity} instance with error message and NOT_FOUND HTTP status if player doesn't exist</li>
+     *      </ul>
+     */
     @PutMapping
     public ResponseEntity<Player> updatePlayer(@RequestBody Player player) {
         logger.info("Updating player {} {}", player.getFirstName(), player.getLastName());
@@ -50,6 +69,17 @@ public class PlayerController {
         }
     }
 
+    /**
+     * GET request for finding a player with the given id in the database
+     *
+     * @param id A long representing player's id
+     *
+     * @return
+     *      <ul>
+     *          <li>A {@link ResponseEntity} instance with the found player and OK HTTP status if the player has been found</li>
+     *          <li>A {@link ResponseEntity} instance with error message and NOT_FOUND HTTP status if there's no player with the given id</li>
+     *      </ul>
+     */
     @GetMapping("{id}")
     public ResponseEntity<Player> getPlayerById(@PathVariable("id") long id) {
         logger.debug("Finding player with id {}", id);
@@ -63,6 +93,11 @@ public class PlayerController {
         }
     }
 
+    /**
+     * GET request for retrieving all players from the database
+     * 
+     * @return A {@link ResponseEntity} instance with found players and OK HTTP status
+     */
     @GetMapping
     public ResponseEntity<List<Player>> getPlayers() {
         List<Player> players = playerService.getAllPlayers();

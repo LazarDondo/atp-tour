@@ -68,7 +68,7 @@ public class TournamentControllerTest {
                         .content(mapper.writeValueAsString(tournament)))
                 .andExpect(jsonPath("$.name", is(tournament.getName() + "-" + tournament.getStartDate().getYear())))
                 .andExpect(jsonPath("$.startDate", is(tournament.getStartDate().toString())))
-                .andExpect(jsonPath("$.completitionDate", is(tournament.getCompletitionDate().toString())))
+                .andExpect(jsonPath("$.completionDate", is(tournament.getCompletionDate().toString())))
                 .andExpect(jsonPath("$.hostCountry.name", is(tournament.getHostCountry().getName())))
                 .andExpect(jsonPath("$.tournamentType", is(tournament.getTournamentType())))
                 .andExpect(status().isOk());
@@ -110,7 +110,7 @@ public class TournamentControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is(tournament.getName())))
                 .andExpect(jsonPath("$.startDate", is(tournament.getStartDate().toString())))
-                .andExpect(jsonPath("$.completitionDate", is(tournament.getCompletitionDate().toString())))
+                .andExpect(jsonPath("$.completionDate", is(tournament.getCompletionDate().toString())))
                 .andExpect(jsonPath("$.hostCountry.name", is(tournament.getHostCountry().getName())))
                 .andExpect(jsonPath("$.tournamentType", is(tournament.getTournamentType())));
     }
@@ -164,7 +164,7 @@ public class TournamentControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is(testTournament.getName())))
                 .andExpect(jsonPath("$.startDate", is(testTournament.getStartDate().toString())))
-                .andExpect(jsonPath("$.completitionDate", is(testTournament.getCompletitionDate().toString())))
+                .andExpect(jsonPath("$.completionDate", is(testTournament.getCompletionDate().toString())))
                 .andExpect(jsonPath("$.hostCountry.name", is(testTournament.getHostCountry().getName())))
                 .andExpect(jsonPath("$.tournamentType", is(testTournament.getTournamentType())));
     }
@@ -203,12 +203,12 @@ public class TournamentControllerTest {
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$.[0]name", is(testTournament.getName())))
                 .andExpect(jsonPath("$.[0]startDate", is(testTournament.getStartDate().toString())))
-                .andExpect(jsonPath("$.[0]completitionDate", is(testTournament.getCompletitionDate().toString())))
+                .andExpect(jsonPath("$.[0]completionDate", is(testTournament.getCompletionDate().toString())))
                 .andExpect(jsonPath("$.[0]hostCountry.name", is(testTournament.getHostCountry().getName())))
                 .andExpect(jsonPath("$.[0]tournamentType", is(testTournament.getTournamentType())))
                 .andExpect(jsonPath("$.[1]name", is(tournament.getName())))
                 .andExpect(jsonPath("$.[1]startDate", is(tournament.getStartDate().toString())))
-                .andExpect(jsonPath("$.[1]completitionDate", is(tournament.getCompletitionDate().toString())))
+                .andExpect(jsonPath("$.[1]completionDate", is(tournament.getCompletionDate().toString())))
                 .andExpect(jsonPath("$.[1]hostCountry.name", is(tournament.getHostCountry().getName())))
                 .andExpect(jsonPath("$.[1]tournamentType", is(tournament.getTournamentType())))
                 .andExpect(status().isOk());

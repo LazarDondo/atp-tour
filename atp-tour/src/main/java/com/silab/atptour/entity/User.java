@@ -24,7 +24,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 /**
- *
+ * Class representing a user of the app
+ * 
  * @author Lazar
  */
 @Entity

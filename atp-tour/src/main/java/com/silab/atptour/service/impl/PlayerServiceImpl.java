@@ -12,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- *
+ * Represent an implementation of the {@link PlayerService} interface
+ * 
  * @author Lazar
  */
 @Service
@@ -23,6 +24,9 @@ public class PlayerServiceImpl implements PlayerService {
 
     private final Logger logger = LoggerFactory.getLogger(TournamentServiceImpl.class);
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Player addPlayer(Player player) {
         logger.debug("Adding player {} {}", player.getFirstName(), player.getLastName());
@@ -30,6 +34,9 @@ public class PlayerServiceImpl implements PlayerService {
         return playerDao.save(player);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Player updatePlayer(Player player) throws AtpEntityNotFoundException {
         logger.debug("Finding player {} {}", player.getFirstName(), player.getLastName());
@@ -40,6 +47,9 @@ public class PlayerServiceImpl implements PlayerService {
         return playerDao.save(player);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Player getPlayer(long id) throws AtpEntityNotFoundException {
         logger.debug("Finding player with id {}", id);
@@ -50,6 +60,9 @@ public class PlayerServiceImpl implements PlayerService {
         return optionalPlayer.get();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Player> getAllPlayers() {
         logger.debug("Finding all tennis players");

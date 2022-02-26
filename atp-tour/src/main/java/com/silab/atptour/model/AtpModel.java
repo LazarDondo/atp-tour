@@ -1,7 +1,8 @@
 package com.silab.atptour.model;
 
 /**
- *
+ * Model containing all the constants used in the app
+ * 
  * @author Lazar
  */
 public class AtpModel {

@@ -10,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- *
+ * Represent an implementation of the {@link CountryService} interface
+ * 
  * @author Lazar
  */
 @Service
@@ -21,6 +22,9 @@ public class CountryServiceImpl implements CountryService {
 
     private final Logger logger = LoggerFactory.getLogger(CountryServiceImpl.class);
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Country> getCountries() {
         logger.debug("Finding all countries");

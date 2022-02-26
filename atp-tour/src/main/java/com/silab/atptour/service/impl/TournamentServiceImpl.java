@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
+ * Represent an implementation of the {@link TournamentService} interface
  *
  * @author Lazar
  */
@@ -42,6 +43,9 @@ public class TournamentServiceImpl implements TournamentService {
 
     private final Logger logger = LoggerFactory.getLogger(TournamentServiceImpl.class);
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tournament addTournament(Tournament tournament) throws AtpEntityExistsException {
         String name = tournament.getName() + "-" + tournament.getStartDate().getYear();
@@ -50,18 +54,21 @@ public class TournamentServiceImpl implements TournamentService {
             throw new AtpEntityExistsException("Tournament with name " + name + " already exists");
         }
 
-        tournament.setCompletitionDate(tournament.getStartDate().plusDays(6));
+        tournament.setCompletionDate(tournament.getStartDate().plusDays(6));
         logger.debug("Adding new {} tournament", tournament.getName());
 
         Tournament savedTournament = tournamentDao.save(tournament);
         if (savedTournament.getParticipants() != null && !savedTournament.getParticipants().isEmpty()) {
             createMatches(savedTournament);
             createIncomes(savedTournament);
-            substractPointsFromPreviousTournament(savedTournament);
+            subtractPointsFromPreviousTournament(savedTournament);
         }
         return savedTournament;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tournament updateTournament(Tournament tournament) throws AtpEntityNotFoundException, AtpEntityExistsException {
         logger.debug("Finding tournament {}", tournament.getName());
@@ -84,6 +91,9 @@ public class TournamentServiceImpl implements TournamentService {
         return tournamentDao.save(tournament);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tournament getTournament(long id) throws AtpEntityNotFoundException {
         Optional<Tournament> optionalTournament = tournamentDao.findById(id);
@@ -93,12 +103,18 @@ public class TournamentServiceImpl implements TournamentService {
         return optionalTournament.get();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Tournament> getAllTournaments() {
         logger.debug("Retreiving all tournaments");
         return tournamentDao.findAll();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteTournament(long id) throws AtpEntityNotFoundException {
         logger.debug("Deleting tournament with id {}", id);
@@ -108,13 +124,18 @@ public class TournamentServiceImpl implements TournamentService {
         tournamentDao.deleteById(id);
     }
 
+    /**
+     * Creates matches based on the participants
+     * 
+     * @param tournament A {@link Tournament} for which the matches will be created
+     */
     private void createMatches(Tournament tournament) {
         LocalDate startDate = tournament.getStartDate();
         List<Match> matches = new ArrayList<>();
         List<Player> participants = tournament.getParticipants();
         int size = participants.size() - 1;
         String roundName = AtpModel.GRAND_SLAM_EIGHTS_FINALS;
-        
+
         for (int i = 0; i <= size / 2; i++) {
             matches.add(new Match(tournament, participants.get(i), participants.get(size - i),
                     startDate.plusDays(i % 2), roundName));
@@ -122,17 +143,22 @@ public class TournamentServiceImpl implements TournamentService {
         matchDao.saveAll(matches);
     }
 
-    private void substractPointsFromPreviousTournament(Tournament tournament) {
-        logger.debug("Substracting points for players who participated in previous year");
+    /**
+     * Subtracts points for the players who  participated on the on the same tournament last year
+     * 
+     * @param tournament 
+     */
+    private void subtractPointsFromPreviousTournament(Tournament tournament) {
+        logger.debug("Subtracting points for players who participated in previous year");
         String previousTournamentName = tournament.getName().split("-")[0] + "-" + (tournament.getStartDate().getYear() - 1);
         logger.info(previousTournamentName);
         Optional<Tournament> previousTournament = tournamentDao.findTournamentByName(previousTournamentName);
-        
+
         if (previousTournament.isEmpty()) {
             logger.debug("{} hasn't been held in previous year", previousTournamentName);
             return;
         }
-        
+
         List<Income> playerIncomes = incomeDao.findIncomesByTournament(previousTournament.get());
         for (Income playerIncome : playerIncomes) {
             Player player = playerDao.findById(playerIncome.getPlayer().getId()).get();
@@ -141,15 +167,20 @@ public class TournamentServiceImpl implements TournamentService {
         }
     }
 
+    /**
+     * Updates tournament's completion date and matches start date
+     * 
+     * @param tournament A {@link Tournament} for which the dates will be updated
+     */
     private void updateTournamentDates(Tournament tournament) {
         LocalDate startDate = tournament.getStartDate();
-        tournament.setCompletitionDate(startDate.plusDays(7));
+        tournament.setCompletionDate(startDate.plusDays(7));
         List<Match> matches = matchDao.filterMatches(tournament, null, null);
-        
+
         for (int i = 0; i < matches.size() / 2; i++) {
             matches.get(i).setMatchDate(startDate);
         }
-        
+
         startDate = startDate.plusDays(1);
         for (int i = matches.size() / 2; i < matches.size(); i++) {
             matches.get(i).setMatchDate(startDate);
@@ -157,6 +188,11 @@ public class TournamentServiceImpl implements TournamentService {
         matchDao.saveAll(matches);
     }
 
+    /**
+     * Creates income for the given tournament for all of the participants
+     * 
+     * @param tournament A {@link Tournament} for which incomes will be created
+     */
     private void createIncomes(Tournament tournament) {
         List<Income> incomes = new ArrayList<>();
         List<Player> participants = tournament.getParticipants();

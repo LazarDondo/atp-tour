@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
+ * Represent an implementation of the {@link StatisticsService} interface
  *
  * @author Lazar
  */
@@ -22,12 +23,18 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     private final Logger logger = LoggerFactory.getLogger(TournamentServiceImpl.class);
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Statistics saveStatistics(Statistics statistics) {
         logger.debug("Saving statistics");
         return statisticsDao.save(statistics);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Statistics findStatistics(Match match) {
         Optional<Statistics> foundStatistics = statisticsDao.findStatisticsByMatch(match);

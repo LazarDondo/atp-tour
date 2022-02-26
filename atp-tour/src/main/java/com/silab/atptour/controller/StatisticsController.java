@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- *
+ * Rest controller for statistics data management
+ * 
  * @author Lazar
  */
 @RestController
@@ -26,6 +27,13 @@ public class StatisticsController {
 
     private final Logger logger = LoggerFactory.getLogger(StatisticsController.class);
 
+    /**
+     * PUT request for adding new statistics to the database
+     *
+     * @param statistics A {@link Statistics} object to be added to the database
+     *
+     * @return A {@link ResponseEntity} instance with the added statistics and OK HTTP status
+     */
     @PutMapping
     public ResponseEntity<Statistics> saveStatistics(@RequestBody Statistics statistics) {
         logger.info("Saving new statistics");
@@ -33,6 +41,14 @@ public class StatisticsController {
         return ResponseEntity.ok(savedStatistics);
     }
 
+    /**
+     * POST request for finding match statistics
+     * 
+     * @param match A {@link Match} object for which statistics need to be found
+     * 
+     * @return A {@link ResponseEntity} instance with the found statistics
+     * 
+     */
     @PostMapping("/find")
     public ResponseEntity<Statistics> findStatistics(@RequestBody Match match) {
         logger.debug("Finding statistics for match between {} and {} on {}",

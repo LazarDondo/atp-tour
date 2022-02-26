@@ -7,6 +7,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
+ * Configuration for CORS header
  *
  * @author Lazar
  */
@@ -17,6 +18,9 @@ public class CorsConfig implements WebMvcConfigurer {
     @Value("${cors.allowed.url}")
     private String allowedUrl;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**").allowedOrigins(allowedUrl).allowedMethods("*");

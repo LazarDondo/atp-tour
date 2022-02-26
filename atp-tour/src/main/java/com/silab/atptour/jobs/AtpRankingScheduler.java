@@ -10,7 +10,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
- *
+ * Represents job for ranking players and equalizes current points with live points
+ * 
  * @author Lazar
  */
 @Component
@@ -21,6 +22,9 @@ public class AtpRankingScheduler {
 
     private final Logger logger = LoggerFactory.getLogger(AtpRankingScheduler.class);
 
+    /**
+     * Equalizes live and current points after which rank all players based on the current points. Job is triggered every Monday at midnight.
+     */
     @Scheduled(cron = "${scheduling.rank.cron}")
     public void rankPlayers() {
         logger.info("Ranking ATP list players");

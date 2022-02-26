@@ -17,7 +17,8 @@ import org.springframework.stereotype.Service;
 import com.silab.atptour.service.MatchesService;
 
 /**
- *
+ * Represent an implementation of the {@link MatchesService} interface
+ * 
  * @author Lazar
  */
 @Service
@@ -34,6 +35,9 @@ public class MatchesServiceImpl implements MatchesService {
 
     private final Logger logger = LoggerFactory.getLogger(MatchesServiceImpl.class);
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Match> updateMatches(List<Match> matches) {
         logger.debug("Updating {} matches", matches.size());
@@ -46,12 +50,20 @@ public class MatchesServiceImpl implements MatchesService {
         return matchDao.filterMatches(matches.get(0).getTournament(), null, null);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Match> filterMatches(Tournament tournament, Player firstPlayer, Player secondPlayer) {
         logger.info("Filtering matches by tournament: {}, first player: {}, second player: {}", tournament, firstPlayer, secondPlayer);
         return matchDao.filterMatches(tournament, firstPlayer, secondPlayer);
     }
 
+    /**
+     * Increases the live points and {@link Income} from the tournament for the match winner
+     * 
+     * @param match A {@link Match} for which the winner's live points will be increased
+     */
     private void increasePlayerPoints(Match match) {
         int roundPoints = getRoundPoints(match.getRound());
         Player winner = match.getWinner();
@@ -62,6 +74,13 @@ public class MatchesServiceImpl implements MatchesService {
         playerDao.save(winner);
     }
     
+    /**
+     * Gets points based on the round
+     * 
+     * @param round A string representing the round of the {@link Match}
+     * 
+     * @return An int representing points for the given {@link Match} round
+     */
     private int getRoundPoints(String round){
         switch(round){
             case AtpModel.GRAND_SLAM_EIGHTS_FINALS:
