@@ -31,6 +31,11 @@ export class RegistrationPageComponent implements OnInit {
     return this.registerForm.controls;
   }
 
+  /**
+   * Sets form variables and registers new user
+   * 
+   * @returns If any form field value is invalid
+   */
   onSubmit() {
     this.setFormVariables();
     if (this.registerForm.invalid) {

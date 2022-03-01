@@ -1,10 +1,6 @@
 
-import { Injectable } from "@angular/core";
 import { Match } from "./match.model";
 
-@Injectable({
-    providedIn: 'root'
-})
 export class Statistics {
     id: number;
     match: Match;

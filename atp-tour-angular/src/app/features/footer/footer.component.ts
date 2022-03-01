@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
+/**
+ * Represents the site footer component
+ * 
+ * @author Lazar
+ */
 @Component({
   selector: 'atp-footer',
   templateUrl: './footer.component.html',
@@ -7,6 +12,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
+  /**
+   * @constructor
+   */
   constructor() { }
 
   ngOnInit(): void {

@@ -1,9 +1,5 @@
-import { Injectable } from "@angular/core";
 import { Country } from "./country.model";
 
-@Injectable({
-    providedIn: 'root'
-})
 export class Player {
     id?: number;
     firstName: string;

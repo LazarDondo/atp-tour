@@ -9,6 +9,11 @@ import { TournamentEventEmitterService } from 'src/app/core/services/tournament-
 import { PlayerService } from 'src/app/core/services/player.service';
 import { Player } from 'src/app/models/player.model';
 
+/**
+ * Represents the add tournament component
+ * 
+ * @author Lazar
+ */
 @Component({
   selector: 'app-add-tournament',
   templateUrl: './add-tournament.component.html',
@@ -17,21 +22,30 @@ import { Player } from 'src/app/models/player.model';
 export class AddTournamentComponent implements OnInit {
 
   tournamentForm: FormGroup;
-  loading = false;
-  submitted = false;
-  success = false;
-  error = false;
-  validCountry = false;
-  futureDate: Date
+  loading: boolean = false;
+  submitted: boolean = false;
+  success: boolean = false;
+  error: boolean = false;
+  validCountry: boolean = false;
+  futureDate: Date;
   countryControl = new FormControl();
   participantControl = new FormControl();
-  countries: Country[]
-  filteredCountries: Observable<Country[]>
-  players: Player[]
-  filteredPlayers: Observable<Player[]>
+  countries: Country[];
+  filteredCountries: Observable<Country[]>;
+  players: Player[];
+  filteredPlayers: Observable<Player[]>;
   chosenPlayers: Player[];
   numberOfParticipants: number;
 
+  /**
+   * @constructor Sets future date value to tomorow
+   * 
+   * @param {TournamentService} tournamentService 
+   * @param {FormBuilder} formBuilder 
+   * @param {PlayerService} playerService 
+   * @param {CountryService} countryService 
+   * @param {TournamentEventEmitterService} eventEmitterService 
+   */
   constructor(private tournamentService: TournamentService, private formBuilder: FormBuilder, private playerService: PlayerService,
     private countryService: CountryService, private eventEmitterService: TournamentEventEmitterService) {
     this.futureDate = new Date();
@@ -40,19 +54,20 @@ export class AddTournamentComponent implements OnInit {
     this.numberOfParticipants = 0;
   }
 
+  /**
+   * Configures form fields, gets countries and players
+   */
   ngOnInit(): void {
     this.tournamentForm = this.configureFormFields();
     this.getCountries();
-
-    this.playerService.getPlayers().subscribe(players => {
-      this.players = players;
-      this.filteredPlayers = this.participantControl.valueChanges.pipe(
-        startWith(''),
-        map(value => { return this.playerService.filterPlayers(value, this.players); })
-      )
-    })
+    this.getPlayers();
   }
 
+  /**
+   * Validates country and adds new tournament
+   * 
+   * @returns If any form field value is invalid
+   */
   onSubmit() {
     this.submitted = true;
     this.error = false;
@@ -63,10 +78,27 @@ export class AddTournamentComponent implements OnInit {
     }
     this.loading = true;
     this.tournamentForm.value.participants = this.chosenPlayers;
-    console.log(this.tournamentForm.value);
     this.addTournament();
   }
 
+  /**
+   * Gets players from the database
+   */
+  private getPlayers() {
+    this.playerService.getPlayers().subscribe(players => {
+      this.players = players;
+      this.filteredPlayers = this.participantControl.valueChanges.pipe(
+        startWith(''),
+        map(value => { return this.playerService.filterPlayers(value, this.players); })
+      )
+    });
+  }
+
+  /**
+   * Configures form fields
+   * 
+   * @returns {FormGroup} Form with configured form fields
+   */
   private configureFormFields(): FormGroup {
     var form = this.formBuilder.group({
       name: ['', Validators.required],
@@ -78,6 +110,9 @@ export class AddTournamentComponent implements OnInit {
     return form;
   }
 
+  /**
+   * Gets all countries from the database and configures value change pipe
+   */
   private getCountries() {
     this.countryService.getCountries().subscribe(countries => {
       this.countries = countries;
@@ -88,6 +123,9 @@ export class AddTournamentComponent implements OnInit {
     });
   }
 
+  /**
+   * Adds new tournament to the database and updates form field values
+   */
   addTournament() {
     this.tournamentService.addTournament(this.tournamentForm.value).subscribe({
       next: addedTournament => {
@@ -105,18 +143,36 @@ export class AddTournamentComponent implements OnInit {
     });
   }
 
+  /**
+   * Gets tournament form controls
+   */
   get f() {
     return this.tournamentForm.controls;
   }
 
+  /**
+   * Displays country's name
+   * 
+   * @param {Country} country Country to be displayed
+   * 
+   * @returns {string} Country's name
+   */
   displayFn(country: Country) {
     return country ? country.name : "";
   }
 
+  /**
+   * Display's player
+   * 
+   * @returns {string}
+   */
   displayPlayer() {
     return '';
   }
 
+  /**
+   * Validates if with the name entered in the birth country autocomplete field exists
+   */
   validateCountry() {
     var hostCountry = this.countryControl.value
     this.validCountry = this.countries.filter(c => c == hostCountry || c.name == hostCountry).length > 0;
@@ -126,23 +182,42 @@ export class AddTournamentComponent implements OnInit {
     this.tournamentForm.value.hostCountry = hostCountry;
   }
 
+  /**
+   * Closes add tournament dialog
+   */
   closeDialog() {
     this.eventEmitterService.closeDialog();
   }
 
+  /**
+   * Adds new participant
+   * 
+   * @param {Player} chosenPlayer Player to be added to participants list
+   */
   addParticipant(chosenPlayer: Player) {
-    this._addPlayerByRank(this.chosenPlayers, chosenPlayer);
-    this._removePlayer(this.players, chosenPlayer);
+    this.addPlayerByRank(this.chosenPlayers, chosenPlayer);
+    this.removePlayer(this.players, chosenPlayer);
     this.numberOfParticipants++;
   }
 
+  /**
+   * Removes participant
+   * 
+   * @param chosenPlayer Player to be removed from participants list
+   */
   removeParticipant(chosenPlayer: Player) {
-    this._addPlayerByRank(this.players, chosenPlayer);
-    this._removePlayer(this.chosenPlayers, chosenPlayer);
+    this.addPlayerByRank(this.players, chosenPlayer);
+    this.removePlayer(this.chosenPlayers, chosenPlayer);
     this.numberOfParticipants--;
   }
 
-  private _addPlayerByRank(players: Player[], chosenPlayer: Player) {
+  /**
+   * Adds player to the list to the appropriate position in the array so that players are sorted ascending by rank
+   * 
+   * @param {Player[]} players Array of the participants
+   * @param {Player} chosenPlayer Player to be added
+   */
+  private addPlayerByRank(players: Player[], chosenPlayer: Player) {
     let insertIndex = players.findIndex(p => p.rank! > chosenPlayer.rank!);
     if (insertIndex != -1) {
       players.splice(insertIndex, 0, chosenPlayer);
@@ -152,7 +227,13 @@ export class AddTournamentComponent implements OnInit {
     }
   }
 
-  private _removePlayer(players: Player[], chosenPlayer: Player) {
+  /**
+   * Removes player from the participants array
+   * 
+   * @param {Player[]} players Array of the participants
+   * @param {Player} chosenPlayer Player to be removed
+   */
+  private removePlayer(players: Player[], chosenPlayer: Player) {
     let removeIndex = players.indexOf(chosenPlayer);
     players.splice(removeIndex, 1);
   }

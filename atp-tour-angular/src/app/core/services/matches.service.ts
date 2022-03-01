@@ -4,24 +4,57 @@ import { Observable } from 'rxjs';
 import { Match } from 'src/app/models/match.model';
 import { environment } from 'src/environments/environment';
 
+/**
+ * Service for matches data management
+ * 
+ * @author Lazar
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class MatchesService {
 
-  private API_URL = environment.API_URL;
 
-  constructor(private httpClient:HttpClient) {}
+  private API_URL: string = environment.API_URL;
 
-  public updateMatches(matches:Match[]) : Observable<Match[]>{
-    return this.httpClient.put<Match[]>(this.API_URL+"/matches", matches);
+  /**
+   * @constructor
+   * 
+   * @param {HttpClient} httpClient 
+   */
+  constructor(private httpClient: HttpClient) { }
+
+  /**
+   * Updates matches in the database
+   * 
+   * @param {Match[]} matches Matches to be updated
+   *  
+   * @returns {Observable<Match[]>}
+   */
+  public updateMatches(matches: Match[]): Observable<Match[]> {
+    return this.httpClient.put<Match[]>(this.API_URL + "/matches", matches);
   }
 
-  public filterMatches(filter: Match) : Observable<Match[]>{    
-    return this.httpClient.post<Match[]>(this.API_URL+"/matches/filter", filter);
+  /**
+   * Gets matches from the database by filter value. Matches can be filtered by tournament, first or second player
+   * 
+   * @param {Match} filter match containing filter values
+   * 
+   * @returns {Observable<Match[]>} Filtered matches
+   */
+  public filterMatches(filter: Match): Observable<Match[]> {
+    return this.httpClient.post<Match[]>(this.API_URL + "/matches/filter", filter);
   }
 
-  public addNewMatch(match: Match, rowIndex: number, matches: Match[], updateMatches: Match[]){
+  /**
+   * Adds next round match if both matches from the draw have finished
+   * 
+   * @param {Match} match Finished match
+   * @param {number} rowIndex Index of the finished match in the table
+   * @param {Match[]} matches All the matches from the same tournament as the finished match 
+   * @param {Match[]} updateMatches All changed matches ready for update
+  */
+  public addNewMatch(match: Match, rowIndex: number, matches: Match[], updateMatches: Match[]) {
     if (match.round === "finals") {
       return;
     }
@@ -38,15 +71,26 @@ export class MatchesService {
     updateMatches.push(newMatch);
   }
 
+  /**
+   * Gets date of the following match
+   * 
+   * @param {Match} match Finished match
+   * 
+   * @returns {string} Date for the match in the next round
+   */
   private getNextDate(match: Match): string {
-    if (match.round === "finals") {
-      console.log(match.tournament.completionDate.toDateString);
-    }
     var date = new Date(match.matchDate);
     date.setDate(date.getDate() + 2);
     return date.toISOString().split('T')[0];
   }
 
+  /**
+   * Gets the name of the next round
+   * 
+   * @param {string} round Current round
+   * 
+   * @returns {string} Name of the following round
+   */
   private getNextRound(round: string): string {
     switch (round) {
       case 'eights-finals':

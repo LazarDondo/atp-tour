@@ -1,29 +1,48 @@
-import { Injectable,EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Player } from 'src/app/models/player.model';
 
+/**
+ * Service for emmiting events connected to player page
+ * 
+ * @author Lazar
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class PlayerEventEmitterService {
 
-  invokeDisplayPlayerFunction = new EventEmitter();    
+  invokeDisplayPlayerFunction = new EventEmitter();
   invokeCloseDialogFunction = new EventEmitter();
   invokeUpdatePlayersTableFunction = new EventEmitter();
-  
-  subsVar: Subscription;    
-    
-  constructor() { }    
-    
-  displayPlayer(player:Player) {    
-    this.invokeDisplayPlayerFunction.emit(player);    
-  }   
 
-  updatePlayersTable(player:Player){
+  /**
+   * @constructor
+   */
+  constructor() { }
+
+  /**
+   * Displays {@link UpdatePlayerComponent} when the event is triggered
+   * 
+   * @param {Player} player Player to be displayed
+   */
+  displayPlayer(player: Player) {
+    this.invokeDisplayPlayerFunction.emit(player);
+  }
+
+  /**
+   * Update all players table
+   * 
+   * @param {Player} player Player to be added to the table
+   */
+  updatePlayersTable(player: Player) {
     this.invokeUpdatePlayersTableFunction.emit(player);
   }
 
-  closeDialog(){
+  /**
+   * Closes add player dialog
+   */
+  closeDialog() {
     this.invokeCloseDialogFunction.emit();
   }
 }

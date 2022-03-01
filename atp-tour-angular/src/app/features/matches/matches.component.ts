@@ -13,12 +13,18 @@ import { StatisticsComponent } from '../statistics/statistics.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { StatisticsEventEmitterService } from 'src/app/core/services/statistics-event-emitter.service';
 
+/**
+ * Represents the matches page component
+ * 
+ * @author Lazar
+ */
 @Component({
   selector: 'app-matches',
   templateUrl: './matches.component.html',
   styleUrls: ['./matches.component.scss']
 })
 export class MatchesComponent implements OnInit {
+
   matches: Match[];
   updateMatches: Match[];
   matchesForm: FormGroup;
@@ -32,15 +38,26 @@ export class MatchesComponent implements OnInit {
   tournamentControl = new FormControl();
   firstPlayerControl = new FormControl();
   secondPlayerControl = new FormControl();
-  loading = false;
-  submitted = false;
-  success = false;
-  error = false;
-  displayUpdateButton = false;
+  loading: boolean = false;
+  submitted: boolean = false;
+  success: boolean = false;
+  error: boolean = false;
+  displayUpdateButton: boolean = false;
   today: Date;
   isAdminUser: boolean;
-  dialogRef: MatDialogRef<StatisticsComponent, any>
+  dialogRef: MatDialogRef<StatisticsComponent, any>;
 
+  /**
+   * @constructor Sets updateMatches to an empty array and today property to the current date
+   * 
+   * @param {TournamentService} tournamentService 
+   * @param {PlayerService} playerService 
+   * @param {MatDialog} dialog 
+   * @param {MatchesService} matchesService 
+   * @param {FormBuilder} formBuilder 
+   * @param {AuthService} authService 
+   * @param {StatisticsEventEmitterService} eventEmitterService 
+   */
   constructor(private tournamentService: TournamentService, private playerService: PlayerService, private dialog: MatDialog,
     private matchesService: MatchesService, private formBuilder: FormBuilder, private authService: AuthService,
     private eventEmitterService: StatisticsEventEmitterService) {
@@ -48,13 +65,11 @@ export class MatchesComponent implements OnInit {
     this.today = new Date();
   }
 
+  /**
+   * Configures form fields and prepares necessary data
+   */
   ngOnInit(): void {
-    this.matchesForm = this.formBuilder.group({
-      tournament: [],
-      firstPlayer: [],
-      secondPlayer: [],
-    }
-    );
+    this.matchesForm = this.configureFormFields();
     this.getTournaments();
     this.getPlayers();
     this.subsribeToCloseDialogEvent();
@@ -62,21 +77,57 @@ export class MatchesComponent implements OnInit {
     this.isAdminUser = this.authService.isAdmin();
   }
 
+  /**
+   * Validates players and update matches condition, sets form fields variables and filter matches on form submit 
+   */
   onSubmit() {
     this.setFormVariables();
-    this.validatePlayer();
+    this.prepareFilterValues();
     this.filterMatches();
     this.validateUpdateMatchesCondition();
   }
 
-  displayTournament(tournament: Tournament) {
+  /**
+   * Configures form fields
+   * 
+   * @returns {FormGroup} Form with configured form fields
+   */
+  private configureFormFields(): FormGroup {
+    var form = this.formBuilder.group({
+      tournament: [],
+      firstPlayer: [],
+      secondPlayer: [],
+    });
+    return form;
+  }
+
+  /**
+   * Displays tournament in autocomplete field
+   * 
+   * @param {Tournament} tournament Tournament to be displayed
+   * 
+   * @returns {string} Tournament's name
+   */
+  displayTournament(tournament: Tournament): string {
     return tournament ? tournament.name : "";
   }
 
+  /**
+   * Displays player in autocomplete field
+   * 
+   * @param {Player} player Player to be displayed
+   * 
+   * @returns {string} Player's rank, first name and last name
+   */
   displayPlayer(player: Player) {
     return player ? '(' + player.rank + ') ' + player.firstName + " " + player.lastName : "";
   }
 
+  /**
+   * Opens statistics dialog
+   * 
+   * @param {Match} match Match for which statistics should be displayed in dialog
+   */
   openStatisticsDialog(match: Match) {
     if (match.winner) {
       this.dialogRef = this.dialog.open(StatisticsComponent, {
@@ -86,6 +137,9 @@ export class MatchesComponent implements OnInit {
     }
   }
 
+  /**
+   * Updates tournament's matches
+   */
   updateTournamentMatches() {
     if (this.updateMatches.length === 0) {
       return;
@@ -98,15 +152,40 @@ export class MatchesComponent implements OnInit {
     });
   }
 
-  hasStarted(date: string): boolean {
+  /**
+   * Checks if match can be updated
+   * 
+   * @param {Match} match Match that is validated
+   * 
+   * @returns {boolean}
+   *      <ul>
+   *         <li>True if the match can be updated</li>
+   *         <li>False if the match can't be updated</li>
+   *      </ul>    
+   */
+  allowResultsUpdate(match: Match): boolean {
+    return !match.result && this.hasFinished(match.matchDate) && this.isAdminUser && this.displayUpdateButton;
+  }
+
+  /**
+   * Checks if match has finished
+   * 
+   * @param {string} date Match date
+   * 
+   * @returns {boolean}
+   *      <ul>
+   *         <li>True if the match has finished</li>
+   *         <li>False if the match hasn't finished</li>
+   *      </ul>  
+   */
+  hasFinished(date: string): boolean {
     var matchDate = new Date(date);
     return matchDate.getTime() <= this.today.getTime();
   }
 
-  allowResultsUpdate(match: Match) {
-    return !match.result && this.hasStarted(match.matchDate) && this.isAdminUser && this.displayUpdateButton;
-  }
-
+  /**
+   * Gets all tournaments from the database and configures value change pipe
+   */
   private getTournaments() {
     this.tournamentService.getTournaments().subscribe(tournaments => {
       this.tournaments = tournaments;
@@ -117,6 +196,9 @@ export class MatchesComponent implements OnInit {
     });
   }
 
+  /**
+   * Gets all players from the database and configures value change pipe
+   */
   private getPlayers() {
     this.playerService.getPlayers().subscribe(players => {
       this.players = players;
@@ -125,12 +207,18 @@ export class MatchesComponent implements OnInit {
     });
   }
 
+  /**
+   * Subsribes to close dialog event
+   */
   private subsribeToCloseDialogEvent() {
     this.eventEmitterService.invokeCloseDialogFunction.subscribe(() => {
       this.dialogRef.close();
     });
   }
 
+  /**
+   * Filters matches based on tournament's name, first or second player's last name
+   */
   private filterMatches() {
     if (this.matchesForm.value.firstPlayer === this.matchesForm.value.secondPlayer) {
       this.matchesForm.value.secondPlayer = null;
@@ -149,6 +237,9 @@ export class MatchesComponent implements OnInit {
     this.updateMatches = [];
   }
 
+  /**
+   * Sets form variables values
+   */
   private setFormVariables() {
     this.submitted = true;
     this.error = false;
@@ -156,13 +247,23 @@ export class MatchesComponent implements OnInit {
     this.loading = true;
   }
 
-  private validatePlayer() {
+  /**
+   * Sets filter field values to null if empty, otherwise sets them to the entered value
+   */
+  private prepareFilterValues() {
     this.matchesForm.value.tournament = this.tournamentControl.value == "" ? null : this.tournamentControl.value;
     this.matchesForm.value.firstPlayer = this.firstPlayerControl.value == "" ? null : this.firstPlayerControl.value;
     this.matchesForm.value.secondPlayer = this.secondPlayerControl.value == "" ? null : this.secondPlayerControl.value;
 
   }
 
+  /**
+   * Configures value change pipe for players autocomplete fields
+   * 
+   * @param {FormControl} playerControl Autocomplete form field
+   * 
+   * @returns {Observable<Player[]>} Filtered players
+   */
   private configurePlayerControl(playerControl: FormControl): Observable<Player[]> {
     var players = playerControl.valueChanges.pipe(
       startWith(''),
@@ -171,6 +272,10 @@ export class MatchesComponent implements OnInit {
     return players;
   }
 
+  /**
+   * Validates if matches results can be updated
+
+   */
   private validateUpdateMatchesCondition() {
     if (!this.isAdminUser || !this.tournamentControl.value || !this.tournamentControl.value.startDate
       || this.firstPlayerControl.value || this.secondPlayerControl.value) {

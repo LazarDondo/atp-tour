@@ -3,20 +3,33 @@ import { PlayerEventEmitterService } from 'src/app/core/services/player-event-em
 import { PlayerService } from 'src/app/core/services/player.service';
 import { Player } from 'src/app/models/player.model';
 
+/**
+ * Represents the all players component
+ * 
+ * @author Lazar
+ */
 @Component({
   selector: 'app-all-players',
   templateUrl: './all-players.component.html',
   styleUrls: ['./all-players.component.scss']
 })
 export class AllPlayersComponent implements OnInit {
+
   @Output()  selectedPlayer = new EventEmitter<Player>();
   players: Player[];
   searchPlayers: Player[];
   playerName: string;
   pageNumber: number = 1;
   playersPerPage: number = 7;
+  key: string = 'rank';
+  reverse: boolean = false;
  
-
+ /**
+  * @constructor Subsribes to update player event
+  * 
+  * @param {PlayerService} playerService 
+  * @param {PlayerEventEmitterService} eventEmitterService 
+  */
   constructor(private playerService: PlayerService, private eventEmitterService:PlayerEventEmitterService) {
     this.playerService.getPlayers().subscribe(players => { this.players=players; this.searchPlayers = players });
     this.subscribeToUpdatePlayerEvent();
@@ -25,6 +38,9 @@ export class AllPlayersComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Searches for players by first and last name
+   */
   search() {
     if ( this.playerName=='') {
       this.players=this.searchPlayers;
@@ -39,20 +55,30 @@ export class AllPlayersComponent implements OnInit {
     }
   }
 
-  key: string = 'rank';
-  reverse: boolean = false;
+  /**
+   * Sorts table by columns
+   * 
+   * @param {string} key sort key
+   */
   sort(key: string) {
     this.key = key;
     this.reverse = !this.reverse;
   }
 
+  /**
+   * Displays selected player
+   * 
+   * @param {Player} player Selected player
+   */
   displayPlayer(player:Player){
     this.selectedPlayer.emit(player);
   }
 
+  /**
+   * Subscribes to update player event
+   */
   subscribeToUpdatePlayerEvent(){
-    this.eventEmitterService.subsVar = this.eventEmitterService.    
-      invokeUpdatePlayersTableFunction.subscribe((player)=>{  
+     this.eventEmitterService.invokeUpdatePlayersTableFunction.subscribe((player)=>{  
         let index = this.players.findIndex(p=>player.id===p.id)
         index===-1 ? this.players.push(player) : this.players[index] = player;
         this.ngOnInit(); 
