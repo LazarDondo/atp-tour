@@ -61,7 +61,6 @@ public class TournamentServiceImpl implements TournamentService {
         if (savedTournament.getParticipants() != null && !savedTournament.getParticipants().isEmpty()) {
             createMatches(savedTournament);
             createIncomes(savedTournament);
-            subtractPointsFromPreviousTournament(savedTournament);
         }
         return savedTournament;
     }
@@ -141,30 +140,6 @@ public class TournamentServiceImpl implements TournamentService {
                     startDate.plusDays(i % 2), roundName));
         }
         matchDao.saveAll(matches);
-    }
-
-    /**
-     * Subtracts points for the players who  participated on the on the same tournament last year
-     * 
-     * @param tournament 
-     */
-    private void subtractPointsFromPreviousTournament(Tournament tournament) {
-        logger.debug("Subtracting points for players who participated in previous year");
-        String previousTournamentName = tournament.getName().split("-")[0] + "-" + (tournament.getStartDate().getYear() - 1);
-        logger.info(previousTournamentName);
-        Optional<Tournament> previousTournament = tournamentDao.findTournamentByName(previousTournamentName);
-
-        if (previousTournament.isEmpty()) {
-            logger.debug("{} hasn't been held in previous year", previousTournamentName);
-            return;
-        }
-
-        List<Income> playerIncomes = incomeDao.findIncomesByTournament(previousTournament.get());
-        for (Income playerIncome : playerIncomes) {
-            Player player = playerDao.findById(playerIncome.getPlayer().getId()).get();
-            player.setLivePoints(player.getLivePoints() - playerIncome.getPoints());
-            playerDao.save(player);
-        }
     }
 
     /**
