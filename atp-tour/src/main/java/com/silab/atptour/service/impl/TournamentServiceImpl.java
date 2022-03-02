@@ -2,7 +2,6 @@ package com.silab.atptour.service.impl;
 
 import com.silab.atptour.dao.IncomeDao;
 import com.silab.atptour.dao.MatchDao;
-import com.silab.atptour.dao.PlayerDao;
 import com.silab.atptour.dao.TournamentDao;
 import com.silab.atptour.entity.Income;
 import com.silab.atptour.entity.Match;
@@ -31,9 +30,6 @@ public class TournamentServiceImpl implements TournamentService {
 
     @Autowired
     private TournamentDao tournamentDao;
-
-    @Autowired
-    private PlayerDao playerDao;
 
     @Autowired
     private MatchDao matchDao;

@@ -6,6 +6,7 @@ package com.silab.atptour.model;
  * @author Lazar
  */
 public class AtpModel {
+    
     public static final String GRAND_SLAM_EIGHTS_FINALS = "eights-finals";
     public static final String GRAND_SLAM_QUATER_FINALS = "quater-finals";
     public static final String GRAND_SLAM_SEMI_FINALS = "semi-finals";

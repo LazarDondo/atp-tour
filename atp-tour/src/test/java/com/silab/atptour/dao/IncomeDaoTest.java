@@ -2,7 +2,6 @@ package com.silab.atptour.dao;
 
 import com.silab.atptour.entity.Country;
 import com.silab.atptour.entity.Income;
-import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
 import com.silab.atptour.entity.Tournament;
 import com.silab.atptour.entity.id.IncomeId;

@@ -6,7 +6,7 @@ import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import java.util.List;
 
 /**
- * Represents a service containing all the logic for managing tournament data
+ * Represents a service containing all the logic for tournament data management
  * 
  * @author Lazar
  */

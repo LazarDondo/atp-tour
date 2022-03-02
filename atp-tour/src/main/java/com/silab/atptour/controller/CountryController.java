@@ -28,8 +28,7 @@ public class CountryController {
     /**
      * GET request for retrieving all countries from the database
      * 
-     * @return  A {@link ResponseEntity} instance with found countries and OK HTTP status
-     *  
+     * @return  A {@link ResponseEntity} instance with found countries and OK HTTP status 
      */
     @GetMapping
     public ResponseEntity<List<Country>> getCountries() {

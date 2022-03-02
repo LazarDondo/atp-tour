@@ -2,8 +2,6 @@ package com.silab.atptour.service;
 
 import com.silab.atptour.dao.TournamentDao;
 import com.silab.atptour.entity.Country;
-import com.silab.atptour.entity.Match;
-import com.silab.atptour.entity.Player;
 import com.silab.atptour.entity.Tournament;
 import com.silab.atptour.exceptions.AtpEntityExistsException;
 import com.silab.atptour.exceptions.AtpEntityNotFoundException;

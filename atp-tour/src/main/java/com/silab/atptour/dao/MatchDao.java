@@ -19,12 +19,12 @@ import org.springframework.stereotype.Repository;
 public interface MatchDao extends JpaRepository<Match, MatchId> {
 
     /**
-     * Filters matches by tournament and players 
-     * 
-     * @param tournament A {@link Tournament} object in which matches were played
-     * @param firstPlayer A {@link Player} object who participated in the matches
-     * @param secondPlayer A {@link Player} object who participated in the matches
-     * 
+     * Filters matches by tournament and players
+     *
+     * @param tournament A {@link Tournament} in which the matches were played
+     * @param firstPlayer A {@link Player} who has participated in the matches
+     * @param secondPlayer A {@link Player} who has participated in the matches
+     *
      * @return A {@link List} with filtered matches
      */
     @Query("SELECT m FROM Match m WHERE (:tournament is null OR m.tournament = :tournament)"

@@ -35,7 +35,7 @@ public class AtpRankingScheduler {
     private final Logger logger = LoggerFactory.getLogger(AtpRankingScheduler.class);
 
     /**
-     * Equalizes live and current points after which rank all players based on the current points. Job is triggered every Monday at midnight.
+     * Equalizes live and current points after which ranks all players based on the current points. Job is triggered every Monday at midnight.
      */
     @Scheduled(cron = "${scheduling.rank.cron}")
     public void rankPlayers() {

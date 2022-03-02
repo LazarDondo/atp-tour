@@ -6,7 +6,7 @@ import com.silab.atptour.entity.Tournament;
 import java.util.List;
 
 /**
- * Represents a service containing all the logic for managing matches data
+ * Represents a service containing all the logic for matches data management
  *
  * @author Lazar
  */

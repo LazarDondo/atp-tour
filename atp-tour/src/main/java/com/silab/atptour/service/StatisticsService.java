@@ -4,7 +4,7 @@ import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Statistics;
 
 /**
- * Represents a service containing all the logic for managing statistics data
+ * Represents a service containing all the logic for statistics data management
  * 
  * @author Lazar
  */

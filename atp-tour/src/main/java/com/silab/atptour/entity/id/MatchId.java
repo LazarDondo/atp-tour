@@ -9,6 +9,7 @@ import lombok.Setter;
 
 /**
  * Class representing composite primary key for the Match class
+ * 
  * @author Lazar
  */
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode

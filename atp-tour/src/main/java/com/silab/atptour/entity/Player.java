@@ -24,16 +24,12 @@ import lombok.Setter;
 
 /**
  * Class representing a professional tennis player
- * 
+ *
  * @author Lazar
  */
 @Entity
 @Table(name = "player")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
 public class Player {
 
     @Id

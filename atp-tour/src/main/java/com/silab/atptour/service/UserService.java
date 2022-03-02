@@ -6,7 +6,7 @@ import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
- * Represents a service containing all the logic for managing user data
+ * Represents a service containing all the logic for user data management
  * 
  * @author Lazar
  */

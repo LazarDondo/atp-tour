@@ -4,7 +4,7 @@ import com.silab.atptour.entity.Country;
 import java.util.List;
 
 /**
- * Represents a service containing all the logic for managing country data
+ * Represents a service containing all the logic for country data management
  *
  * @author Lazar
  */
