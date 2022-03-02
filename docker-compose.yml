@@ -9,9 +9,11 @@ services:
             - MYSQL_DATABASE=atp-tour
         ports:
             - 3307:3306
+        volumes:
+            - "./scripts/atp-tour-db.sql:/docker-entrypoint-initdb.d/1.sql"
     
     atp-tour:
-        image: atp-tour:1.0
+        image: lazardondo5/atp-tour
         container_name: atp-tour
         restart: on-failure
         depends_on:
@@ -22,7 +24,7 @@ services:
             - SPRING_PROFILES_ACTIVE = docker
             
     atp-tour-angular:
-        image: atp-tour-angular:1.0
+        image: lazardondo5/atp-tour-angular
         container_name: atp-tour-angular
         ports:
             - 4200:4200
