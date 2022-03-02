@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   /**
-   * Displays user's information if the {@link User} is logged in
+   * Sets userInfo variable if user is logged in
    */
   ngOnInit(): void {
     this.loggedIn = this.authService.isLoggedIn();

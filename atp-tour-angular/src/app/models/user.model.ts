@@ -1,6 +1,8 @@
-import { Injectable } from "@angular/core";
 import { Role } from "./role.model";
 
+/**
+ * Class representing an app user
+ */
 export class User {
     id?: number;
     username: string;

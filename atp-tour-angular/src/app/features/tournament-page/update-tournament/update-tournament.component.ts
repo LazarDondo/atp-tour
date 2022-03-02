@@ -44,9 +44,6 @@ export class UpdateTournamentComponent implements OnInit {
     this.subscribeToDisplayTournamentEvent();
   }
 
-  /**
-   * Configures form fields and displays selected tournament
-   */
   ngOnInit(): void {
     this.tournamentForm = this.configureFormFields();
     this.displayTournament(this.selectedTournament);

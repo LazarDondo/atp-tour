@@ -5,21 +5,35 @@ import { StatisticsEventEmitterService } from 'src/app/core/services/statistics-
 import { StatisticsService } from 'src/app/core/services/statistics.service';
 import { Match } from 'src/app/models/match.model';
 
+/**
+ * Represents the statistics component
+ * 
+ * @author Lazar
+ */
 @Component({
   selector: 'app-statistics',
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.scss']
 })
 export class StatisticsComponent implements OnInit {
+
   selectedMatch: Match;
   statisticsForm: FormGroup;
-  submitted = false;
-  success = false;
-  error = false;
-  loading = false;
+  submitted: boolean = false;
+  success: boolean = false;
+  error: boolean = false;
+  loading: boolean = false;
   isAdminUser: boolean;
   statisticsControl = new FormControl();
 
+  /**
+   * @constructor
+   * 
+   * @param {FormBuilder} formBuilder 
+   * @param {StatisticsService} statisticsService 
+   * @param {StatisticsEventEmitterService} eventEmitterService 
+   * @param {AuthService} authService 
+   */
   constructor(private formBuilder: FormBuilder, private statisticsService: StatisticsService,
     private eventEmitterService: StatisticsEventEmitterService, private authService: AuthService) { }
 
@@ -29,12 +43,20 @@ export class StatisticsComponent implements OnInit {
     this.previewStatistics();
   }
 
+  /**
+   * Saves statistics to the database on form submit
+   */
   onSubmit() {
     this.setFormVariables();
     this.saveStatistics();
   }
 
-  private configureFormFields(): FormGroup{
+  /**
+   * Configures form fields
+   * 
+   * @returns {FormGroup} Form with configured form fields
+   */
+  private configureFormFields(): FormGroup {
     var form = this.formBuilder.group({
       id: [],
       match: [],
@@ -52,13 +74,19 @@ export class StatisticsComponent implements OnInit {
     return form;
   }
 
-  private setFormVariables(){
+  /**
+   * Sets form variables
+   */
+  private setFormVariables() {
     this.submitted = true;
     this.error = false;
     this.success = false;
     this.loading = true;
   }
 
+  /**
+   * Saves new statistics to teh database
+   */
   private saveStatistics() {
     if (!this.statisticsForm.value.id) {
       this.statisticsForm.value.match = this.selectedMatch;
@@ -77,6 +105,9 @@ export class StatisticsComponent implements OnInit {
     });
   }
 
+  /**
+   * Previews match statistics
+   */
   private previewStatistics() {
     this.statisticsService.findStatistics(this.selectedMatch).subscribe({
       next: statistics => {
@@ -87,6 +118,9 @@ export class StatisticsComponent implements OnInit {
     });
   }
 
+  /**
+   * Closes statistics dialog
+   */
   closeDialog() {
     this.eventEmitterService.closeDialog();
   }

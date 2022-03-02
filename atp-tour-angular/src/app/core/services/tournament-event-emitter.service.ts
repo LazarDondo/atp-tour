@@ -2,7 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Tournament } from 'src/app/models/tournament.model';
 
 /**
- * Service for emmiting events connected to tournament page
+ * Service for emmiting events related to tournament page
  * 
  * @author Lazar
  */
@@ -16,7 +16,7 @@ export class TournamentEventEmitterService {
   invokeCloseDialogFunction = new EventEmitter();
 
   /**
-   * constructor
+   * @constructor
    */
   constructor() { }
 

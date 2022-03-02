@@ -54,9 +54,6 @@ export class AddTournamentComponent implements OnInit {
     this.numberOfParticipants = 0;
   }
 
-  /**
-   * Configures form fields, gets countries and players
-   */
   ngOnInit(): void {
     this.tournamentForm = this.configureFormFields();
     this.getCountries();

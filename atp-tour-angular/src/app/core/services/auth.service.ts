@@ -14,7 +14,7 @@ export class AuthService {
   private loggedUser: User;
 
   /**
-   * @constructor
+   * @constructor Sets logged user from session storage if one exists
    */
   constructor() {
     var value = sessionStorage['loggedUser'];

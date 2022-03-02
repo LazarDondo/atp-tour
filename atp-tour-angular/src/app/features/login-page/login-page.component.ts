@@ -36,21 +36,15 @@ export class LoginPageComponent implements OnInit {
       this.redirect = params['redirect'];
     })
   }
-
-  /**
-   * Adds form field {@link Validators}
-   */
+  
   ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-    });
+    this.loginForm = this.configureFormFields();
   }
 
   /**
    * Logs the user on form submit
    * 
-   * @returns If any form field value is invalid
+   * @return If any form field value is invalid
    */
   onSubmit() {
     this.submitted = true;
@@ -83,6 +77,19 @@ export class LoginPageComponent implements OnInit {
    */
   get f() {
     return this.loginForm.controls;
+  }
+
+  /**
+  * Configures form fields
+  * 
+  * @returns {FormGroup} Form with configured form fields
+  */
+  private configureFormFields(): FormGroup {
+    var form = this.formBuilder.group({
+      username: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
+    return form;
   }
 
 }

@@ -45,9 +45,6 @@ export class AddPlayerComponent implements OnInit {
     this.maximumDate.setFullYear(this.maximumDate.getFullYear() - 16);
   }
 
-  /**
-   * Configures form fields and prepares necessary data
-   */
   ngOnInit(): void {
     this.playerForm = this.configureFormFields();
     this.getCountries();

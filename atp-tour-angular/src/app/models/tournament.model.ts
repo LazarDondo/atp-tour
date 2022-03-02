@@ -1,5 +1,8 @@
 import { Country } from "./country.model";
 
+/**
+ * Class representing a tennis tournament
+ */
 export class Tournament {
     id?: number;
     name: string;

@@ -41,9 +41,9 @@ export class CountryService {
    * @returns {Country[]} Filtered countries
    */
   public filterCountries(value: string | Country, countries: Country[]): Country[] {
-    const filterValue = (value instanceof Country) ? value.name : value;
+    const filterValue = (value instanceof Object) ? value.name : value;
     return countries.filter(option => {
-      return option.name.toLowerCase().includes(filterValue)
+      return option.name.toLowerCase().includes(filterValue.toLowerCase())
     })
   }
 }

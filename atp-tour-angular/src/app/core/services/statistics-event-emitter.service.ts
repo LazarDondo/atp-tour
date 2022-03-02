@@ -1,7 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 
 /**
- * Service for emmiting events connected to statistics page
+ * Service for emmiting events related to statistics page
  * 
  * @author Lazar
  */

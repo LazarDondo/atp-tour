@@ -65,9 +65,6 @@ export class MatchesComponent implements OnInit {
     this.today = new Date();
   }
 
-  /**
-   * Configures form fields and prepares necessary data
-   */
   ngOnInit(): void {
     this.matchesForm = this.configureFormFields();
     this.getTournaments();

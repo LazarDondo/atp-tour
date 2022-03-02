@@ -22,6 +22,7 @@ export class TournamentPageComponent implements OnInit {
   isAdminUser: boolean;
 
   /**
+   * @constructor
    * 
    * @param {TournamentEventEmitterService} eventEmitterService 
    * @param {MatDialog} dialog 
@@ -29,9 +30,6 @@ export class TournamentPageComponent implements OnInit {
    */
   constructor(private eventEmitterService: TournamentEventEmitterService, private dialog: MatDialog, private authService: AuthService) { }
 
-  /**
-   * Gets admin user and subscribes to close dialog event
-   */
   ngOnInit(): void {
     this.subscribeToCloseDialogEvent();
     this.isAdminUser = this.authService.isAdmin();

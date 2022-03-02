@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { Player } from 'src/app/models/player.model';
 
 /**
- * Service for emmiting events connected to player page
+ * Service for emmiting events related to player page
  * 
  * @author Lazar
  */

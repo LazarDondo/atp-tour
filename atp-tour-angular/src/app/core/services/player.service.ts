@@ -63,9 +63,9 @@ export class PlayerService {
   * @returns {Player[]} Filtered players
   */
   public filterPlayers(value: string | Player, players: Player[]): Player[] {
-    const filterValue = (value instanceof Player) ? value.lastName : value;
+    const filterValue = (value instanceof Object) ? value.lastName : value;
     return players.filter(option => {
-      return option.lastName.toLowerCase().includes(filterValue)
+      return option.lastName.toLowerCase().includes(filterValue.toLowerCase())
     })
   }
 }

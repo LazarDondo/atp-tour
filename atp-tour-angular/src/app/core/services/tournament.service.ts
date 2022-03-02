@@ -72,9 +72,9 @@ export class TournamentService {
    * @returns {Tournament[]} Filtered tournaments
    */
   public filterTournaments(value: string | Tournament, tournaments: Tournament[]): Tournament[] {
-    const filterValue = (value instanceof Tournament) ? value.name : value;
+    const filterValue = (value instanceof Object) ? value.name : value;
     return tournaments.filter(option => {
-      return option.name.toLowerCase().includes(filterValue);
+      return option.name.toLowerCase().includes(filterValue.toLowerCase());
     })
   }
 }

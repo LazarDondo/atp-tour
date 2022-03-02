@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 
 
 /**
- * Represents the add player page component
+ * Represents the player page component
  * 
  * @author Lazar
  */
@@ -31,9 +31,6 @@ export class PlayerPageComponent implements OnInit {
    */
   constructor(private eventEmitterService: PlayerEventEmitterService, private dialog: MatDialog, private authService: AuthService) { }
 
-  /**
-   * Subsribes to close dialog event
-   */
   ngOnInit(): void {
     this.subsribeToCloseDialogEvent();
     this.isAdminUser = this.authService.isAdmin();
