@@ -28,8 +28,13 @@ input{
 #search{
   margin-top:22px 
 }
-#updateMatchesButton{
+.matches-button{
   height: 40px;
-  width: 150px;
+  width: 180px;
   margin-left: 5px;
+  margin-top:15px;
+}
+
+#buttonsDiv{
+  margin-top:32px;
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -12,6 +12,8 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { StatisticsComponent } from '../statistics/statistics.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { StatisticsEventEmitterService } from 'src/app/core/services/statistics-event-emitter.service';
+import { ExcelService } from 'src/app/core/services/excel.service';
+import { ExcelMatch } from 'src/app/models/excel-match.model';
 
 /**
  * Represents the matches page component
@@ -60,7 +62,7 @@ export class MatchesComponent implements OnInit {
    */
   constructor(private tournamentService: TournamentService, private playerService: PlayerService, private dialog: MatDialog,
     private matchesService: MatchesService, private formBuilder: FormBuilder, private authService: AuthService,
-    private eventEmitterService: StatisticsEventEmitterService) {
+    private eventEmitterService: StatisticsEventEmitterService, private excelService: ExcelService) {
     this.updateMatches = [];
     this.today = new Date();
   }
@@ -178,6 +180,32 @@ export class MatchesComponent implements OnInit {
   hasFinished(date: string): boolean {
     var matchDate = new Date(date);
     return matchDate.getTime() <= this.today.getTime();
+  }
+
+  generateExcelReport(): void {
+    let aaa: ExcelMatch[];
+    aaa = [];
+    this.matches.forEach(m => {
+      aaa.push(new ExcelMatch(m));
+    })
+
+    this.prepareFilterValues();
+
+    let tournamentName = this.matchesForm.value.tournament ? this.matchesForm.value.tournament.name + "-" : '';
+    let firstPlayer = this.matchesForm.value.firstPlayer ? this.matchesForm.value.firstPlayer.firstName + " " + this.matchesForm.value.firstPlayer.lastName + "-" : '';
+    let secondPlayer = this.matchesForm.value.secondPlayer ? this.matchesForm.value.secondPlayer.firstName + " " + this.matchesForm.value.secondPlayer.lastName : '';
+
+    let fileName;
+
+    if (tournamentName || firstPlayer || secondPlayer) {
+      fileName = tournamentName + firstPlayer + secondPlayer;
+    }
+    else {
+      fileName = 'All matches';
+    }
+
+
+    this.excelService.generateExcelFile(fileName, 'Matches', aaa);
   }
 
   /**

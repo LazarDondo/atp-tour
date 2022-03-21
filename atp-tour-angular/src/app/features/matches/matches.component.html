@@ -49,8 +49,8 @@
             <thead>
                 <tr>
                     <th style="width: 17%" class="tablesorter-header">Tournament</th>
-                    <th style="width: 17%" >First Player</th>
-                    <th style="width: 17%">Second Player</th>   
+                    <th style="width: 17%">First Player</th>
+                    <th style="width: 17%">Second Player</th>
                     <th style="width: 15%">Match Date</th>
                     <th style="width: 15%">Round</th>
                     <th style="width: 7%">Result</th>
@@ -87,8 +87,12 @@
         </table>
         <pagination-controls (pageChange)="pageNumber = $event"></pagination-controls>
     </nav>
-    <button *ngIf="displayUpdateButton" id="updateMatchesButton" class="btn btn-info"
-        (click)="updateTournamentMatches()">Update matches</button>
+    <div id="buttonsDiv">
+        <button class="btn btn-info matches-button" (click)="generateExcelReport()">Generate
+            Excel report</button>
+        <button *ngIf="displayUpdateButton" class="btn btn-info matches-button"
+            (click)="updateTournamentMatches()">Update matches</button>
+    </div>
 </div>
 
 <app-statistics *ngIf="false"></app-statistics>
