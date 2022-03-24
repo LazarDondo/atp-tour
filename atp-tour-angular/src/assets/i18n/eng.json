@@ -1,0 +1,246 @@
+{
+    "HEADER": {
+        "TOURNAMENTS": "Tournaments",
+        "PLAYERS": "Players",
+        "MATCHES": "Matches",
+        "GREETINGS": "Greetings",
+        "LOGIN": "Login",
+        "LOGOUT": "Logout"
+    },
+    "FOOTER": {
+        "ABOUT": "About",
+        "DESCRIPTION": [
+            "As a global governing body of men’s professional tennis",
+            "the ATP’s mission is to serve tennis.",
+            "We entertain a billion global fans",
+            "showcase the world’s greatest players at the most prestigious tournaments",
+            "and inspire the next generation of fans and players. From the ATP Cup in Australia",
+            "to Europe, the Americas and Asia",
+            "the stars of the game battle for titles and ATP Rankings points at ATP Masters 1000",
+            "500 and 250 events, and Grand Slams.",
+            "All roads lead towards the Nitto ATP Finals",
+            "the prestigious season finale held in Turin, Italy.",
+            "Featuring only the world’s top 8 qualified singles players and doubles teams,",
+            "the tournament also sees the official crowning of the year-end ATP World No. 1",
+            "the ultimate achievement in tennis."
+        ],
+        "CATEGORIES": "Categories",
+        "TOURNAMENTS": "Tournaments",
+        "PLAYERS": "Players",
+        "MATCHES": "Matches",
+        "QUICK_LINKS": "Quick Links",
+        "COPYRIGHT": "Copyright",
+        "RIGHTS_RESERVED": "2022 All Rights Reserved by",
+        "ATP": "ATP"
+    },
+    "LOGIN": {
+        "ERROR_MESSAGE": "You have to login in order to continue",
+        "TITLE": "Login",
+        "USERNAME": {
+            "LABEL": "Username",
+            "REQUIRED": "Username is required",
+            "EMAIL_WARNING": "Username must be in email format"
+        },
+        "PASSWORD": {
+            "LABEL": "Password",
+            "REQUIRED": "Password is required"
+        },
+        "ERROR": "Invalid username or password. Please try again.",
+        "BUTTON": "Login",
+        "REGISTER": "Register"
+    },
+    "REGISTRATION": {
+        "TITLE": "Register",
+        "FIRST_NAME": {
+            "LABEL": "First name",
+            "REQUIRED": "First name is required"
+        },
+        "LAST_NAME": {
+            "LABEL": "Last name",
+            "REQUIRED": "Last name is required"
+        },
+        "USERNAME": {
+            "LABEL": "Username (email)",
+            "REQUIRED": "Username is required",
+            "EMAIL_WARNING": "Username must be in email format"
+        },
+        "PASSWORD": {
+            "LABEL": "Password",
+            "REQUIRED": "Password is required",
+            "LENGTH_WARNING": "Password must be at least 8 characters long"
+        },
+        "SUCCESS": "Registration was successful",
+        "ERROR": "Username already exists. Please choose another username.",
+        "BUTTON": "Register",
+        "LOGIN": "Login"
+    },
+    "TOURNAMENT": {
+        "ADD": {
+            "TITLE": "Add Tournament",
+            "NAME": {
+                "LABEL": "Name",
+                "REQUIRED": "Tournament name is required"
+            },
+            "START_DATE": {
+                "LABEL": "Start date",
+                "REQUIRED": "Start date is required"
+            },
+            "HOST_COUNTRY": {
+                "LABEL": "Host country",
+                "VALID": "Host country must me valid"
+            },
+            "PARTICIPANTS": {
+                "LABEL": "Participants",
+                "REQUIRED": "You must select 16 participants for the tournament"
+            },
+            "TYPE": {
+                "LABEL": "Tournament type",
+                "OPTIONS": {
+                    "FIRST_OPTION": "Grand Slam",
+                    "SECOND_OPTION": "Masters 1000"
+                },
+                "REQUIRED": "Tournament type is required"
+            },
+            "SUCCESS": "Successfully added new tournament. Tournaments can't be updated once they have started",
+            "ERROR": "Failed to add new tournament",
+            "BUTTON": "Add tournament",
+            "PARTICIPATING": "Participating:",
+            "MISSING": "Missing:"
+        },
+        "ALL": {
+            "TITLE": "Tournaments",
+            "SEARCH": "Enter tournament's name to search",
+            "NAME": "Name",
+            "START_DATE": "Start date",
+            "COMPLETION_DATE": "Completion date",
+            "HOST_COUNTRY": "Host country",
+            "TYPE": "Tournament type"
+        },
+        "UPDATE": {
+            "TITLE": "Update Tournament",
+            "NAME": {
+                "LABEL": "Name",
+                "REQUIRED": "Tournament name is required"
+            },
+            "START_DATE": {
+                "LABEL": "Start date"
+            },
+            "COMPLETION_DATE": {
+                "LABEL": "Completion date"
+            },
+            "HOST_COUNTRY": {
+                "LABEL": "Host country"
+            },
+            "TYPE": {
+                "LABEL": "Tournament type"
+            },
+            "SUCCESS": "Tournament updated successfully",
+            "ERROR": "Failed to update tournament",
+            "BUTTON": "Update tournament"
+        },
+        "DELETE": {
+            "BUTTON": "Delete Tournament"
+        },
+        "BUTTON_ADD": "Add tournament"
+    },
+    "PLAYER": {
+        "ADD": {
+            "TITLE": "Add Player",
+            "FIRST_NAME": {
+                "LABEL": "First name",
+                "REQUIRED": "First name is required"
+            },
+            "LAST_NAME": {
+                "LABEL": "Last name",
+                "REQUIRED": "Last name is required"
+            },
+            "BIRTH_COUNTRY": {
+                "LABEL": "Birth country",
+                "VALID": "Birth country must me valid"
+            },
+            "DATE_OF_BIRTH": {
+                "LABEL": "Date of birth",
+                "REQUIRED": "Date of birth is required"
+            },
+            "CURRENT_POINTS": {
+                "LABEL": "Current points",
+                "REQUIRED": "Current points are required"
+            },
+            "SUCCESS": "Successfully added new player. Player will be ranked on the first Monday at midnight",
+            "ERROR": "Failed to add new player",
+            "BUTTON": "Add player"
+        },
+        "ALL": {
+            "TITLE": "Players",
+            "SEARCH": "Enter player's name to search",
+            "RANK": "Rank",
+            "NAME": "Name",
+            "BIRTH_COUNTRY": "Birth country",
+            "DATE_OF_BIRTH": "Date of birth",
+            "POINTS": "Points",
+            "LIVE_POINTS": "Live points"
+        },
+        "UPDATE": {
+            "TITLE": "Update Player",
+            "RANK": {
+                "LABEL": "Rank"
+            },
+            "FIRST_NAME": {
+                "LABEL": "First name",
+                "REQUIRED": "First name is required"
+            },
+            "LAST_NAME": {
+                "LABEL": "Last name",
+                "REQUIRED": "Last name is required"
+            },
+            "BIRTH_COUNTRY": {
+                "LABEL": "Birth country"
+            },
+            "DATE_OF_BIRTH": {
+                "LABEL": "Date of birth"
+            },
+            "CURRENT_POINTS": {
+                "LABEL": "Current points"
+            },
+            "LIVE_POINTS": {
+                "LABEL": "Live points",
+                "REQUIRED": "Live points are required"
+            },
+            "SUCCESS": "Successfully updated player",
+            "ERROR": "Failed to update player",
+            "BUTTON": "Update player"
+        },
+        "BUTTON_ADD": "Add player"
+    },
+    "MATCHES": {
+        "TITLE": "Matches",
+        "SEARCH": {
+            "TOURNAMENT": "Tournament",
+            "FIRST_PLAYER": "First Player",
+            "SECOND_PLAYER": "Second Player",
+            "BUTTON": "Search"
+        },
+        "TABLE_COLUMN": {
+            "TOURNAMENT": "Tournament",
+            "FIRST_PLAYER": "First Player",
+            "SECOND_PLAYER": "Second Player",
+            "MATCH_DATE": "Match Date",
+            "ROUND": "Round",
+            "RESULT": "Result",
+            "WINNER": "Winner"
+        },
+        "BUTTON_EXCEL_REPORT": "Generate Excel report",
+        "BUTTON_UPDATE": "Update matches"
+    },
+    "STATISTICS": {
+        "TITLE": "Statistics",
+        "POINTS": "Points",
+        "ACES": "Aces",
+        "BREAK_POINTS": "Break Points",
+        "FIRST_SERVES_IN": "First Serves In",
+        "SECOND_SERVES_IN": "Second Serves In",
+        "SUCCESS": "Successfully saved match statistics",
+        "ERROR": "Failed to save match statistics",
+        "BUTTON_SAVE": "Save Statistics"
+    }
+}

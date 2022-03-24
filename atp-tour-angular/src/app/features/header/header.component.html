@@ -5,20 +5,24 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbarColor01">
-    <ul class="navbar-nav mr-auto">
+    <ul id="navLinks"class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="tournament">Tournament</a>
+        <a class="nav-link" href="tournament">{{'HEADER.TOURNAMENTS' | translate}}</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="player">Player</a>
+        <a class="nav-link" href="player">{{'HEADER.PLAYERS' | translate}}</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="matches">Matches</a>
+        <a class="nav-link" href="matches">{{'HEADER.MATCHES' | translate}}</a>
       </li>
     </ul>
     <div id="atp" class="navbar-brand" href="#"><img id="logo" src="/assets/images/logo.png" /></div>
-    <div id="greetingsMessage" *ngIf="loggedIn">Greetings <br> {{userInfo}}</div>
-    <a *ngIf="!loggedIn" class="nav-link" href="login">Login</a>
-    <a *ngIf="loggedIn" class="nav-link" href="player" (click)="logout()">Logout</a>
+    <div id="greetingsMessage" *ngIf="loggedIn">{{'HEADER.GREETINGS' | translate}} <br> {{userInfo}}</div>
+    <div>
+      <a class="language" href="#" (click)="translateLanguageTo($event, 'eng')">eng</a>
+      <a class="language" href="#" (click)="translateLanguageTo($event, 'срп')">срп</a>
+    </div>
+    <a *ngIf="!loggedIn" class="nav-link" href="login">{{'HEADER.LOGIN' | translate}}</a>
+    <a *ngIf="loggedIn" class="nav-link" href="player" (click)="logout()">{{'HEADER.LOGOUT' | translate}}</a>
   </div>
 </nav>

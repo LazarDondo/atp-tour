@@ -1,10 +1,10 @@
-<h2>Matches</h2>
+<h2>{{"MATCHES.TITLE"|translate}}</h2>
 <div style="position: absolute; left: 0px;" class="d-flex p-3">
     <nav class="navbar">
         <form [formGroup]="matchesForm" (ngSubmit)="onSubmit()">
             <div class="d-flex p-3">
                 <div class="form-group">
-                    <label for="tournament">Tournament</label>
+                    <label for="tournament">{{"MATCHES.SEARCH.TOURNAMENT"|translate}}</label>
                     <input type="text" class="form-control" matInput [matAutocomplete]="tournament"
                         [formControl]="tournamentControl" />
                     <mat-autocomplete #tournament="matAutocomplete" [displayWith]="displayTournament">
@@ -15,7 +15,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="firstPlayer">First Player</label>
+                    <label for="firstPlayer">{{"MATCHES.SEARCH.FIRST_PLAYER"|translate}}</label>
                     <input type="text" class="form-control" matInput [matAutocomplete]="firstPlayer"
                         [formControl]="firstPlayerControl" />
                     <mat-autocomplete #firstPlayer="matAutocomplete" [displayWith]="displayPlayer">
@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="secondPlayer">Second Player</label>
+                    <label for="secondPlayer">{{"MATCHES.SEARCH.SECOND_PLAYER"|translate}}</label>
                     <input type="text" class="form-control" matInput [matAutocomplete]="secondPlayer"
                         [formControl]="secondPlayerControl" />
                     <mat-autocomplete #secondPlayer="matAutocomplete" [displayWith]="displayPlayer">
@@ -39,7 +39,7 @@
                 <div class="form-group">
                     <button id="search" [disabled]="loading" class="btn btn-primary">
                         <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                        Search
+                        {{"MATCHES.SEARCH.BUTTON"|translate}}
                     </button>
                 </div>
             </div>
@@ -48,13 +48,14 @@
         <table id="matches" class="table table-bordered">
             <thead>
                 <tr>
-                    <th style="width: 17%" class="tablesorter-header">Tournament</th>
-                    <th style="width: 17%">First Player</th>
-                    <th style="width: 17%">Second Player</th>
-                    <th style="width: 15%">Match Date</th>
-                    <th style="width: 15%">Round</th>
-                    <th style="width: 7%">Result</th>
-                    <th style="width: 17%">Winner</th>
+                    <th style="width: 17%" class="tablesorter-header">{{"MATCHES.TABLE_COLUMN.TOURNAMENT"|translate}}
+                    </th>
+                    <th style="width: 17%">{{"MATCHES.TABLE_COLUMN.FIRST_PLAYER"|translate}}</th>
+                    <th style="width: 17%">{{"MATCHES.TABLE_COLUMN.SECOND_PLAYER"|translate}}</th>
+                    <th style="width: 15%">{{"MATCHES.TABLE_COLUMN.MATCH_DATE"|translate}}</th>
+                    <th style="width: 15%">{{"MATCHES.TABLE_COLUMN.ROUND"|translate}}</th>
+                    <th style="width: 7%">{{"MATCHES.TABLE_COLUMN.RESULT"|translate}}</th>
+                    <th style="width: 17%">{{"MATCHES.TABLE_COLUMN.WINNER"|translate}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -88,10 +89,10 @@
         <pagination-controls (pageChange)="pageNumber = $event"></pagination-controls>
     </nav>
     <div id="buttonsDiv">
-        <button class="btn btn-info matches-button" (click)="generateExcelReport()">Generate
-            Excel report</button>
+        <button class="btn btn-info matches-button"
+            (click)="generateExcelReport()">{{"MATCHES.BUTTON_EXCEL_REPORT"|translate}}</button>
         <button *ngIf="displayUpdateButton" class="btn btn-info matches-button"
-            (click)="updateTournamentMatches()">Update matches</button>
+            (click)="updateTournamentMatches()">{{"MATCHES.BUTTON_UPDATE"|translate}}</button>
     </div>
 </div>
 

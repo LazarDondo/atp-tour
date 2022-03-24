@@ -1,28 +1,28 @@
 <div class="center_div">
     <button id="closeButton" class="btn-close" (click)="closeDialog()">
     </button>
-    <h2>Add Player</h2>
+    <h2>{{"PLAYER.ADD.TITLE"|translate}}</h2>
 
     <form [formGroup]="playerForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-            <label for="firstName">First name</label>
+            <label for="firstName">{{"PLAYER.ADD.FIRST_NAME.LABEL"|translate}}</label>
             <input type="text" formControlName="firstName" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f['firstName'].errors }" />
             <div *ngIf="submitted && f['firstName'].errors" class="invalid-feedback">
-                <div *ngIf="f['firstName'].errors['required']">First name is required</div>
+                <div *ngIf="f['firstName'].errors['required']">{{"PLAYER.ADD.FIRST_NAME_REQUIRED"|translate}}</div>
             </div>
         </div>
         <div class="form-group">
-            <label for="lastName">Last name</label>
+            <label for="lastName">{{"PLAYER.ADD.LAST_NAME.LABEL"|translate}}</label>
             <input type="text" formControlName="lastName" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f['lastName'].errors }" />
             <div *ngIf="submitted && f['lastName'].errors" class="invalid-feedback">
-                <div *ngIf="f['lastName'].errors['required']">Last name is required</div>
+                <div *ngIf="f['lastName'].errors['required']">{{"PLAYER.ADD.LAST_NAME.REQUIRED"|translate}}</div>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="birthCountry">Birth country</label>
+            <label for="birthCountry">{{"PLAYER.ADD.BIRTH_COUNTRY.LABEL"|translate}}</label>
             <input type="text" class="form-control" matInput [matAutocomplete]="auto" [formControl]="myControl"
                 [ngClass]="{ 'is-invalid': submitted && !validCountry }" />
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
@@ -31,38 +31,38 @@
                 </mat-option>
             </mat-autocomplete>
             <div *ngIf="submitted && !validCountry" class="invalid-feedback">
-                <div>Birth country must me valid</div>
+                <div>{{"PLAYER.ADD.BIRTH_COUNTRY.VALID"|translate}}</div>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="dateOfBirth">Date of birth</label>
+            <label for="dateOfBirth">{{"PLAYER.ADD.DATE_OF_BIRTH.LABEL"|translate}}</label>
             <input type="date" formControlName="dateOfBirth" class="form-control" onkeydown="return false"
                 max="{{maximumDate| date: 'yyyy-MM-dd'}}"
                 [ngClass]="{ 'is-invalid': submitted && f['dateOfBirth'].errors }" />
             <div *ngIf="submitted && f['dateOfBirth'].errors" class="invalid-feedback">
-                <div *ngIf="f['dateOfBirth'].errors['required']">Date of birth is required</div>
+                <div *ngIf="f['dateOfBirth'].errors['required']">{{"PLAYER.ADD.DATE_OF_BIRTH_REQUIRED"|translate}}</div>
             </div>
         </div>
         <div class="form-group">
-            <label for="currentPoints">Current points</label>
+            <label for="currentPoints">{{"PLAYER.ADD.CURRENT_POINTS_LABEL"|translate}}</label>
             <input type="number" formControlName="currentPoints" class="form-control" min="0"
                 [ngClass]="{ 'is-invalid': submitted && f['currentPoints'].errors }" />
             <div *ngIf="submitted && f['currentPoints'].errors" class="invalid-feedback">
-                <div *ngIf="f['currentPoints'].errors['required']">Current points are required</div>
+                <div *ngIf="f['currentPoints'].errors['required']">{{"PLAYER.ADD.CURRENT_POINTS_REQUIRED"|translate}}</div>
             </div>
         </div>
         <div *ngIf="success" class="alert-success response-message">
-            <p>Successfully added new player. Player will be ranked on the first Monday at midnight</p>
+            <p>{{"PLAYER.ADD.SUCCESS"|translate}}</p>
         </div>
         <div *ngIf="error" class="alert-danger response-message">
-            <p>Failed to add new player</p>
+            <p>{{"PLAYER.ADD.ERROR"|translate}}</p>
         </div>
 
         <div class="form-group">
             <button [disabled]="loading" class="btn btn-primary">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                Add player
+                {{"PLAYER.ADD.BUTTON"|translate}}
             </button>
         </div>
     </form>

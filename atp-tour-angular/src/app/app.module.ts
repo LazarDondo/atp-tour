@@ -10,6 +10,9 @@ import { PlayerModule } from './modules/player/player.module';
 import { MatchesModule } from './modules/matches/matches.module';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { HeaderFooterModule } from './modules/header-footer/header-footer.module';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,15 @@ import { HeaderFooterModule } from './modules/header-footer/header-footer.module
     HeaderFooterModule,
     TournamentModule,
     PlayerModule,
-    MatchesModule
+    MatchesModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpTranslateLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
@@ -29,3 +40,7 @@ import { HeaderFooterModule } from './modules/header-footer/header-footer.module
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function httpTranslateLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}

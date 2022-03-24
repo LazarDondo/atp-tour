@@ -5,6 +5,7 @@ import { SharedModule } from '../shared/shared.module';
 
 
 
+
 @NgModule({
   declarations: [
     MatchesComponent,
@@ -12,6 +13,6 @@ import { SharedModule } from '../shared/shared.module';
   ],
   imports: [
     SharedModule
-  ]
+   ]
 })
 export class MatchesModule { }

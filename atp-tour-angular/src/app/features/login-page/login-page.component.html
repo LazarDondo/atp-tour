@@ -1,38 +1,38 @@
 <div class="center_div">
     <div *ngIf="redirect" class="alert-danger ">
-        <p>You have to login in order to continue</p>
+        <p>{{"LOGIN.ERROR_MESSAGE"|translate}}</p>
     </div>
-    <h2>Login</h2>
+    <h2>{{"LOGIN.TITLE"|translate}}</h2>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-            <label for="username">Username</label>
+            <label for="username">{{"LOGIN.USERNAME.LABEL"|translate}}</label>
             <input type="email" formControlName="username" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f['username'].errors }" />
             <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
-                <div *ngIf="f['username'].errors['required']">Username is required</div>
-                <div *ngIf="f['username'].errors['email']">Username must be in email format</div>
+                <div *ngIf="f['username'].errors['required']">{{"LOGIN.USERNAME.REQUIRED"|translate}}</div>
+                <div *ngIf="f['username'].errors['email']">{{"LOGIN.USERNAME.EMAIL_WARNING"|translate}}</div>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="password">Password</label>
+            <label for="password">{{"LOGIN.PASSWORD.LABEL"|translate}}</label>
             <input type="password" formControlName="password" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
             <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-                <div *ngIf="f['password'].errors['required']">Password is required</div>
+                <div *ngIf="f['password'].errors['required']">{{"LOGIN.PASSWORD.REQUIRED"|translate}}</div>
             </div>
         </div>
 
         <div id="loginError" *ngIf="loginError" class="alert-danger ">
-            <p>Invalid username or password. Please try again.</p>
+            <p>{{"LOGIN.ERROR"|translate}}</p>
         </div>
         
         <div class="form-group">
             <button [disabled]="loading" class="btn btn-primary">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                Login
+                {{"LOGIN.BUTTON"|translate}}
             </button>
-            <a routerLink="/register" class="btn btn-link">Register</a>
+            <a routerLink="/register" class="btn btn-link">{{"LOGIN.REGISTER"|translate}}</a>
         </div>
     </form>
 </div>

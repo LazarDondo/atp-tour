@@ -1,31 +1,31 @@
 <div class="d-flex p-3">
     <div class="center_div">
-        <h2>Add Tournament</h2>
+        <h2>{{"TOURNAMENT.ADD.TITLE"|translate}}</h2>
         <form [formGroup]="tournamentForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
-                <label for="name">Name</label>
+                <label for="name">{{"TOURNAMENT.ADD.NAME.LABEL"|translate}}</label>
                 <input type="text" formControlName="name" class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && f['name'].errors }" />
                 <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-                    <div *ngIf="f['name'].errors['required']">Tournament name is required</div>
+                    <div *ngIf="f['name'].errors['required']">{{"TOURNAMENT.ADD.NAME.REQUIRED"|translate}}</div>
                 </div>
             </div>
 
 
             <div class="form-group">
-                <label for="startDate">Start date</label>
+                <label for="startDate">{{"TOURNAMENT.ADD.START_DATE.LABEL"|translate}}</label>
                 <input type="date" formControlName="startDate" class="form-control" onkeydown="return false"
                     min="{{futureDate| date: 'yyyy-MM-dd'}}"
                     [ngClass]="{ 'is-invalid': submitted && f['startDate'].errors }" />
                 <div *ngIf="submitted && f['startDate'].errors" class="invalid-feedback">
-                    <div *ngIf="f['startDate'].errors['required']">Start date is required</div>
+                    <div *ngIf="f['startDate'].errors['required']">{{"TOURNAMENT.ADD.START_DATE.REQUIRED"|translate}}</div>
                 </div>
             </div>
 
 
 
             <div class="form-group">
-                <label for="hostCountry">Host country</label>
+                <label for="hostCountry">{{"TOURNAMENT.ADD.HOST_COUNTRY.LABEL"|translate}}</label>
                 <input type="text" class="form-control" matInput [matAutocomplete]="autoCountry" [formControl]="countryControl"
                   [ngClass]="{ 'is-invalid': submitted && !validCountry }" />
                 <mat-autocomplete #autoCountry="matAutocomplete" [displayWith]="displayFn">
@@ -34,12 +34,12 @@
                     </mat-option>
                 </mat-autocomplete>
                 <div *ngIf="submitted && !validCountry" class="invalid-feedback">
-                    <div>Host country must me valid</div>
+                    <div>{{"TOURNAMENT.ADD.HOST_COUNTRY.VALID"|translate}}</div>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="participants">Participants</label>
+                <label for="participants">{{"TOURNAMENT.ADD.PARTICIPANTS.LABEL"|translate}}</label>
                 <input type="text" class="form-control" matInput [matAutocomplete]="autoParticipants" [formControl]="participantControl"
                 [readonly]="numberOfParticipants===16"[ngClass]="{ 'is-invalid': submitted && numberOfParticipants!==16 }" />
                 <mat-autocomplete #autoParticipants="matAutocomplete" [displayWith]="displayPlayer">
@@ -49,32 +49,32 @@
                     </mat-option>
                 </mat-autocomplete>
                 <div *ngIf="submitted && numberOfParticipants!==16" class="invalid-feedback">
-                    <div>You must select 16 participants for the tournament</div>
+                    <div>{{"TOURNAMENT.ADD.PARTICIPANTS.REQUIRED"|translate}}</div>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="tournamentType">Tournament type</label>
+                <label for="tournamentType">{{"TOURNAMENT.ADD.TYPE.LABEL"|translate}}</label>
                 <select id="tournamentType" class="form-select" formControlName="tournamentType">
-                    <option value="Grand Slam">Grand Slam</option>
-                    <option value="Masters 1000">Masters 1000</option>
+                    <option value="Grand Slam">{{"TOURNAMENT.ADD.TYPE.OPTIONS.FIRST_OPTION"|translate}}</option>
+                    <option value="Masters 1000">{{"TOURNAMENT.ADD.TYPE.OPTIONS.SECOND_OPTION"|translate}}</option>
                 </select>
                 <div *ngIf="submitted && f['tournamentType'].errors" class="invalid-feedback" style="display: inline;">
-                    <div *ngIf="f['tournamentType'].errors['required']">Tournament type is required</div>
+                    <div *ngIf="f['tournamentType'].errors['required']">{{"TOURNAMENT.ADD.TYPE.REQUIRED"|translate}}</div>
                 </div>
             </div>
 
             <div *ngIf="success" class="alert-success response-message">
-                <p>Successfully added new tournament. Tournaments can't be updated once they have started</p>
+                <p>{{"TOURNAMENT.ADD.SUCCESS"|translate}}</p>
             </div>
             <div *ngIf="error" class="alert-danger response-message">
-                <p>Failed to add new tournament</p>
+                <p>{{"TOURNAMENT.ADD.ERROR"|translate}}</p>
             </div>
 
             <div class="form-group">
                 <button [disabled]="loading" class="btn btn-primary">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                    Add tournament
+                    {{"TOURNAMENT.ADD.BUTTON"|translate}}
                 </button>
             </div>
         </form>
@@ -82,8 +82,8 @@
 
     <div class="center_div tournament-participants">
         <div class="d-flex">
-            <p class="participants-number">Participating: {{numberOfParticipants}}</p>
-            <p class="missing-number">Missing: {{16-numberOfParticipants}}</p>
+            <p class="participants-number">{{"TOURNAMENT.ADD.PARTICIPATING"|translate}} {{numberOfParticipants}}</p>
+            <p class="missing-number">{{"TOURNAMENT.ADD.MISSING"|translate}} {{16-numberOfParticipants}}</p>
         </div>
         <div *ngFor="let player of chosenPlayers">
         <div class="participant d-flex">

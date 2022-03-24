@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { StatisticsEventEmitterService } from 'src/app/core/services/statistics-event-emitter.service';
 import { StatisticsService } from 'src/app/core/services/statistics.service';

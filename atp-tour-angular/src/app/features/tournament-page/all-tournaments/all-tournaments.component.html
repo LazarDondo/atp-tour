@@ -1,22 +1,27 @@
-<h2>Tournaments</h2>
+<h2>{{"TOURNAMENT.ALL.TITLE"|translate}}</h2>
 <nav class="navbar">
-    <input class="form-control" type="text" name="tournamentName" [(ngModel)]="tournamentName" (ngModelChange)="search()"
-        placeholder="Enter tournament's name to search" (keyup.enter)="search()" />
-
+    <input class="form-control" type="text" name="tournamentName" [(ngModel)]="tournamentName"
+        (ngModelChange)="search()" [placeholder]="'TOURNAMENT.ALL.SEARCH'|translate" (keyup.enter)="search()" />
     <table id="tournaments" class="table table-bordered">
-        <thead >
+        <thead>
             <tr>
-                <th style="width: 25%" class="tablesorter-header" (click)="sort('name')">Name <i class="fa fa-sort"></i></th>
-                <th style="width: 15%" (click)="sort('startDate')">Start date <i class="fa fa-sort"></i></th>
-                <th style="width: 15%" (click)="sort('completionDate')">Completion date <i class="fa fa-sort"></i></th>
-                <th style="width: 20%" (click)="sort('hostCountry')">Host country <i class="fa fa-sort"></i></th>
-                <th style="width: 20%" (click)="sort('tournamentType')">Tournament type <i class="fa fa-sort"></i></th>
+                <th style="width: 25%" class="tablesorter-header" (click)="sort('name')">
+                    {{"TOURNAMENT.ALL.NAME"|translate}} <i class="fa fa-sort"></i>
+                </th>
+                <th style="width: 15%" (click)="sort('startDate')">{{"TOURNAMENT.ALL.START_DATE"|translate}} <i
+                        class="fa fa-sort"></i></th>
+                <th style="width: 15%" (click)="sort('completionDate')">{{"TOURNAMENT.ALL.COMPLETION_DATE"|translate}}<i
+                        class="fa fa-sort"></i></th>
+                <th style="width: 20%" (click)="sort('hostCountry')">{{"TOURNAMENT.ALL.HOST_COUNTRY"|translate}} <i
+                        class="fa fa-sort"></i></th>
+                <th style="width: 20%" (click)="sort('tournamentType')">{{"TOURNAMENT.ALL.TYPE"|translate}} <i
+                        class="fa fa-sort"></i></th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let tournament of tournaments | 
             orderBy:key:this.reverse| paginate :{itemsPerPage:tournamentsPerPage, currentPage:pageNumber}"
-            (click)="displayTournament(tournament)">
+                (click)="displayTournament(tournament)">
                 <td>{{tournament.name}}</td>
                 <td>{{tournament.startDate}}</td>
                 <td>{{tournament.completionDate}}</td>

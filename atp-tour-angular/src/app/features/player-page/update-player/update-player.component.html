@@ -1,65 +1,65 @@
 <div class="center_div">
-    <h2>Update Player</h2>
+    <h2>{{"PLAYER.UPDATE.TITLE"|translate}}</h2>
     <form [formGroup]="playerForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-            <label for="rank">Rank</label>
+            <label for="rank">{{"PLAYER.UPDATE.RANK.LABEL"|translate}}</label>
             <input type="text" formControlName="rank" readonly class="form-control" />
         </div>
 
         <div class="form-group">
-            <label for="firstName">First name</label>
+            <label for="firstName">{{"PLAYER.UPDATE.FIRST_NAME.LABEL"|translate}}</label>
             <input type="text" formControlName="firstName" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f['firstName'].errors }" [readonly]="!isAdminUser" />
             <div *ngIf="submitted && f['firstName'].errors" class="invalid-feedback">
-                <div *ngIf="f['firstName'].errors['required']">First name is required</div>
+                <div *ngIf="f['firstName'].errors['required']">{{"PLAYER.UPDATE.FIRST_NAME.REQUIRED"|translate}}</div>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="lastName">Last name</label>
+            <label for="lastName">{{"PLAYER.UPDATE.LAST_NAME.LABEL"|translate}}</label>
             <input type="text" formControlName="lastName" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f['lastName'].errors }" [readonly]="!isAdminUser" />
             <div *ngIf="submitted && f['lastName'].errors" class="invalid-feedback">
-                <div *ngIf="f['lastName'].errors['required']">Last name is required</div>
+                <div *ngIf="f['lastName'].errors['required']">{{"PLAYER.UPDATE.LAST_NAME.REQUIRED"|translate}}</div>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="firstName">Birth country</label>
+            <label for="firstName">{{"PLAYER.UPDATE.BIRTH_COUNTRY.LABEL"|translate}}</label>
             <input type="text" formControlName="birthCountry" readonly class="form-control" />
         </div>
 
         <div class="form-group">
-            <label for="firstName">Date of birth</label>
+            <label for="firstName">{{"PLAYER.UPDATE.DATE_OF_BIRTH.LABEL"|translate}}</label>
             <input type="text" formControlName="dateOfBirth" readonly class="form-control" />
         </div>
 
         <div class="form-group">
-            <label for="currentPoints">Current points</label>
+            <label for="currentPoints">{{"PLAYER.UPDATE.CURRENT_POINTS.LABEL"|translate}}</label>
             <input type="number" formControlName="currentPoints" readonly class="form-control" />
         </div>
 
         <div class="form-group">
-            <label for="livePoints">Live points</label>
+            <label for="livePoints">{{"PLAYER.UPDATE.LIVE_POINTS.LABEL"|translate}}</label>
             <input type="number" formControlName="livePoints" class="form-control" min="0"
                 [ngClass]="{ 'is-invalid': submitted && f['livePoints'].errors }" [readonly]="!isAdminUser" />
             <div *ngIf="submitted && f['livePoints'].errors" class="invalid-feedback">
-                <div *ngIf="f['livePoints'].errors['required']">Live points are required</div>
+                <div *ngIf="f['livePoints'].errors['required']">{{"PLAYER.UPDATE.LIVE_POINTS.REQUIRED"|translate}}</div>
             </div>
         </div>
 
         <div *ngIf="success" class="alert-success response-message">
-            <p>Successfully updated player {{selectedPlayer.firstName}} {{selectedPlayer.lastName}}</p>
+            <p>{{"PLAYER.UPDATE.SUCCESS"|translate}} {{selectedPlayer.firstName}} {{selectedPlayer.lastName}}</p>
         </div>
 
         <div *ngIf="error" class="alert-danger response-message">
-            <p>Failed to update player {{selectedPlayer.firstName}} {{selectedPlayer.lastName}}</p>
+            <p>{{"PLAYER.UPDATE.FAILURE"|translate}} {{selectedPlayer.firstName}} {{selectedPlayer.lastName}}</p>
         </div>
 
         <div *ngIf="isAdminUser" class="form-group">
             <button [disabled]="loading" class="btn btn-primary">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                Update player
+                {{"PLAYER.UPDATE.BUTTON"|translate}}
             </button>
         </div>
     </form>

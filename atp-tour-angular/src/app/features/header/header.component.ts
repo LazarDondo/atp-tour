@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/core/services/auth.service';
+
 
 /**
  * Represents the site header component
@@ -21,7 +23,15 @@ export class HeaderComponent implements OnInit {
    * 
    * @param {AuthService} authService
    */
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, public translate: TranslateService) {
+    if (localStorage.getItem('language')) {
+      this.translate.use(localStorage.getItem('language')!);
+    }
+    else {
+      translate.setDefaultLang('eng');
+      localStorage.setItem('language', 'eng');
+    }
+  }
 
   /**
    * Sets userInfo variable if user is logged in
@@ -38,6 +48,12 @@ export class HeaderComponent implements OnInit {
    */
   logout() {
     sessionStorage.removeItem('loggedUser');
+  }
+
+  translateLanguageTo(event: any, language: string) {
+    event.preventDefault();
+    this.translate.use(language);
+    localStorage.setItem('language', language);
   }
 
 }

@@ -1,52 +1,51 @@
 <div class="center_div">
-    <h2>Update Tournament</h2>
+    <h2>{{"TOURNAMENT.UPDATE.TITLE"|translate}}</h2>
     <form [formGroup]="tournamentForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-            <label for="name">Name</label>
+            <label for="name">{{"TOURNAMENT.UPDATE.NAME.LABEL"|translate}}</label>
             <input type="text" formControlName="name" class="form-control" [readonly]="!isAdminUser || tournamentStarted"
                 [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"/>
             <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-                <div *ngIf="f['name'].errors['required']">Tournament name is required</div>
+                <div *ngIf="f['name'].errors['required']">{{"TOURNAMENT.UPDATE.NAME.REQUIRED"|translate}}</div>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="startDate">Start date</label>
+            <label for="startDate">{{"TOURNAMENT.UPDATE.START_DATE.LABEL"|translate}}</label>
             <input type="date" formControlName="startDate" class="form-control" onkeydown="return false"
                 min="{{futureDate| date: 'yyyy-MM-dd'}}"  [readonly]="!isAdminUser || tournamentStarted"/>
         </div>
 
         <div class="form-group">
-            <label for="completionDate">Completion date</label>
-            <input type="date" formControlName="completionDate" class="form-control" onkeydown="return false"
+            <label for="completionDate">{{"TOURNAMENT.UPDATE.COMPLETION_DATE.LABEL"|translate}}</label>
+            <input type="date" formControlName="completionDate" class="form-control"
                 min="{{futureDate| date: 'yyyy-MM-dd'}}" readonly/>
-
         </div>
 
         <div class="form-group">
-            <label for="hostCountry">Host country</label>
+            <label for="hostCountry">{{"TOURNAMENT.UPDATE.HOST_COUNTRY.LABEL"|translate}}</label>
             <input type="text" formControlName="hostCountry" class="form-control" readonly  />
         </div>
 
         <div class="form-group">
-            <label for="tournamentType">Tournament type</label>
+            <label for="tournamentType">{{"TOURNAMENT.UPDATE.TYPE.LABEL"|translate}}</label>
             <input type="text" formControlName="tournamentType" class="form-control" readonly  />
         </div>
 
         <div *ngIf="success" class="alert-success response-message">
-            <p>Tournament updated successfully</p>
+            <p>{{"TOURNAMENT.UPDATE.SUCCESS"|translate}}</p>
         </div>
         <div *ngIf="error" class="alert-danger response-message">
-            <p>Failed to update tournament</p>
+            <p>{{"TOURNAMENT.UPDATE.ERROR"|translate}}</p>
         </div>
 
         <div *ngIf="!tournamentStarted && isAdminUser" class="form-group">
             <button [disabled]="loading" class="btn btn-primary">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                Update tournament
+                {{"TOURNAMENT.UPDATE.BUTTON"|translate}}
             </button>
             <button id="deleteButton" type="button" class="btn btn-primary" (click)="deleteTournament()">
-                Delete tournament
+                {{"TOURNAMENT.DELETE.BUTTON"|translate}}
             </button>
         </div>
     </form>

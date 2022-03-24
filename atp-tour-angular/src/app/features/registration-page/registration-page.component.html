@@ -1,55 +1,55 @@
 <div class="center_div">
-    <h2>Register</h2>
+    <h2>{{"REGISTRATION.TITLE"|translate}}</h2>
     <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-            <label for="firstName">First name</label>
+            <label for="firstName">{{"REGISTRATION.FIRST_NAME.LABEL"|translate}}</label>
             <input type="text" formControlName="firstName" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f['firstName'].errors }" />
             <div *ngIf="submitted && f['firstName'].errors" class="invalid-feedback">
-                <div *ngIf="f['firstName'].errors['required']">First name is required</div>
+                <div *ngIf="f['firstName'].errors['required']">{{"REGREGISTRATIONISTER.FIRST_NAME.REQUIRED"|translate}}</div>
             </div>
         </div>
         <div class="form-group">
-            <label for="lastName">Last name</label>
+            <label for="lastName">{{"REGISTRATION.LAST_NAME.LABEL"|translate}}</label>
             <input type="text" formControlName="lastName" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f['lastName'].errors }" />
             <div *ngIf="submitted && f['lastName'].errors" class="invalid-feedback">
-                <div *ngIf="f['lastName'].errors['required']">Last name is required</div>
+                <div *ngIf="f['lastName'].errors['required']">{{"REGISTRATION.LAST_NAME.REQUIRED"|translate}}</div>
             </div>
         </div>
         <div class="form-group">
-            <label for="username">Username (email)</label>
+            <label for="username">{{"REGISTRATION.USERNAME.LABEL"|translate}}</label>
             <input type="email" formControlName="username" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f['username'].errors }" />
             <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
-                <div *ngIf="f['username'].errors['required']">Username is required</div>
-                <div *ngIf="f['username'].errors['email']">Username must be in email format</div>
+                <div *ngIf="f['username'].errors['required']">{{"REGISTRATION.USERNAME.REQUIRED"|translate}}</div>
+                <div *ngIf="f['username'].errors['email']">{{"REGISTRATION.USERNAME.EMAIL_WARNING"|translate}}</div>
             </div>
         </div>
         <div class="form-group">
-            <label for="password">Password</label>
+            <label for="password">{{"REGISTRATION.PASSWORD.LABEL"|translate}}</label>
             <input type="password" formControlName="password" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
             <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-                <div *ngIf="f['password'].errors['required']">Password is required</div>
-                <div *ngIf="f['password'].errors['minlength']">Password must be at least 8 characters long</div>
+                <div *ngIf="f['password'].errors['required']">{{"REGISTRATION.PASSWORD.REQUIRED"|translate}}</div>
+                <div *ngIf="f['password'].errors['minlength']">{{"REGISTRATION.PASSWORD.LENGTH_WARNING"|translate}}</div>
             </div>
         </div>
 
         <div *ngIf="success" class="alert-success response-message">
-            <p>Registration was successful</p>
+            <p>{{"REGISTRATION.SUCCESS"|translate}}</p>
         </div>
 
         <div *ngIf="registrationError" class="alert-danger response-message">
-            <p>Username already exists. Please choose another username.</p>
+            <p>{{"REGISTRATION.ERROR"|translate}}</p>
         </div> 
 
         <div class="form-group">
             <button [disabled]="loading" class="btn btn-primary">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                Register
+                {{"REGISTRATION.BUTTON"|translate}}
             </button>
-            <a routerLink="/login" class="btn btn-link">Login</a>
+            <a routerLink="/login" class="btn btn-link">{{"REGISTRATION.LOGIN"|translate}}</a>
         </div>
     </form>
 </div>

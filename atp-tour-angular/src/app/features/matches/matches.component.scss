@@ -23,10 +23,11 @@
 }
 input{
   width: 373px;
-  margin-right: 30px;
+  margin-right: 20px;
 }
 #search{
-  margin-top:22px 
+  min-width: 100px;
+  margin-top:25px 
 }
 .matches-button{
   height: 40px;
