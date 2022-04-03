@@ -255,6 +255,7 @@ export class MatchesComponent implements OnInit {
         this.success = true;
       },
       error: () => {
+        this.matches = [];
         this.error = true;
         this.loading = false;
       }

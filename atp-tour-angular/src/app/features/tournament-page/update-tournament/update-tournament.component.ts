@@ -23,7 +23,7 @@ export class UpdateTournamentComponent implements OnInit {
   submitted: boolean = false;
   success: boolean = false;
   error: boolean = false;
-  tournamentStarted: boolean;
+  tournamentStarted = true;
   validCountry: boolean = false;
   today: Date;
   futureDate: Date

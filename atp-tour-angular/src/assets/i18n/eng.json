@@ -139,7 +139,7 @@
             "BUTTON": "Update tournament"
         },
         "DELETE": {
-            "BUTTON": "Delete Tournament"
+            "BUTTON": "Delete tournament"
         },
         "BUTTON_ADD": "Add tournament"
     },

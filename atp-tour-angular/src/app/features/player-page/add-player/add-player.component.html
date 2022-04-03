@@ -9,7 +9,7 @@
             <input type="text" formControlName="firstName" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f['firstName'].errors }" />
             <div *ngIf="submitted && f['firstName'].errors" class="invalid-feedback">
-                <div *ngIf="f['firstName'].errors['required']">{{"PLAYER.ADD.FIRST_NAME_REQUIRED"|translate}}</div>
+                <div *ngIf="f['firstName'].errors['required']">{{"PLAYER.ADD.FIRST_NAME.REQUIRED"|translate}}</div>
             </div>
         </div>
         <div class="form-group">
@@ -41,15 +41,15 @@
                 max="{{maximumDate| date: 'yyyy-MM-dd'}}"
                 [ngClass]="{ 'is-invalid': submitted && f['dateOfBirth'].errors }" />
             <div *ngIf="submitted && f['dateOfBirth'].errors" class="invalid-feedback">
-                <div *ngIf="f['dateOfBirth'].errors['required']">{{"PLAYER.ADD.DATE_OF_BIRTH_REQUIRED"|translate}}</div>
+                <div *ngIf="f['dateOfBirth'].errors['required']">{{"PLAYER.ADD.DATE_OF_BIRTH.REQUIRED"|translate}}</div>
             </div>
         </div>
         <div class="form-group">
-            <label for="currentPoints">{{"PLAYER.ADD.CURRENT_POINTS_LABEL"|translate}}</label>
+            <label for="currentPoints">{{"PLAYER.ADD.CURRENT_POINTS.LABEL"|translate}}</label>
             <input type="number" formControlName="currentPoints" class="form-control" min="0"
                 [ngClass]="{ 'is-invalid': submitted && f['currentPoints'].errors }" />
             <div *ngIf="submitted && f['currentPoints'].errors" class="invalid-feedback">
-                <div *ngIf="f['currentPoints'].errors['required']">{{"PLAYER.ADD.CURRENT_POINTS_REQUIRED"|translate}}</div>
+                <div *ngIf="f['currentPoints'].errors['required']">{{"PLAYER.ADD.CURRENT_POINTS.REQUIRED"|translate}}</div>
             </div>
         </div>
         <div *ngIf="success" class="alert-success response-message">
