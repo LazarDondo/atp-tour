@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.silab.atptour.service.MatchesService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Represent an implementation of the {@link MatchesService} interface
@@ -47,16 +49,16 @@ public class MatchesServiceImpl implements MatchesService {
             }
         }
         matchDao.saveAll(matches);
-        return matchDao.filterMatches(matches.get(0).getTournament(), null, null);
+        return matches;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<Match> filterMatches(Tournament tournament, Player firstPlayer, Player secondPlayer) {
+    public Page<Match> filterMatches(Tournament tournament, Player firstPlayer, Player secondPlayer, Pageable pageable) {
         logger.info("Filtering matches by tournament: {}, first player: {}, second player: {}", tournament, firstPlayer, secondPlayer);
-        return matchDao.filterMatches(tournament, firstPlayer, secondPlayer);
+        return matchDao.filterMatches(tournament, firstPlayer, secondPlayer, pageable);
     }
 
     /**

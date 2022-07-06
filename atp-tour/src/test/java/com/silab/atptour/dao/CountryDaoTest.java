@@ -16,23 +16,33 @@ import org.junit.jupiter.api.BeforeEach;
 @DataJpaTest
 public class CountryDaoTest {
 
-    private Country testCountry;
+    private Country firstTestCountry;
+    private Country secondTestCountry;
 
     @Autowired
     private CountryDao countryDao;
 
     @BeforeEach
     public void init() {
-        testCountry = countryDao.save(new Country(1, "Serbia", "SRB"));
+        firstTestCountry = countryDao.save(new Country(1, "Serbia", "SRB"));
+        secondTestCountry = countryDao.save(new Country(2, "Russia", "RUS"));
     }
 
     @Test
     public void getCountriesShouldBeOk() {
-        Country country = countryDao.save(new Country(2, "Russia", "RUS"));
         List<Country> countries = new ArrayList<>();
-        countries.add(testCountry);
-        countries.add(country);
+        countries.add(firstTestCountry);
+        countries.add(secondTestCountry);
         assertEquals(countries, countryDao.findAll());
+    }
+    
+    @Test
+    public void getCountriesByNameShouldBeOk() {
+        List<Country> countries = new ArrayList<>();
+        countries.add(firstTestCountry);
+        countries.add(secondTestCountry);
+        assertEquals(countries, countryDao.findAllCountriesContainingIgnoreCase("a"));
+        assertEquals(firstTestCountry, countryDao.findAllCountriesContainingIgnoreCase("S").get(0));
     }
 
 }

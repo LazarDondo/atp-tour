@@ -1,10 +1,10 @@
 <configuration>
 
     <appender name="TIME_BASED_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/Users/nst/logs/atp-tour.log</file>
+        <file>../logs/atp-tour.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">        
             <!-- daily rollover -->
-            <fileNamePattern>/Users/nst/logs/atp-tour.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>../logs/atp-tour.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
  

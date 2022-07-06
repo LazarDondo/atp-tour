@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.springframework.data.domain.Pageable;
 
 /**
  *
@@ -24,7 +25,8 @@ public class MatchDaoTest {
     private Player firstTestPlayer;
     private Player secondTestPlayer;
     private Match testMatch;
-
+    private Pageable pageable;
+    
     @Autowired
     private CountryDao countryDao;
 
@@ -61,6 +63,7 @@ public class MatchDaoTest {
                 "finals", "2-3", secondTestPlayer));
         matchDao.save(new Match(testTournament, secondTestPlayer, player, LocalDate.of(2022, Month.OCTOBER, 3),
                 "finals", "2-3", secondTestPlayer));
+        pageable = Pageable.ofSize(Integer.MAX_VALUE);
     }
 
     @Test
@@ -82,38 +85,38 @@ public class MatchDaoTest {
 
     @Test
     public void filterMatchesShouldBeOk() {
-        assertEquals(1, matchDao.filterMatches(testTournament, firstTestPlayer, secondTestPlayer).size());
+        assertEquals(1, matchDao.filterMatches(testTournament, firstTestPlayer, secondTestPlayer, pageable).getNumberOfElements());
     }
 
     @Test
     public void filterAllMatchesBetweenPlayersShouldBeOk() {
-        assertEquals(2, matchDao.filterMatches(null, firstTestPlayer, secondTestPlayer).size());
+        assertEquals(2, matchDao.filterMatches(null, firstTestPlayer, secondTestPlayer, pageable).getNumberOfElements());
     }
 
     @Test
     public void filterFirstPlayerMatchesShouldBeOk() {
-        assertEquals(3, matchDao.filterMatches(null, firstTestPlayer, null).size());
+        assertEquals(3, matchDao.filterMatches(null, firstTestPlayer, null, pageable).getNumberOfElements());
     }
 
     @Test
     public void filterFirstPlayerMatchesOnTournamentShouldBeOk() {
-        assertEquals(2, matchDao.filterMatches(testTournament, firstTestPlayer, null).size());
+        assertEquals(2, matchDao.filterMatches(testTournament, firstTestPlayer, null, pageable).getNumberOfElements());
     }
 
     @Test
     public void filterSecondPlayerMatchesShouldBeOk() {
 
-        assertEquals(3, matchDao.filterMatches(null, null, secondTestPlayer).size());
+        assertEquals(3, matchDao.filterMatches(null, null, secondTestPlayer, pageable).getNumberOfElements());
     }
 
     @Test
     public void filterSecondPlayerMatchesOnTournamentShouldBeOk() {
-        assertEquals(2, matchDao.filterMatches(testTournament, null, secondTestPlayer).size());
+        assertEquals(2, matchDao.filterMatches(testTournament, null, secondTestPlayer, pageable).getNumberOfElements());
     }
 
     @Test
     public void filterAllMatchesShouldBeOk() {
-        assertEquals(4, matchDao.filterMatches(null, null, null).size());
+        assertEquals(4, matchDao.filterMatches(null, null, null, pageable).getNumberOfElements());
     }
 
     @Test
@@ -122,7 +125,7 @@ public class MatchDaoTest {
                 LocalDate.of(1996, Month.JUNE, 20), 4000, 4000, 4, null, null));
         matchDao.save(new Match(testTournament, secondTestPlayer, player, LocalDate.of(2022, Month.OCTOBER, 3),
                 "finals", "2-3", secondTestPlayer));
-        assertEquals(0, matchDao.filterMatches(testTournament, firstTestPlayer, player).size());
+        assertEquals(0, matchDao.filterMatches(testTournament, firstTestPlayer, player, pageable).getNumberOfElements());
     }
 
 }

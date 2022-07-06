@@ -96,18 +96,6 @@ public class TournamentServiceImplTest {
     }
 
     @Test
-    public void getAllTournamentsShouldBeOk() {
-        Tournament tournament = new Tournament(1, "Roland Garros-2022", LocalDate.of(2022, Month.MAY, 10),
-                LocalDate.of(2022, Month.MAY, 17), new Country(1, "France", "FRA"), "Grand Slam", null, null, null);
-        List<Tournament> tournaments = new ArrayList<>();
-        tournaments.add(tournament);
-        tournaments.add(testTournament);
-        
-        when(tournamentDao.findAll()).thenReturn(tournaments);
-        assertEquals(tournaments, tournamentService.getAllTournaments());
-    }
-
-    @Test
     public void deleteTournamentShouldAtpThrowEntityNotFoundException() {
         when(tournamentDao.findById(testTournament.getId())).thenReturn(emptyOptionalTournament);
         Assertions.assertThrows(AtpEntityNotFoundException.class, () -> tournamentService.deleteTournament(testTournament.getId()));

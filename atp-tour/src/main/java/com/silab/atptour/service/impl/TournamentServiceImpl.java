@@ -18,6 +18,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -102,9 +104,9 @@ public class TournamentServiceImpl implements TournamentService {
      * {@inheritDoc}
      */
     @Override
-    public List<Tournament> getAllTournaments() {
+    public Page<Tournament> getAllTournaments(String name, String hostCountry, String tournamentType, Pageable pageable) {
         logger.debug("Retreiving all tournaments");
-        return tournamentDao.findAll();
+        return tournamentDao.findAllTournaments(name, hostCountry, tournamentType, pageable);
     }
 
     /**
@@ -146,7 +148,8 @@ public class TournamentServiceImpl implements TournamentService {
     private void updateTournamentDates(Tournament tournament) {
         LocalDate startDate = tournament.getStartDate();
         tournament.setCompletionDate(startDate.plusDays(7));
-        List<Match> matches = matchDao.filterMatches(tournament, null, null);
+        Pageable pageable = Pageable.ofSize(Integer.MAX_VALUE);
+        List<Match> matches = matchDao.filterMatches(tournament, null, null, pageable).getContent();
 
         for (int i = 0; i < matches.size() / 2; i++) {
             matches.get(i).setMatchDate(startDate);

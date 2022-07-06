@@ -2,18 +2,24 @@ package com.silab.atptour.controller;
 
 import com.silab.atptour.entity.Player;
 import com.silab.atptour.exceptions.AtpEntityNotFoundException;
+import com.silab.atptour.model.PaginationModel;
 import com.silab.atptour.service.PlayerService;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -23,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("player")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PlayerController {
 
     @Autowired
@@ -94,14 +101,23 @@ public class PlayerController {
     }
 
     /**
-     * GET request for retrieving all players from the database
+     * GET request for retrieving ranked players from the database
+     * 
+     * @param firstName A string representing player's first name
+     * @param lastName A string representing player's last name
+     * @param birthCountry A string representing name of player's birth country
+     * @param pageable An instance of {@link  Pageable} interface used for pagination
      * 
      * @return A {@link ResponseEntity} instance with found players and OK HTTP status
      */
     @GetMapping
-    public ResponseEntity<List<Player>> getPlayers() {
-        List<Player> players = playerService.getAllPlayers();
-        logger.info("Successfully retrieved {} players", players.size());
+    public ResponseEntity<Page<Player>> getPlayers( @RequestParam(required = false, defaultValue = "") String firstName,
+           @RequestParam(required = false, defaultValue = "") String lastName,
+           @RequestParam(required = false) String birthCountry,
+           @PageableDefault(direction = Sort.Direction.ASC, page = PaginationModel.PLAYER_PAGE,
+                   size = PaginationModel.PLAYER_SIZE, sort = PaginationModel.PLAYER_SORT_COLUMN) Pageable pageable){
+        Page<Player> players = playerService.getAllPlayers(firstName, lastName, birthCountry, pageable);
+        logger.info("Successfully retrieved {} players", players.getNumberOfElements());
         return ResponseEntity.ok(players);
     }
 }

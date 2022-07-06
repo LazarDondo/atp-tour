@@ -43,12 +43,4 @@ public class MatchServiceImplTest {
         secondTestPlayer = new Player(2);
         testMatch = new Match(testTournament, firstTestPlayer, secondTestPlayer, LocalDate.now(), "finals");
     }
-
-    @Test
-    public void filterMatchesShouldBeOk() throws AtpEntityNotFoundException {
-        List<Match> matches = new ArrayList<>();
-        matches.add(testMatch);
-        when(matchDao.filterMatches(testTournament, firstTestPlayer, secondTestPlayer)).thenReturn(matches);
-        assertEquals(matches, matchService.filterMatches(testTournament, firstTestPlayer, secondTestPlayer));
-    }
 }

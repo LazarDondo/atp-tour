@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.springframework.data.domain.Pageable;
 
 /**
  *
@@ -21,6 +22,7 @@ public class PlayerDaoTest {
 
     private Country testCountry;
     private Player testPlayer;
+    private Pageable pageable;
 
     @Autowired
     private CountryDao countryDao;
@@ -33,6 +35,7 @@ public class PlayerDaoTest {
         testCountry = countryDao.save(new Country(1, "Serbia", "SRB"));
         testPlayer = playerDao.save(new Player(1, "Novak", "Djokovic", testCountry,
                 LocalDate.of(1987, Month.MAY, 22), 12000, 12000, 1, null, null));
+        pageable = Pageable.ofSize(Integer.MAX_VALUE);
     }
 
     @Test
@@ -54,7 +57,10 @@ public class PlayerDaoTest {
         List<Player> players = new ArrayList<>();
         players.add(testPlayer);
         players.add(player);
-        assertEquals(players, playerDao.findAllRankedPlayers());
+        assertEquals(players, playerDao.findAllRankedPlayers(null, null, null, pageable).getContent());
+        assertEquals(players.size()-1, playerDao.findAllRankedPlayers(null, "c", testCountry.getName(), pageable).getNumberOfElements());
+        assertEquals(testPlayer, playerDao.findAllRankedPlayers("Novak", null, testCountry.getName(), pageable).getContent().get(0));
+        assertEquals(players.size(), playerDao.findAllRankedPlayers(null, null, testCountry.getName(), pageable).getNumberOfElements());
     }
 
     @Test

@@ -3,7 +3,8 @@ package com.silab.atptour.service;
 import com.silab.atptour.entity.Tournament;
 import com.silab.atptour.exceptions.AtpEntityExistsException;
 import com.silab.atptour.exceptions.AtpEntityNotFoundException;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Represents a service containing all the logic for tournament data management
@@ -49,9 +50,14 @@ public interface TournamentService {
     /**
      * Gets all tournaments from the database
      * 
-     * @return A {@link List} of tournaments
+     * @param name A string representing tournament's name
+     * @param hostCountry A string representing host country
+     * @param tournamentType A string representing tournament type
+     * @param pageable An instance of {@link  Pageable} interface used for pagination
+     * 
+     * @return A {@link Page} of tournaments
      */
-    public List<Tournament> getAllTournaments();
+    public Page<Tournament> getAllTournaments(String name, String hostCountry, String tournamentType, Pageable pageable);
 
     /**
      * Deletes the tournament with the given id from the database

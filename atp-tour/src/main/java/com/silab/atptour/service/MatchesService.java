@@ -4,6 +4,8 @@ import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
 import com.silab.atptour.entity.Tournament;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Represents a service containing all the logic for matches data management
@@ -27,8 +29,9 @@ public interface MatchesService {
      * @param tournament A {@link Tournament} object in which matches were played
      * @param firstPlayer A {@link Player} object who participated in the matches
      * @param secondPlayer A {@link Player} object who participated in the matches
+     * @param pageable An instance of {@link  Pageable} interface used for pagination
      *
-     * @return A {@link List} of filtered matches
+     * @return A {@link Page} of filtered matches
      */
-    public List<Match> filterMatches(Tournament tournament, Player firstPlayer, Player secondPlayer);
+    public Page<Match> filterMatches(Tournament tournament, Player firstPlayer, Player secondPlayer, Pageable pageable);
 }

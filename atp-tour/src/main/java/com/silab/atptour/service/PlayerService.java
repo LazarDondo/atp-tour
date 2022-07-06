@@ -2,7 +2,8 @@ package com.silab.atptour.service;
 
 import com.silab.atptour.entity.Player;
 import com.silab.atptour.exceptions.AtpEntityNotFoundException;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Represents a service containing all the logic for player data management
@@ -43,9 +44,14 @@ public interface PlayerService {
     public Player getPlayer(long id) throws AtpEntityNotFoundException;
 
     /**
-     * Gets all players from the database
+     * Gets players from the database. Supports pagination
      * 
-     * @return A {@link List} of players
+     * @param firstName A string representing player's first name
+     * @param lastName A string representing player's last name
+     * @param birthCountry A string representing name of the player's birth country
+     * @param pageable An instance of {@link  Pageable} interface used for pagination
+     * 
+     * @return A {@link Page} of players
      */
-    public List<Player> getAllPlayers();
+    public Page<Player> getAllPlayers(String firstName, String lastName, String birthCountry, Pageable pageable);
 }

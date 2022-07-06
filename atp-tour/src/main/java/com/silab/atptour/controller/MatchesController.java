@@ -1,12 +1,18 @@
 package com.silab.atptour.controller;
 
 import com.silab.atptour.entity.Match;
+import com.silab.atptour.model.PaginationModel;
 import com.silab.atptour.service.MatchesService;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("matches")
+@CrossOrigin(origins = "*")
 public class MatchesController {
 
     @Autowired
@@ -46,15 +53,18 @@ public class MatchesController {
      * POST request for filtering matches by tournament and players
      * 
      * @param searchValues A {@link Match} instance containing filtering data
+     *  @param pageable An instance of {@link  Pageable} interface used for pagination
      * 
      * @return A {@link ResponseEntity} instance with filtered matches and OK HTTP status
      */
     @PostMapping("/filter")
-    public ResponseEntity<List<Match>> filterMatches(@RequestBody Match searchValues) {
+    public ResponseEntity<Page<Match>> filterMatches(@RequestBody Match searchValues,
+             @PageableDefault(direction = Sort.Direction.ASC, page = PaginationModel.MATCHES_PAGE,
+                     size = PaginationModel.MATCHES_SIZE, sort = PaginationModel.MATCHES_SORT_COLUMN) Pageable pageable) {
         logger.debug("Finding matches");
-        List<Match> foundMatches = matchesService.filterMatches(searchValues.getTournament(),
-                searchValues.getFirstPlayer(), searchValues.getSecondPlayer());
-        logger.info("Successfully retrieved {} matches", foundMatches.size());
+        Page<Match> foundMatches = matchesService.filterMatches(searchValues.getTournament(),
+                searchValues.getFirstPlayer(), searchValues.getSecondPlayer(), pageable);
+        logger.info("Successfully retrieved {} matches", foundMatches.getNumberOfElements());
         return ResponseEntity.ok(foundMatches);
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Pageable;
 
 /**
  *
@@ -21,6 +22,7 @@ public class TournamentDaoTest {
 
     private Tournament testTournament;
     private Country testCountry;
+    private Pageable pageable;
 
     @Autowired
     private TournamentDao tournamentDao;
@@ -33,6 +35,7 @@ public class TournamentDaoTest {
         testCountry = countryDao.save(new Country(1, "England", "ENG"));
         testTournament = tournamentDao.save(new Tournament(1, "Wimbledon-2020", LocalDate.of(2020, Month.MARCH, 22), LocalDate.of(2020, Month.MARCH, 28),
                 testCountry, "Grand Slam", null, null, null));
+        pageable = Pageable.ofSize(Integer.MAX_VALUE);
     }
 
     @Test
@@ -78,7 +81,9 @@ public class TournamentDaoTest {
     public void findAllTournamentsShouldBeOk() {
         tournamentDao.save((new Tournament(1, "Roland Garros-2020", LocalDate.of(2020, Month.APRIL, 22),
                 LocalDate.of(2020, Month.APRIL, 28), testCountry, "Grand Slam", null, null, null)));
-        assertEquals(2, tournamentDao.findAll().size());
+        assertEquals(2, tournamentDao.findAllTournaments("d", null, "Grand Slam", pageable).getNumberOfElements());
+        assertEquals(1, tournamentDao.findAllTournaments("rol", null, "Grand Slam", pageable).getNumberOfElements());
+        assertEquals(1, tournamentDao.findAllTournaments(null, testCountry.getName(), null, pageable).getNumberOfElements());
     }
 
     @Test

@@ -19,6 +19,7 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.Pageable;
 
 /**
  *
@@ -30,7 +31,8 @@ public class PlayerServiceImplTest {
     private static Player testPlayer;
     private static Optional<Player> optionalPlayer;
     private static Optional<Player> emptyOptionalPlayer;
-
+    private static Pageable pageable;
+    
     @Mock
     private PlayerDao playerDao;
 
@@ -43,6 +45,7 @@ public class PlayerServiceImplTest {
                 LocalDate.of(2022, Month.MAY, 22), 12000, 12000, 1, null, null);
         optionalPlayer = Optional.of(testPlayer);
         emptyOptionalPlayer = Optional.empty();
+        pageable = Pageable.ofSize(Integer.MAX_VALUE);
     }
 
     @Test
@@ -74,16 +77,5 @@ public class PlayerServiceImplTest {
     public void getPlayerShouldThrowAtpEntityNotFoundException() {
         when(playerDao.findById(testPlayer.getId())).thenReturn(emptyOptionalPlayer);
         Assertions.assertThrows(AtpEntityNotFoundException.class, () -> playerService.getPlayer(testPlayer.getId()));
-    }
-
-    @Test
-    public void getAllRankedPlayersShouldBeOk() {
-        Player player = new Player(2, "Filip", "Krajinovic", new Country(1, "Serbia", "SRB"),
-                LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2, null, null);
-        List<Player> players = new ArrayList<>();
-        players.add(testPlayer);
-        players.add(player);
-        when(playerDao.findAllRankedPlayers()).thenReturn(players);
-        assertEquals(players, playerService.getAllPlayers());
     }
 }
