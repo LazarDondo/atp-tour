@@ -18,5 +18,5 @@ public interface CountryDao extends JpaRepository<Country, Long> {
      * 
      * @return A {@link List} of countries
      */
-    public List<Country> findAllCountriesContainingIgnoreCase(String name);
+    public List<Country> findByNameContainingIgnoreCase(String name);
 }

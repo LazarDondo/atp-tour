@@ -41,8 +41,8 @@ public class CountryDaoTest {
         List<Country> countries = new ArrayList<>();
         countries.add(firstTestCountry);
         countries.add(secondTestCountry);
-        assertEquals(countries, countryDao.findAllCountriesContainingIgnoreCase("a"));
-        assertEquals(firstTestCountry, countryDao.findAllCountriesContainingIgnoreCase("S").get(0));
+        assertEquals(countries, countryDao.findByNameContainingIgnoreCase("a"));
+        assertEquals(firstTestCountry, countryDao.findByNameContainingIgnoreCase("S").get(0));
     }
 
 }

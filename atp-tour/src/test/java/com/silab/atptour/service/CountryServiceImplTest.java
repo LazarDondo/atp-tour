@@ -35,6 +35,6 @@ public class CountryServiceImplTest {
             }
         };
         when(countryDao.findAll()).thenReturn(countries);
-        assertEquals(countries, countryService.getCountries());
+        assertEquals(countries, countryService.getCountries("e"));
     }
 }

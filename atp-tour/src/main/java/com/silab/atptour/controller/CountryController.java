@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -27,14 +28,16 @@ public class CountryController {
 
     private final Logger logger = LoggerFactory.getLogger(CountryController.class);
 
-    /**
-     * GET request for retrieving all countries from the database
-     * 
-     * @return  A {@link ResponseEntity} instance with found countries and OK HTTP status 
-     */
+   /**
+    * GET request for retrieving all countries from the database
+    * 
+    * @param name A string representing name of the country
+    * 
+    * @return A {@link ResponseEntity} instance with found countries and OK HTTP status 
+    */
     @GetMapping
-    public ResponseEntity<List<Country>> getCountries() {
-        List<Country> countries = countryService.getCountries();
+    public ResponseEntity<List<Country>> getCountries( @RequestParam(required = false, defaultValue = "") String name) {
+        List<Country> countries = countryService.getCountries(name);
         logger.info("Successfully retrieved {} countries", countries.size());
         return ResponseEntity.ok(countries);
     }

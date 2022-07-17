@@ -9,7 +9,7 @@ public class PaginationModel {
 
     public static final int PLAYER_PAGE = 0;
     public static final int PLAYER_SIZE = 10;
-    public static final String PLAYER_SORT_COLUMN = "lastName";
+    public static final String PLAYER_SORT_COLUMN = "rank";
     
     public static final int TOURNAMENT_PAGE = 0;
     public static final int TOURNAMENT_SIZE = 10;

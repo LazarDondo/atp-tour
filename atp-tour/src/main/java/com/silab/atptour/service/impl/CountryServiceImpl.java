@@ -26,8 +26,8 @@ public class CountryServiceImpl implements CountryService {
      * {@inheritDoc}
      */
     @Override
-    public List<Country> getCountries() {
+    public List<Country> getCountries(String name) {
         logger.debug("Finding all countries");
-        return countryDao.findAll();
+        return countryDao.findByNameContainingIgnoreCase(name);
     }
 }

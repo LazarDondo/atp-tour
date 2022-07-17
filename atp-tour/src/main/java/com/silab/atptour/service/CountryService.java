@@ -11,9 +11,11 @@ import java.util.List;
 public interface CountryService {
 
     /**
-     * Retrieves all countries from the database
+     * Retrieves countries from the database
+     * 
+     * @param name A string representing name of the country
      *
      * @return A {@link List} of countries
      */
-    public List<Country> getCountries();
+    public List<Country> getCountries(String name);
 }
