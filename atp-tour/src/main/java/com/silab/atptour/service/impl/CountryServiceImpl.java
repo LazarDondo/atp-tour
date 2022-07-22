@@ -28,6 +28,6 @@ public class CountryServiceImpl implements CountryService {
     @Override
     public List<Country> getCountries(String name) {
         logger.debug("Finding all countries");
-        return countryDao.findByNameContainingIgnoreCase(name);
+        return countryDao.findByName(name);
     }
 }

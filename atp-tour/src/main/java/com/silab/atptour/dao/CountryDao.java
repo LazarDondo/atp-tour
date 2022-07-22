@@ -3,6 +3,7 @@ package com.silab.atptour.dao;
 import com.silab.atptour.entity.Country;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * Represents repository for country data management
@@ -18,5 +19,6 @@ public interface CountryDao extends JpaRepository<Country, Long> {
      * 
      * @return A {@link List} of countries
      */
-    public List<Country> findByNameContainingIgnoreCase(String name);
+    @Query("SELECT c FROM Country c WHERE c.name LIKE %:name%")
+    public List<Country> findByName(String name);
 }
