@@ -42,14 +42,14 @@ public class PlayerControllerTest {
 
     @Autowired
     private ObjectMapper mapper;
-    
+
     @Autowired
     private MockMvc mockMvc;
 
     @BeforeEach
     public void init() {
-        testCountry = countryDao.save(new Country(1, "Serbia", "SRB"));
-        testPlayer = playerDao.save(new Player(1, "Novak", "Djokovic", testCountry, LocalDate.of(2022, Month.MAY, 22), 12000,
+        testCountry = countryDao.save(new Country(1, 0, "Serbia", "SRB"));
+        testPlayer = playerDao.save(new Player(1, 0, "Novak", "Djokovic", testCountry, LocalDate.of(2022, Month.MAY, 22), 12000,
                 12000, 1, null, null));
     }
 
@@ -61,7 +61,7 @@ public class PlayerControllerTest {
     @Test
     @WithMockUser(username = "test", password = "test", authorities = "ADMIN")
     public void addPlayerShouldBeOk() throws Exception {
-        Player player = new Player(2, "Filip", "Krajinovic", testCountry,
+        Player player = new Player(2, 0, "Filip", "Krajinovic", testCountry,
                 LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2, null, null);
 
         mockMvc
@@ -174,9 +174,9 @@ public class PlayerControllerTest {
     @Test
     @WithMockUser(username = "test", password = "test", authorities = "USER")
     public void getPlayersShouldBeOk() throws Exception {
-        Player player = playerDao.save(new Player(2, "Filip", "Krajinovic", testCountry,
+        Player player = playerDao.save(new Player(2, 0, "Filip", "Krajinovic", testCountry,
                 LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2, null, null));
-        playerDao.save(new Player(3, "Test", "Test", testCountry,
+        playerDao.save(new Player(3, 0, "Test", "Test", testCountry,
                 LocalDate.of(1995, Month.JANUARY, 12), 0, 0, 0, null, null));
         mockMvc
                 .perform(MockMvcRequestBuilders.get("/player"))

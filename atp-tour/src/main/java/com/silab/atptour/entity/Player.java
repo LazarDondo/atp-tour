@@ -16,6 +16,7 @@ import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -35,6 +36,9 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    
+    @Version
+    private long version;
 
     @Column(length = 50)
     private String firstName;
@@ -46,7 +50,7 @@ public class Player {
     @JoinColumn(name = "birth_country", referencedColumnName = "id")
     private Country birthCountry;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "MM/dd/yyyy")
     private LocalDate dateOfBirth;
 
     private int currentPoints;
@@ -56,7 +60,7 @@ public class Player {
     @Column(name = "player_rank")
     private int rank;
 
-    @OneToMany(mappedBy = "firstPlayer", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "firstPlayer", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @MapKeyColumn(name = "id")
     @JsonIgnore
     private List<Match> matches;

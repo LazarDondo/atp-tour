@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,6 +37,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    
+    @Version
+    private long version;
 
     @Column(unique = true, length = 30)
     private String username;
@@ -63,8 +67,14 @@ public class User {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 83 * hash + Objects.hashCode(this.username);
+        int hash = 3;
+        hash = 71 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 71 * hash + (int) (this.version ^ (this.version >>> 32));
+        hash = 71 * hash + Objects.hashCode(this.username);
+        hash = 71 * hash + Objects.hashCode(this.password);
+        hash = 71 * hash + Objects.hashCode(this.firstName);
+        hash = 71 * hash + Objects.hashCode(this.lastName);
+        hash = 71 * hash + (this.enabled ? 1 : 0);
         return hash;
     }
 
@@ -80,10 +90,27 @@ public class User {
             return false;
         }
         final User other = (User) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (this.version != other.version) {
+            return false;
+        }
+        if (this.enabled != other.enabled) {
+            return false;
+        }
         if (!Objects.equals(this.username, other.username)) {
+            return false;
+        }
+        if (!Objects.equals(this.password, other.password)) {
+            return false;
+        }
+        if (!Objects.equals(this.firstName, other.firstName)) {
+            return false;
+        }
+        if (!Objects.equals(this.lastName, other.lastName)) {
             return false;
         }
         return true;
     }
-
 }

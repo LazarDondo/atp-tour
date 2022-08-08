@@ -21,12 +21,12 @@ public class RoleDaoTest {
 
     @BeforeEach
     public void init() {
-        testRole = roleDao.save(new Role(1, "USER"));
+        testRole = roleDao.save(new Role(1, 0, "USER"));
     }
 
     @Test
     public void saveRoleShouldBeOk() {
-        Role role = new Role(2, "ADMIN");
+        Role role = new Role(2, 0, "ADMIN");
         assertEquals(role, roleDao.save(role));
     }
 

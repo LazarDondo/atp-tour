@@ -115,7 +115,7 @@ public class PlayerController {
            @RequestParam(required = false, defaultValue = "") String lastName,
            @RequestParam(required = false) String birthCountry,
            @PageableDefault(direction = Sort.Direction.ASC, page = PaginationModel.PLAYER_PAGE,
-                   size = PaginationModel.PLAYER_SIZE, sort = PaginationModel.PLAYER_SORT_COLUMN) Pageable pageable){
+                  size  = PaginationModel.PLAYER_SIZE, sort = PaginationModel.PLAYER_SORT_COLUMN) Pageable pageable){
         Page<Player> players = playerService.getAllPlayers(firstName, lastName, birthCountry, pageable);
         logger.info("Successfully retrieved {} players", players.getNumberOfElements());
         return ResponseEntity.ok(players);

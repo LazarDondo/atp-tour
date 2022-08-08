@@ -30,8 +30,8 @@ public class CountryServiceImplTest {
     public void getCountriesShouldBeOk() {
         List<Country> countries = new ArrayList<>() {
             {
-                new Country(1, "Serbia", "SRB");
-                new Country(2, "Greece", "GRE");
+                new Country(1, 0, "Serbia", "SRB");
+                new Country(2, 0, "Greece", "GRE");
             }
         };
         when(countryDao.findAll()).thenReturn(countries);

@@ -62,16 +62,16 @@ public class StatisticsControllerTest {
 
     @BeforeEach
     public void init() {
-        Country country = countryDao.save(new Country(1, "England", "ENG"));
-        Tournament tournament = tournamentDao.save(new Tournament(1, "Wimbledon", LocalDate.of(2022, Month.JULY, 10),
+        Country country = countryDao.save(new Country(1, 0, "England", "ENG"));
+        Tournament tournament = tournamentDao.save(new Tournament(1, 0, "Wimbledon", LocalDate.of(2022, Month.JULY, 10),
                 LocalDate.of(2022, Month.JULY, 16), country, "Grand Slam", null, null, null));
 
         Player firstPlayer = playerDao.save(new Player(1));
         Player secondPlayer = playerDao.save(new Player(2));
 
-        testMatch = matchDao.save(new Match(tournament, firstPlayer, secondPlayer, LocalDate.of(2022, Month.JULY, 10), "2. round", "3-0", firstPlayer));
+        testMatch = matchDao.save(new Match(tournament, firstPlayer, secondPlayer, 0, LocalDate.of(2022, Month.JULY, 10), "2. round", "3-0", firstPlayer));
 
-        testStatistics = statisticsDao.save(new Statistics(1, testMatch, 50, 30, 5, 3, 6, 2, 50, 30, 20, 10));
+        testStatistics = statisticsDao.save(new Statistics(1, testMatch, 0, 50, 30, 5, 3, 6, 2, 50, 30, 20, 10));
     }
 
     @AfterEach

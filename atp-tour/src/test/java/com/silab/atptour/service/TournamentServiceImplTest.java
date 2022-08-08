@@ -8,8 +8,6 @@ import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import com.silab.atptour.service.impl.TournamentServiceImpl;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -40,8 +38,8 @@ public class TournamentServiceImplTest {
 
     @BeforeAll
     public static void init() {
-        testTournament = new Tournament(1, "Wimbledon", LocalDate.of(2022, Month.JULY, 10),
-                LocalDate.of(2022, Month.JULY, 16), new Country(1, "Great Britain", "GBR"), "Grand Slam", null, null, null);
+        testTournament = new Tournament(1, 0, "Wimbledon", LocalDate.of(2022, Month.JULY, 10),
+                LocalDate.of(2022, Month.JULY, 16), new Country(1, 0, "Great Britain", "GBR"), "Grand Slam", null, null, null);
         optionalTournament = Optional.of(testTournament);
         emptyOptionalTournament = Optional.empty();
     }
@@ -77,7 +75,7 @@ public class TournamentServiceImplTest {
         Tournament tournament = new Tournament(1L);
         tournament.setName("Roland Garros");
         tournament.setStartDate(LocalDate.of(2022, Month.MAY, 10));
-        
+
         when(tournamentDao.findById(testTournament.getId())).thenReturn(optionalTournament);
         when(tournamentDao.findTournamentByName(tournament.getName() + "-" + tournament.getStartDate().getYear())).thenReturn(Optional.of(tournament));
         Assertions.assertThrows(AtpEntityExistsException.class, () -> tournamentService.updateTournament(tournament));

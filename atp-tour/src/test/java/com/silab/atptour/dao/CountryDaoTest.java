@@ -24,8 +24,8 @@ public class CountryDaoTest {
 
     @BeforeEach
     public void init() {
-        firstTestCountry = countryDao.save(new Country(1, "Serbia", "SRB"));
-        secondTestCountry = countryDao.save(new Country(2, "Russia", "RUS"));
+        firstTestCountry = countryDao.save(new Country(1, 0, "Serbia", "SRB"));
+        secondTestCountry = countryDao.save(new Country(2, 0, "Russia", "RUS"));
     }
 
     @Test
@@ -35,7 +35,7 @@ public class CountryDaoTest {
         countries.add(secondTestCountry);
         assertEquals(countries, countryDao.findAll());
     }
-    
+
     @Test
     public void getCountriesByNameShouldBeOk() {
         List<Country> countries = new ArrayList<>();

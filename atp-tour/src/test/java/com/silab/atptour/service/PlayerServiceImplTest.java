@@ -7,8 +7,6 @@ import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import com.silab.atptour.service.impl.PlayerServiceImpl;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,8 +29,7 @@ public class PlayerServiceImplTest {
     private static Player testPlayer;
     private static Optional<Player> optionalPlayer;
     private static Optional<Player> emptyOptionalPlayer;
-    private static Pageable pageable;
-    
+
     @Mock
     private PlayerDao playerDao;
 
@@ -41,11 +38,10 @@ public class PlayerServiceImplTest {
 
     @BeforeAll
     public static void init() {
-        testPlayer = new Player(1, "Novak", "Djokovic", new Country(1, "Serbia", "SRB"),
+        testPlayer = new Player(1, 0, "Novak", "Djokovic", new Country(1, 0, "Serbia", "SRB"),
                 LocalDate.of(2022, Month.MAY, 22), 12000, 12000, 1, null, null);
         optionalPlayer = Optional.of(testPlayer);
         emptyOptionalPlayer = Optional.empty();
-        pageable = Pageable.ofSize(Integer.MAX_VALUE);
     }
 
     @Test

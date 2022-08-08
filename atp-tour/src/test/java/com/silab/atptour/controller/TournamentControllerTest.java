@@ -47,8 +47,8 @@ public class TournamentControllerTest {
 
     @BeforeEach
     public void init() {
-        Country country = countryDao.save(new Country(1, "England", "ENG"));
-        testTournament = tournamentDao.save(new Tournament(1, "Wimbledon-2022", LocalDate.of(2022, Month.JULY, 10),
+        Country country = countryDao.save(new Country(1, 0, "England", "ENG"));
+        testTournament = tournamentDao.save(new Tournament(1, 0, "Wimbledon-2022", LocalDate.of(2022, Month.JULY, 10),
                 LocalDate.of(2022, Month.JULY, 16), country, "Grand Slam", null, null, null));
     }
 
@@ -60,8 +60,8 @@ public class TournamentControllerTest {
     @Test
     @WithMockUser(username = "test", password = "test", authorities = "ADMIN")
     public void addTournamentShouldBeOk() throws Exception {
-        Country country = countryDao.save(new Country(2, "France", "FRA"));
-        Tournament tournament = new Tournament(2, "Roland Garros", LocalDate.of(2022, Month.MAY, 10),
+        Country country = countryDao.save(new Country(2, 0, "France", "FRA"));
+        Tournament tournament = new Tournament(2, 0, "Roland Garros", LocalDate.of(2022, Month.MAY, 10),
                 LocalDate.of(2022, Month.MAY, 16), country, "Grand Slam", null, null, null);
         mockMvc
                 .perform(MockMvcRequestBuilders.post("/tournament").contentType(MediaType.APPLICATION_JSON)
@@ -195,8 +195,8 @@ public class TournamentControllerTest {
     @Test
     @WithMockUser(username = "test", password = "test", authorities = "USER")
     public void getTournamentsShouldBeOk() throws Exception {
-        Tournament tournament = tournamentDao.save(new Tournament(2, "Roland Garros", LocalDate.of(2022, Month.MAY, 10),
-                LocalDate.of(2022, Month.MAY, 16), new Country(2, "France", "FRA"), "Grand Slam", null, null, null));
+        Tournament tournament = tournamentDao.save(new Tournament(2, 0, "Roland Garros", LocalDate.of(2022, Month.MAY, 10),
+                LocalDate.of(2022, Month.MAY, 16), new Country(2, 0, "France", "FRA"), "Grand Slam", null, null, null));
 
         mockMvc
                 .perform(MockMvcRequestBuilders.get("/tournament/"))

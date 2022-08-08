@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Rest controller for matches data management
- * 
+ *
  * @author Lazar
  */
 @RestController
@@ -36,9 +36,9 @@ public class MatchesController {
 
     /**
      * PUT request for saving existing and new matches
-     * 
+     *
      * @param matches A {@link List} of {@link Match} entities
-     * 
+     *
      * @return A {@link ResponseEntity} instance with matches from the tournament and OK HTTP status
      */
     @PutMapping
@@ -51,16 +51,16 @@ public class MatchesController {
 
     /**
      * POST request for filtering matches by tournament and players
-     * 
+     *
      * @param searchValues A {@link Match} instance containing filtering data
-     *  @param pageable An instance of {@link  Pageable} interface used for pagination
-     * 
+     * @param pageable An instance of {@link  Pageable} interface used for pagination
+     *
      * @return A {@link ResponseEntity} instance with filtered matches and OK HTTP status
      */
     @PostMapping("/filter")
     public ResponseEntity<Page<Match>> filterMatches(@RequestBody Match searchValues,
-             @PageableDefault(direction = Sort.Direction.ASC, page = PaginationModel.MATCHES_PAGE,
-                     size = PaginationModel.MATCHES_SIZE, sort = PaginationModel.MATCHES_SORT_COLUMN) Pageable pageable) {
+            @PageableDefault(direction = Sort.Direction.ASC, page = PaginationModel.MATCHES_PAGE,
+                    size = PaginationModel.MATCHES_SIZE, sort = PaginationModel.MATCHES_SORT_COLUMN) Pageable pageable) {
         logger.debug("Finding matches");
         Page<Match> foundMatches = matchesService.filterMatches(searchValues.getTournament(),
                 searchValues.getFirstPlayer(), searchValues.getSecondPlayer(), pageable);

@@ -68,28 +68,28 @@ public class MatchControllerTest {
 
     @BeforeEach
     public void init() {
-        Country country = countryDao.save(new Country(1, "England", "ENG"));
-        Tournament tournament = tournamentDao.save(new Tournament(1, "Wimbledon", LocalDate.of(2022, Month.JULY, 10),
+        Country country = countryDao.save(new Country(1, 0, "England", "ENG"));
+        Tournament tournament = tournamentDao.save(new Tournament(1, 0, "Wimbledon", LocalDate.of(2022, Month.JULY, 10),
                 LocalDate.of(2022, Month.JULY, 16), country, "Grand Slam", null, null, null));
 
-        Tournament otherTournament = tournamentDao.save(new Tournament(2, "Roland Garros", LocalDate.of(2022, Month.MAY, 22),
+        Tournament otherTournament = tournamentDao.save(new Tournament(2, 0, "Roland Garros", LocalDate.of(2022, Month.MAY, 22),
                 LocalDate.of(2022, Month.JULY, 28), country, "Grand Slam", null, null, null));
 
-        Player firstPlayer = playerDao.save(new Player(1, "Novak", "Djokovic", country, LocalDate.of(2022, Month.MAY, 22), 12000,
+        Player firstPlayer = playerDao.save(new Player(1, 0, "Novak", "Djokovic", country, LocalDate.of(2022, Month.MAY, 22), 12000,
                 12000, 1, null, null));
-        Player secondPlayer = playerDao.save(new Player(2, "Filip", "Krajinovic", country,
+        Player secondPlayer = playerDao.save(new Player(2, 0, "Filip", "Krajinovic", country,
                 LocalDate.of(1992, Month.SEPTEMBER, 27), 10000, 10000, 2, null, null));
-        Player thirdPlayer = playerDao.save(new Player(3, "Miomir", "Kecmanovic", country, LocalDate.of(1999, Month.AUGUST, 31),
+        Player thirdPlayer = playerDao.save(new Player(3, 0, "Miomir", "Kecmanovic", country, LocalDate.of(1999, Month.AUGUST, 31),
                 5000, 5000, 3, null, null));
 
         testMatches = new ArrayList<>();
-        firstMatch = matchDao.save(new Match(tournament, firstPlayer, secondPlayer, LocalDate.of(2022, Month.JULY, 10),
+        firstMatch = matchDao.save(new Match(tournament, firstPlayer, secondPlayer, 0, LocalDate.of(2022, Month.JULY, 10),
                 "finals", "3-0", firstPlayer));
-        secondMatch = matchDao.save(new Match(tournament, firstPlayer, thirdPlayer, LocalDate.of(2022, Month.JULY, 11),
+        secondMatch = matchDao.save(new Match(tournament, firstPlayer, thirdPlayer, 0, LocalDate.of(2022, Month.JULY, 11),
                 "semi-finals", "3-2", firstPlayer));
-        thirdMatch = matchDao.save(new Match(tournament, thirdPlayer, secondPlayer, LocalDate.of(2022, Month.JULY, 12),
+        thirdMatch = matchDao.save(new Match(tournament, thirdPlayer, secondPlayer, 0, LocalDate.of(2022, Month.JULY, 12),
                 "quater-finals", "1-3", secondPlayer));
-        otherTournamentMatch = matchDao.save(new Match(otherTournament, firstPlayer, secondPlayer,
+        otherTournamentMatch = matchDao.save(new Match(otherTournament, firstPlayer, secondPlayer, 0,
                 LocalDate.of(2022, Month.JULY, 22), "eights-finals", "2-3", secondPlayer));
 
         testMatches.add(firstMatch);
@@ -123,7 +123,6 @@ public class MatchControllerTest {
                 .andExpect(jsonPath("$.[0]result", is(firstMatch.getResult())))
                 .andExpect(jsonPath("$.[0]winner.firstName", is(firstMatch.getWinner().getFirstName())))
                 .andExpect(jsonPath("$.[0]winner.lastName", is(firstMatch.getWinner().getLastName())))
-                
                 .andExpect(jsonPath("$.[1]tournament.name", is(secondMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[1]firstPlayer.firstName", is(secondMatch.getFirstPlayer().getFirstName())))
                 .andExpect(jsonPath("$.[1]firstPlayer.lastName", is(secondMatch.getFirstPlayer().getLastName())))
@@ -134,7 +133,6 @@ public class MatchControllerTest {
                 .andExpect(jsonPath("$.[1]result", is(secondMatch.getResult())))
                 .andExpect(jsonPath("$.[1]winner.firstName", is(secondMatch.getWinner().getFirstName())))
                 .andExpect(jsonPath("$.[1]winner.lastName", is(secondMatch.getWinner().getLastName())))
-                
                 .andExpect(jsonPath("$.[2]tournament.name", is(thirdMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[2]firstPlayer.firstName", is(thirdMatch.getFirstPlayer().getFirstName())))
                 .andExpect(jsonPath("$.[2]firstPlayer.lastName", is(thirdMatch.getFirstPlayer().getLastName())))
@@ -200,7 +198,6 @@ public class MatchControllerTest {
                 .andExpect(jsonPath("$.[0]result", is(firstMatch.getResult())))
                 .andExpect(jsonPath("$.[0]winner.firstName", is(firstMatch.getWinner().getFirstName())))
                 .andExpect(jsonPath("$.[0]winner.lastName", is(firstMatch.getWinner().getLastName())))
-                
                 .andExpect(jsonPath("$.[1]tournament.name", is(otherTournamentMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[1]firstPlayer.firstName", is(otherTournamentMatch.getFirstPlayer().getFirstName())))
                 .andExpect(jsonPath("$.[1]firstPlayer.lastName", is(otherTournamentMatch.getFirstPlayer().getLastName())))
@@ -233,7 +230,6 @@ public class MatchControllerTest {
                 .andExpect(jsonPath("$.[0]result", is(firstMatch.getResult())))
                 .andExpect(jsonPath("$.[0]winner.firstName", is(firstMatch.getWinner().getFirstName())))
                 .andExpect(jsonPath("$.[0]winner.lastName", is(firstMatch.getWinner().getLastName())))
-                
                 .andExpect(jsonPath("$.[1]tournament.name", is(secondMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[1]firstPlayer.firstName", is(secondMatch.getFirstPlayer().getFirstName())))
                 .andExpect(jsonPath("$.[1]firstPlayer.lastName", is(secondMatch.getFirstPlayer().getLastName())))
@@ -244,7 +240,6 @@ public class MatchControllerTest {
                 .andExpect(jsonPath("$.[1]result", is(secondMatch.getResult())))
                 .andExpect(jsonPath("$.[1]winner.firstName", is(secondMatch.getWinner().getFirstName())))
                 .andExpect(jsonPath("$.[1]winner.lastName", is(secondMatch.getWinner().getLastName())))
-                
                 .andExpect(jsonPath("$.[2]tournament.name", is(otherTournamentMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[2]firstPlayer.firstName", is(otherTournamentMatch.getFirstPlayer().getFirstName())))
                 .andExpect(jsonPath("$.[2]firstPlayer.lastName", is(otherTournamentMatch.getFirstPlayer().getLastName())))
@@ -276,7 +271,6 @@ public class MatchControllerTest {
                 .andExpect(jsonPath("$.[0]result", is(firstMatch.getResult())))
                 .andExpect(jsonPath("$.[0]winner.firstName", is(firstMatch.getWinner().getFirstName())))
                 .andExpect(jsonPath("$.[0]winner.lastName", is(firstMatch.getWinner().getLastName())))
-                
                 .andExpect(jsonPath("$.[1]tournament.name", is(secondMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[1]firstPlayer.firstName", is(secondMatch.getFirstPlayer().getFirstName())))
                 .andExpect(jsonPath("$.[1]firstPlayer.lastName", is(secondMatch.getFirstPlayer().getLastName())))
@@ -309,7 +303,6 @@ public class MatchControllerTest {
                 .andExpect(jsonPath("$.[0]result", is(firstMatch.getResult())))
                 .andExpect(jsonPath("$.[0]winner.firstName", is(firstMatch.getWinner().getFirstName())))
                 .andExpect(jsonPath("$.[0]winner.lastName", is(firstMatch.getWinner().getLastName())))
-                
                 .andExpect(jsonPath("$.[1]tournament.name", is(thirdMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[1]firstPlayer.firstName", is(thirdMatch.getFirstPlayer().getFirstName())))
                 .andExpect(jsonPath("$.[1]firstPlayer.lastName", is(thirdMatch.getFirstPlayer().getLastName())))
@@ -320,7 +313,6 @@ public class MatchControllerTest {
                 .andExpect(jsonPath("$.[1]result", is(thirdMatch.getResult())))
                 .andExpect(jsonPath("$.[1]winner.firstName", is(thirdMatch.getWinner().getFirstName())))
                 .andExpect(jsonPath("$.[1]winner.lastName", is(thirdMatch.getWinner().getLastName())))
-                
                 .andExpect(jsonPath("$.[2]tournament.name", is(otherTournamentMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[2]firstPlayer.firstName", is(otherTournamentMatch.getFirstPlayer().getFirstName())))
                 .andExpect(jsonPath("$.[2]firstPlayer.lastName", is(otherTournamentMatch.getFirstPlayer().getLastName())))
@@ -352,7 +344,6 @@ public class MatchControllerTest {
                 .andExpect(jsonPath("$.[0]result", is(firstMatch.getResult())))
                 .andExpect(jsonPath("$.[0]winner.firstName", is(firstMatch.getWinner().getFirstName())))
                 .andExpect(jsonPath("$.[0]winner.lastName", is(firstMatch.getWinner().getLastName())))
-                
                 .andExpect(jsonPath("$.[1]tournament.name", is(thirdMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[1]firstPlayer.firstName", is(thirdMatch.getFirstPlayer().getFirstName())))
                 .andExpect(jsonPath("$.[1]firstPlayer.lastName", is(thirdMatch.getFirstPlayer().getLastName())))
@@ -383,7 +374,6 @@ public class MatchControllerTest {
                 .andExpect(jsonPath("$.[0]result", is(firstMatch.getResult())))
                 .andExpect(jsonPath("$.[0]winner.firstName", is(firstMatch.getWinner().getFirstName())))
                 .andExpect(jsonPath("$.[0]winner.lastName", is(firstMatch.getWinner().getLastName())))
-                
                 .andExpect(jsonPath("$.[1]tournament.name", is(secondMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[1]firstPlayer.firstName", is(secondMatch.getFirstPlayer().getFirstName())))
                 .andExpect(jsonPath("$.[1]firstPlayer.lastName", is(secondMatch.getFirstPlayer().getLastName())))
@@ -394,7 +384,6 @@ public class MatchControllerTest {
                 .andExpect(jsonPath("$.[1]result", is(secondMatch.getResult())))
                 .andExpect(jsonPath("$.[1]winner.firstName", is(secondMatch.getWinner().getFirstName())))
                 .andExpect(jsonPath("$.[1]winner.lastName", is(secondMatch.getWinner().getLastName())))
-                
                 .andExpect(jsonPath("$.[2]tournament.name", is(thirdMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[2]firstPlayer.firstName", is(thirdMatch.getFirstPlayer().getFirstName())))
                 .andExpect(jsonPath("$.[2]firstPlayer.lastName", is(thirdMatch.getFirstPlayer().getLastName())))
@@ -405,7 +394,6 @@ public class MatchControllerTest {
                 .andExpect(jsonPath("$.[2]result", is(thirdMatch.getResult())))
                 .andExpect(jsonPath("$.[2]winner.firstName", is(thirdMatch.getWinner().getFirstName())))
                 .andExpect(jsonPath("$.[2]winner.lastName", is(thirdMatch.getWinner().getLastName())))
-                
                 .andExpect(jsonPath("$.[3]tournament.name", is(otherTournamentMatch.getTournament().getName())))
                 .andExpect(jsonPath("$.[3]firstPlayer.firstName", is(otherTournamentMatch.getFirstPlayer().getFirstName())))
                 .andExpect(jsonPath("$.[3]firstPlayer.lastName", is(otherTournamentMatch.getFirstPlayer().getLastName())))
@@ -422,9 +410,9 @@ public class MatchControllerTest {
     @Test
     @WithMockUser(username = "test", password = "test", authorities = "USER")
     public void filterMatchesShouldBeEmpty() throws Exception {
-        Player player = playerDao.save(new Player(4, "Laslo", "Djere", firstMatch.getFirstPlayer().getBirthCountry(),
+        Player player = playerDao.save(new Player(4, 0, "Laslo", "Djere", firstMatch.getFirstPlayer().getBirthCountry(),
                 LocalDate.of(1996, Month.JUNE, 20), 4000, 4000, 4, null, null));
-        matchDao.save(new Match(firstMatch.getTournament(), firstMatch.getSecondPlayer(), player, LocalDate.of(2022, Month.OCTOBER, 3),
+        matchDao.save(new Match(firstMatch.getTournament(), firstMatch.getSecondPlayer(), player, 0, LocalDate.of(2022, Month.OCTOBER, 3),
                 "finals", "2-3", player));
         firstMatch.setSecondPlayer(player);
         mockMvc.perform(MockMvcRequestBuilders.post("/matches/filter").contentType(MediaType.APPLICATION_JSON)

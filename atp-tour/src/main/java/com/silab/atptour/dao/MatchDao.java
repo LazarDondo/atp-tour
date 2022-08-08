@@ -31,8 +31,7 @@ public interface MatchDao extends JpaRepository<Match, MatchId> {
      */
     @Query("SELECT m FROM Match m WHERE (:tournament is null OR m.tournament = :tournament)"
             + "AND (:firstPlayer is null or m.firstPlayer = :firstPlayer OR m.secondPlayer = :firstPlayer)"
-            + " AND (:secondPlayer is null or m.secondPlayer = :secondPlayer OR m.firstPlayer = :secondPlayer)"
-            + "ORDER BY m.matchDate")
+            + " AND (:secondPlayer is null or m.secondPlayer = :secondPlayer OR m.firstPlayer = :secondPlayer)")
     public Page<Match> filterMatches(@Param("tournament") Tournament tournament,
             @Param("firstPlayer") Player firstPlayer, @Param("secondPlayer") Player secondPlayer, Pageable pageable);
 }

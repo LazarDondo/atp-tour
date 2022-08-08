@@ -19,7 +19,7 @@ public class UserDaoTest {
 
     private User testUser;
     private Set<Role> testRoles;
-    
+
     @Autowired
     private RoleDao roleDao;
 
@@ -29,13 +29,13 @@ public class UserDaoTest {
     @BeforeEach
     public void init() {
         testRoles = new HashSet<>();
-        testRoles.add(roleDao.save(new Role(1, "USER")));
-        testUser = userDao.save(new User(1, "admin@atp.com", "admin", "Bart", "Simpson", true, testRoles));
+        testRoles.add(roleDao.save(new Role(1, 0, "USER")));
+        testUser = userDao.save(new User(1, 0, "admin@atp.com", "admin", "Bart", "Simpson", true, testRoles));
     }
 
     @Test
     public void addUserShouldBeOk() {
-        User user = new User(1, "homersimpson@gmail.com", "maxpower", "Homer", "Simpson", true, testRoles);
+        User user = new User(1, 0, "homersimpson@gmail.com", "maxpower", "Homer", "Simpson", true, testRoles);
         assertEquals(user, userDao.save(user));
     }
 

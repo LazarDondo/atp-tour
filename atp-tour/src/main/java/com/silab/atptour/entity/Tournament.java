@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,13 +32,16 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "tournament")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor 
 public class Tournament {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
+    
+    @Version
+    private long version;
 
     @Column(unique = true, length = 50)
     private String name;
@@ -75,7 +79,13 @@ public class Tournament {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 67 * hash + Objects.hashCode(this.name);
+        hash = 89 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 89 * hash + (int) (this.version ^ (this.version >>> 32));
+        hash = 89 * hash + Objects.hashCode(this.name);
+        hash = 89 * hash + Objects.hashCode(this.startDate);
+        hash = 89 * hash + Objects.hashCode(this.completionDate);
+        hash = 89 * hash + Objects.hashCode(this.hostCountry);
+        hash = 89 * hash + Objects.hashCode(this.tournamentType);
         return hash;
     }
 
@@ -91,12 +101,27 @@ public class Tournament {
             return false;
         }
         final Tournament other = (Tournament) obj;
-        if (!Objects.equals(this.name, other.name)) {
+        if (this.id != other.id) {
+            return false;
+        }
+        if (this.version != other.version) {
+            return false;
+        }
+        if (!Objects.equals(this.tournamentType, other.tournamentType)) {
+            return false;
+        }
+        if (!Objects.equals(this.startDate, other.startDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.completionDate, other.completionDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.hostCountry, other.hostCountry)) {
             return false;
         }
         return true;
     }
-
+    
     @Override
     public String toString() {
         return "name: " + name;

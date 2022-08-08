@@ -32,15 +32,15 @@ public class TournamentDaoTest {
 
     @BeforeEach
     public void init() {
-        testCountry = countryDao.save(new Country(1, "England", "ENG"));
-        testTournament = tournamentDao.save(new Tournament(1, "Wimbledon-2020", LocalDate.of(2020, Month.MARCH, 22), LocalDate.of(2020, Month.MARCH, 28),
+        testCountry = countryDao.save(new Country(1, 0, "England", "ENG"));
+        testTournament = tournamentDao.save(new Tournament(1, 0, "Wimbledon-2020", LocalDate.of(2020, Month.MARCH, 22), LocalDate.of(2020, Month.MARCH, 28),
                 testCountry, "Grand Slam", null, null, null));
         pageable = Pageable.ofSize(Integer.MAX_VALUE);
     }
 
     @Test
     public void addTournamentShouldBeOk() {
-        Tournament tournament = (new Tournament(1, "Roland Garros-2020", LocalDate.of(2020, Month.APRIL, 22), LocalDate.of(2020, Month.APRIL, 28),
+        Tournament tournament = (new Tournament(1, 0, "Roland Garros-2020", LocalDate.of(2020, Month.APRIL, 22), LocalDate.of(2020, Month.APRIL, 28),
                 testCountry, "Grand Slam", null, null, null));
         assertEquals(tournament, tournamentDao.save(tournament));
     }
@@ -64,22 +64,22 @@ public class TournamentDaoTest {
     public void findTournamentByNameShouldNotFindTournament() {
         assertEquals(true, tournamentDao.findTournamentByName("Shangai-2021").isEmpty());
     }
-    
+
     @Test
-    public void findTournamentByStartDateShouldBeOk(){
-        tournamentDao.save(new Tournament(1, "Roland Garros-2020", LocalDate.of(2020, Month.MARCH, 22), LocalDate.of(2020, Month.MARCH, 28),
+    public void findTournamentByStartDateShouldBeOk() {
+        tournamentDao.save(new Tournament(1, 0, "Roland Garros-2020", LocalDate.of(2020, Month.MARCH, 22), LocalDate.of(2020, Month.MARCH, 28),
                 testCountry, "Grand Slam", null, null, null));
         assertEquals(2, tournamentDao.findTournamentByStartDate(testTournament.getStartDate()).size());
     }
-    
+
     @Test
-    public void findTournamentByStartDateShouldBeNotFindTournaments(){
+    public void findTournamentByStartDateShouldBeNotFindTournaments() {
         assertEquals(true, tournamentDao.findTournamentByStartDate(testTournament.getStartDate().plusDays(55)).isEmpty());
     }
 
     @Test
     public void findAllTournamentsShouldBeOk() {
-        tournamentDao.save((new Tournament(1, "Roland Garros-2020", LocalDate.of(2020, Month.APRIL, 22),
+        tournamentDao.save((new Tournament(1, 0, "Roland Garros-2020", LocalDate.of(2020, Month.APRIL, 22),
                 LocalDate.of(2020, Month.APRIL, 28), testCountry, "Grand Slam", null, null, null)));
         assertEquals(2, tournamentDao.findAllTournaments("d", null, "Grand Slam", pageable).getNumberOfElements());
         assertEquals(1, tournamentDao.findAllTournaments("rol", null, "Grand Slam", pageable).getNumberOfElements());

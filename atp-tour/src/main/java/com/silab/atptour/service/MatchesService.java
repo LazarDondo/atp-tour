@@ -3,6 +3,7 @@ package com.silab.atptour.service;
 import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
 import com.silab.atptour.entity.Tournament;
+import com.silab.atptour.exceptions.AtpEntityNotFoundException;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +23,7 @@ public interface MatchesService {
      * @return A {@link List} of all matches from the tournament from which were the forwarded matches
      */
     public List<Match> updateMatches(List<Match> matches);
-
+    
     /**
      * Filters matches based on the tournament and players
      *

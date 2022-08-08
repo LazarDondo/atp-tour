@@ -48,8 +48,8 @@ public class UserControllerTest {
     @BeforeEach
     public void init() {
         Set<Role> roles = new HashSet<>();
-        roles.add(new Role(1, "ADMIN"));
-        testUser = userDao.save(new User(1, "homersimpson@gmail.com", passwordEncoder.encode("maxpower"), "Homer", "Simpson", true, null));
+        roles.add(new Role(1, 0, "ADMIN"));
+        testUser = userDao.save(new User(1, 0, "homersimpson@gmail.com", passwordEncoder.encode("maxpower"), "Homer", "Simpson", true, null));
         mapper.disable(MapperFeature.USE_ANNOTATIONS);
     }
 
@@ -91,7 +91,7 @@ public class UserControllerTest {
 
     @Test
     public void registerShouldBeOk() throws Exception {
-        User user = new User(2, "bartsimpson@gmail.com", "elbarto", "Bart", "Simpson", true, null);
+        User user = new User(2, 0, "bartsimpson@gmail.com", "elbarto", "Bart", "Simpson", true, null);
         mockMvc
                 .perform(MockMvcRequestBuilders.post("/user/register").contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(user)))

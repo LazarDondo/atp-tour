@@ -36,11 +36,11 @@ public class IncomeDaoTest {
 
     @BeforeEach
     public void init() {
-        Country country = countryDao.save(new Country(1, "Serbia", "SRB"));
+        Country country = countryDao.save(new Country(1, 0, "Serbia", "SRB"));
 
-        Tournament tournament = tournamentDao.save(new Tournament(1, "Wimbledon-2020", LocalDate.of(2020, Month.MARCH, 22), LocalDate.of(2020, Month.MARCH, 28),
+        Tournament tournament = tournamentDao.save(new Tournament(1, 0, "Wimbledon-2020", LocalDate.of(2020, Month.MARCH, 22), LocalDate.of(2020, Month.MARCH, 28),
                 country, "Grand Slam", null, null, null));
-        Player firstPlayer = playerDao.save(new Player(1, "Novak", "Djokovic", country, LocalDate.of(1987, Month.MAY, 22), 12000,
+        Player firstPlayer = playerDao.save(new Player(1, 0, "Novak", "Djokovic", country, LocalDate.of(1987, Month.MAY, 22), 12000,
                 12000, 1, null, null));
         testIncome = incomeDao.save(new Income(tournament, firstPlayer, 100));
     }

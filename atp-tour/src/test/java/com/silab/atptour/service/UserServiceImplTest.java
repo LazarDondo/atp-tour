@@ -55,9 +55,9 @@ public class UserServiceImplTest {
     @BeforeAll
     public static void init() {
         Set<Role> roles = new HashSet<>();
-        testRole = new Role(1, defaultUserRole);
+        testRole = new Role(1, 0, defaultUserRole);
         roles.add(testRole);
-        testUser = new User(1, "homersimpson@gmail.com", hashedPassword, "Homer", "Simpson", true, roles);
+        testUser = new User(1, 0, "homersimpson@gmail.com", hashedPassword, "Homer", "Simpson", true, roles);
         optionalUser = Optional.of(testUser);
         emptyUser = Optional.empty();
     }
@@ -105,7 +105,7 @@ public class UserServiceImplTest {
 
     @Test
     public void updateUserShouldThrowAtpEntityExistsException() {
-        User user = new User(1, "bartsimpson@gmail.com", hashedPassword, "Bart", "Simpson", true, null);
+        User user = new User(1, 0, "bartsimpson@gmail.com", hashedPassword, "Bart", "Simpson", true, null);
         when(userDao.findById(user.getId())).thenReturn(optionalUser);
         when(userDao.findUserByUsername(user.getUsername())).thenReturn(Optional.of(user));
         Assertions.assertThrows(AtpEntityExistsException.class, () -> userService.updateUser(user));

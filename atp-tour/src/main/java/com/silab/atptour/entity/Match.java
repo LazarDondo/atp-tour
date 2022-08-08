@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,19 +32,22 @@ import lombok.Setter;
 public class Match {
 
     @Id
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
 
     @Id
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinColumn(name = "first_player_id")
     private Player firstPlayer;
 
     @Id
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinColumn(name = "second_player_id")
     private Player secondPlayer;
+    
+    @Version
+    private long version;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate matchDate;
@@ -68,10 +72,15 @@ public class Match {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 73 * hash + Objects.hashCode(this.tournament);
-        hash = 73 * hash + Objects.hashCode(this.firstPlayer);
-        hash = 73 * hash + Objects.hashCode(this.secondPlayer);
+        int hash = 5;
+        hash = 17 * hash + Objects.hashCode(this.tournament);
+        hash = 17 * hash + Objects.hashCode(this.firstPlayer);
+        hash = 17 * hash + Objects.hashCode(this.secondPlayer);
+        hash = 17 * hash + (int) (this.version ^ (this.version >>> 32));
+        hash = 17 * hash + Objects.hashCode(this.matchDate);
+        hash = 17 * hash + Objects.hashCode(this.round);
+        hash = 17 * hash + Objects.hashCode(this.result);
+        hash = 17 * hash + Objects.hashCode(this.winner);
         return hash;
     }
 
@@ -87,6 +96,15 @@ public class Match {
             return false;
         }
         final Match other = (Match) obj;
+        if (this.version != other.version) {
+            return false;
+        }
+        if (!Objects.equals(this.round, other.round)) {
+            return false;
+        }
+        if (!Objects.equals(this.result, other.result)) {
+            return false;
+        }
         if (!Objects.equals(this.tournament, other.tournament)) {
             return false;
         }
@@ -96,7 +114,15 @@ public class Match {
         if (!Objects.equals(this.secondPlayer, other.secondPlayer)) {
             return false;
         }
+        if (!Objects.equals(this.matchDate, other.matchDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.winner, other.winner)) {
+            return false;
+        }
         return true;
     }
+
+    
 
 }

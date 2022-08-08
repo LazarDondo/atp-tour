@@ -32,8 +32,8 @@ public class CountryControllerTest {
     @Test
     @WithMockUser(username = "test", password = "test", authorities = "ADMIN")
     public void getCountriesShouldBeOk() throws Exception {
-        Country firstCountry = countryDao.save(new Country(1, "Serbia", "SRB"));
-        Country secondCountry = countryDao.save(new Country(2, "Greece", "GRE"));
+        Country firstCountry = countryDao.save(new Country(1, 0, "Serbia", "SRB"));
+        Country secondCountry = countryDao.save(new Country(2, 0, "Greece", "GRE"));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/country"))
                 .andExpect(jsonPath("$", hasSize(2)))

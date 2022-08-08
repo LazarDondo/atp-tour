@@ -11,7 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,7 +28,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Table(name = "statistics")
 @IdClass(StatisticsId.class)
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
 public class Statistics {
 
     @Id
@@ -42,6 +44,9 @@ public class Statistics {
         @JoinColumn(name = "second_player_id", referencedColumnName = "second_player_id")
     })
     private Match match;
+    
+    @Version
+    private long version;
 
     private int firstPlayerPoints;
 
@@ -62,30 +67,4 @@ public class Statistics {
     private int firstPlayerSecondServesIn;
 
     private int secondPlayerSecondServesIn;
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 97 * hash + Objects.hashCode(this.match);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Statistics other = (Statistics) obj;
-        if (!Objects.equals(this.match, other.match)) {
-            return false;
-        }
-        return true;
-    }
-
 }
