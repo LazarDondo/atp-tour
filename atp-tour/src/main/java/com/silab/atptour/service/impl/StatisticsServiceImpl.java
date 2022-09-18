@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Represent an implementation of the {@link StatisticsService} interface
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
  * @author Lazar
  */
 @Service
+@Transactional
 public class StatisticsServiceImpl implements StatisticsService {
 
     @Autowired

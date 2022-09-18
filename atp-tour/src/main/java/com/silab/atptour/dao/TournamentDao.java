@@ -1,5 +1,6 @@
 package com.silab.atptour.dao;
 
+import com.silab.atptour.entity.Player;
 import com.silab.atptour.entity.Tournament;
 import java.time.LocalDate;
 import java.util.List;
@@ -49,4 +50,16 @@ public interface TournamentDao extends JpaRepository<Tournament, Long> {
      * @return A {@link List} of tournaments
      */
     public List<Tournament> findTournamentByStartDate(LocalDate startDate);
+    
+    /**
+     * Finds tournament participants
+     * 
+     * @param tournamentId A Long representing tournament's id
+     * 
+     * @return A {@link List} of players
+     */
+     @Query("SELECT DISTINCT p FROM Player p join Match m on (p.id =m .firstPlayer.id "
+             + "OR p.id = m.secondPlayer.id) where m.tournament.id = :tournamentId order by p.rank")
+     public List<Player> findParticipants(Long tournamentId);
+    
 }

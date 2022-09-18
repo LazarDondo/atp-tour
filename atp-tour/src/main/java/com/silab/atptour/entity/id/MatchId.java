@@ -15,6 +15,7 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
 public class MatchId implements Serializable {
 
+    private long id;
     private long tournament;
     private long firstPlayer;
     private long secondPlayer;

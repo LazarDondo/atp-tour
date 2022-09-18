@@ -14,6 +14,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -46,10 +48,10 @@ public class Tournament {
     @Column(unique = true, length = 50)
     private String name;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "MM/dd/yyyy")
     private LocalDate startDate;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "MM/dd/yyyy")
     private LocalDate completionDate;
 
     @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
@@ -69,7 +71,6 @@ public class Tournament {
     private List<Income> incomes;
 
     @Transient
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Player> participants;
 
     public Tournament(long id) {

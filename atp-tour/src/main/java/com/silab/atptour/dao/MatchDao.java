@@ -3,7 +3,6 @@ package com.silab.atptour.dao;
 import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
 import com.silab.atptour.entity.Tournament;
-import com.silab.atptour.entity.id.MatchId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Repository;
  * @author Lazar
  */
 @Repository
-public interface MatchDao extends JpaRepository<Match, MatchId> {
+public interface MatchDao extends JpaRepository<Match, Long> {
 
     /**
      * Filters matches by tournament and players
@@ -31,7 +30,8 @@ public interface MatchDao extends JpaRepository<Match, MatchId> {
      */
     @Query("SELECT m FROM Match m WHERE (:tournament is null OR m.tournament = :tournament)"
             + "AND (:firstPlayer is null or m.firstPlayer = :firstPlayer OR m.secondPlayer = :firstPlayer)"
-            + " AND (:secondPlayer is null or m.secondPlayer = :secondPlayer OR m.firstPlayer = :secondPlayer)")
+            + " AND (:secondPlayer is null or m.secondPlayer = :secondPlayer OR m.firstPlayer = :secondPlayer)"
+            + " AND m.firstPlayer is not null AND m.secondPlayer is not null")
     public Page<Match> filterMatches(@Param("tournament") Tournament tournament,
             @Param("firstPlayer") Player firstPlayer, @Param("secondPlayer") Player secondPlayer, Pageable pageable);
 }

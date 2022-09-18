@@ -1,14 +1,10 @@
 package com.silab.atptour.entity;
 
-import com.silab.atptour.entity.id.StatisticsId;
-import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -27,22 +23,20 @@ import org.hibernate.annotations.OnDeleteAction;
  */
 @Entity
 @Table(name = "statistics")
-@IdClass(StatisticsId.class)
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
 public class Statistics {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
-    @Id
     @OneToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumns(value = {
-        @JoinColumn(name = "tournament_id", referencedColumnName = "tournament_id"),
-        @JoinColumn(name = "first_player_id", referencedColumnName = "first_player_id"),
-        @JoinColumn(name = "second_player_id", referencedColumnName = "second_player_id")
-    })
+    @JoinColumn(name = "match_id", referencedColumnName = "id")
     private Match match;
     
     @Version

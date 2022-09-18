@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Represent an implementation of the {@link TournamentService} interface
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
  * @author Lazar
  */
 @Service
+@Transactional
 public class TournamentServiceImpl implements TournamentService {
 
     @Autowired
@@ -84,6 +86,8 @@ public class TournamentServiceImpl implements TournamentService {
         if (!optionalTournament.get().getStartDate().equals(tournament.getStartDate())) {
             updateTournamentDates(tournament);
         }
+        tournament.setParticipants(tournamentDao.findParticipants(tournament.getId()));
+
         logger.debug("Updating tournament {}", tournament.getName());
         return tournamentDao.save(tournament);
     }
@@ -97,6 +101,8 @@ public class TournamentServiceImpl implements TournamentService {
         if (optionalTournament.isEmpty()) {
             throw new AtpEntityNotFoundException("Tournament doesn't exist");
         }
+        Tournament tournament = optionalTournament.get();
+        tournament.setParticipants(tournamentDao.findParticipants(tournament.getId()));
         return optionalTournament.get();
     }
 
@@ -123,7 +129,7 @@ public class TournamentServiceImpl implements TournamentService {
 
     /**
      * Creates matches based on the participants
-     * 
+     *
      * @param tournament A {@link Tournament} for which the matches will be created
      */
     private void createMatches(Tournament tournament) {
@@ -137,12 +143,36 @@ public class TournamentServiceImpl implements TournamentService {
             matches.add(new Match(tournament, participants.get(i), participants.get(size - i),
                     startDate.plusDays(i % 2), roundName));
         }
+
+        List<Match> quaterFinals = new ArrayList<>();
+
+        int matchesSize = matches.size() - 1;
+        for (int i = 0; i <= matchesSize / 2; i++) {
+            Match nextMatch = new Match(tournament,
+                    startDate.plusDays((i % 2) + 2), AtpModel.GRAND_SLAM_QUATER_FINALS);
+            quaterFinals.add(nextMatch);
+            matches.get(i).setNextMatch(nextMatch);
+            matches.get(matchesSize - i).setNextMatch(nextMatch);
+        }
+
+        matchesSize = quaterFinals.size() - 1;
+        Match finals = new Match(tournament,
+                tournament.getCompletionDate(), AtpModel.GRAND_SLAM_FINALS);
+        for (int i = 0; i <= matchesSize / 2; i++) {
+            Match nextMatch = new Match(tournament,
+                    quaterFinals.get(i).getMatchDate().plusDays((i % 2) + 1), AtpModel.GRAND_SLAM_SEMI_FINALS);
+            nextMatch.setNextMatch(finals);
+            quaterFinals.add(nextMatch);
+            quaterFinals.get(i).setNextMatch(nextMatch);
+            quaterFinals.get(matchesSize - i).setNextMatch(nextMatch);
+        }
+
         matchDao.saveAll(matches);
     }
 
     /**
      * Updates tournament's completion date and matches start date
-     * 
+     *
      * @param tournament A {@link Tournament} for which the dates will be updated
      */
     private void updateTournamentDates(Tournament tournament) {
@@ -164,7 +194,7 @@ public class TournamentServiceImpl implements TournamentService {
 
     /**
      * Creates income for the given tournament for all of the participants
-     * 
+     *
      * @param tournament A {@link Tournament} for which incomes will be created
      */
     private void createIncomes(Tournament tournament) {

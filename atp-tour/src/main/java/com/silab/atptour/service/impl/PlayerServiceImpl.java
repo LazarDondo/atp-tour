@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Represent an implementation of the {@link PlayerService} interface
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
  * @author Lazar
  */
 @Service
+@Transactional
 public class PlayerServiceImpl implements PlayerService {
 
     @Autowired

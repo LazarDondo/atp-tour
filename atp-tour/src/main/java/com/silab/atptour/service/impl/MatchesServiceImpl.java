@@ -8,7 +8,7 @@ import com.silab.atptour.entity.Match;
 import com.silab.atptour.entity.Player;
 import com.silab.atptour.entity.Tournament;
 import com.silab.atptour.entity.id.IncomeId;
-import com.silab.atptour.exceptions.AtpEntityNotFoundException;
+import com.silab.atptour.exceptions.AtpException;
 import com.silab.atptour.model.AtpModel;
 import java.util.List;
 import org.slf4j.Logger;
@@ -16,24 +16,27 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.silab.atptour.service.MatchesService;
+import java.time.LocalDate;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Represent an implementation of the {@link MatchesService} interface
- * 
+ *
  * @author Lazar
  */
 @Service
+@Transactional
 public class MatchesServiceImpl implements MatchesService {
 
     @Autowired
     PlayerDao playerDao;
-    
+
     @Autowired
     private MatchDao matchDao;
-    
+
     @Autowired
     private IncomeDao incomeDao;
 
@@ -43,15 +46,18 @@ public class MatchesServiceImpl implements MatchesService {
      * {@inheritDoc}
      */
     @Override
-    public List<Match> updateMatches(List<Match> matches) {
-        logger.debug("Updating {} matches", matches.size());
-        for (Match match : matches) {
-            if(match.getWinner()!=null){
+    public Page<Match> updateMatches(Tournament tournament, Player firstPlayer, Player secondPlayer,
+            Pageable pageable, List<Match> results) {
+        logger.debug("Updating {} matches", results.size());
+        for (Match match : results) {
+            if (match.getResult() != null || !match.getResult().isEmpty()) {
+                decideWinner(match);
+                prepareNextMatch(match);
                 increasePlayerPoints(match);
             }
         }
-        matchDao.saveAll(matches);
-        return matches;
+        matchDao.saveAll(results);
+        return matchDao.filterMatches(tournament, firstPlayer, secondPlayer, pageable);
     }
 
     /**
@@ -61,6 +67,61 @@ public class MatchesServiceImpl implements MatchesService {
     public Page<Match> filterMatches(Tournament tournament, Player firstPlayer, Player secondPlayer, Pageable pageable) {
         logger.info("Filtering matches by tournament: {}, first player: {}, second player: {}", tournament, firstPlayer, secondPlayer);
         return matchDao.filterMatches(tournament, firstPlayer, secondPlayer, pageable);
+    }
+
+    /**
+     * Decides match winner
+     *
+     * @param match
+     */
+    private void decideWinner(Match match) {
+        String result = match.getResult();
+        if (AtpModel.GRAND_SLAM.equals(match.getTournament().getTournamentType())) {
+            if (result.equals("3:0") || result.equals("3:1") || result.equals("3:2")) {
+                match.setWinner(match.getFirstPlayer());
+                return;
+            }
+        }
+        if (result.equals("2:0") || result.equals("2:1") || result.equals("1:0") || result.equals("retired")) {
+            match.setWinner(match.getFirstPlayer());
+        } else {
+            match.setWinner(match.getSecondPlayer());
+        }
+    }
+
+/**
+ * Prepares next match by either creating one if it doesn't exist or updating the existing one.
+ *
+ * @param match Previous round match
+ */
+private void prepareNextMatch(Match match){
+
+    Optional<Match> optionalMatch = matchDao.findById(match.getId());
+    if (optionalMatch.isEmpty()) {
+        throw new AtpException("Match doesn't exist");
+    }
+    Match nextMatch = optionalMatch.get().getNextMatch();
+    match.setNextMatch(nextMatch);
+
+    if (nextMatch != null) {
+        if (nextMatch.getFirstPlayer() == null) {
+            nextMatch.setFirstPlayer(match.getWinner());
+        } else {
+            nextMatch.setSecondPlayer(match.getWinner());
+        }
+            matchDao.save(nextMatch);
+    }
+    }
+
+    /**
+     * Gets next round match date
+     *
+     * @param match Previous round match
+     *
+     * @return Next round match date
+     */
+    private LocalDate getNextRoundMatchDate(Match match){
+        return AtpModel.GRAND_SLAM_SEMI_FINALS.equals(match.getMatchDate())?match.getTournament().getCompletionDate():match.getMatchDate().plusDays(1);
     }
 
     /**

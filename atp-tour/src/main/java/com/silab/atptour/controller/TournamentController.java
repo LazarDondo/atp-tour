@@ -118,16 +118,17 @@ public class TournamentController {
 
     /**
      * GET request for retrieving all tournaments from the database
+     *
      * @param name A string representing tournament's name
      * @param hostCountry A string representing host country
      * @param tournamentType A string representing tournament type
      * @param pageable An instance of {@link  Pageable} interface used for pagination
-     * 
+     *
      * @return A {@link ResponseEntity} instance with found tournaments and OK HTTP status
      */
     @GetMapping
-    public ResponseEntity<Page<Tournament>> getTournaments( @RequestParam(required = false, defaultValue = "") String name,
-            @RequestParam(required = false) String hostCountry, 
+    public ResponseEntity<Page<Tournament>> getTournaments(@RequestParam(required = false, defaultValue = "") String name,
+            @RequestParam(required = false) String hostCountry,
             @RequestParam(required = false) String tournamentType,
             @PageableDefault(direction = Sort.Direction.ASC, page = PaginationModel.TOURNAMENT_PAGE,
                     size = PaginationModel.TOURNAMENT_SIZE, sort = PaginationModel.TOURNAMENT_SORT_COLUMN) Pageable pageable) {

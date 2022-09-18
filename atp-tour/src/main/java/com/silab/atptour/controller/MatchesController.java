@@ -42,11 +42,16 @@ public class MatchesController {
      * @return A {@link ResponseEntity} instance with matches from the tournament and OK HTTP status
      */
     @PutMapping
-    public ResponseEntity<List<Match>> updateMatches(@RequestBody List<Match> matches) {
-        logger.info("Updating {} matches", matches.size());
-        List<Match> updatedMatches = matchesService.updateMatches(matches);
-        logger.info("Successfully updated {} matches", matches.size());
-        return ResponseEntity.ok(updatedMatches);
+    public ResponseEntity<Page<Match>> updateMatches(@RequestBody Match match, @PageableDefault(direction = Sort.Direction.ASC, page = PaginationModel.MATCHES_PAGE,
+            size = PaginationModel.MATCHES_SIZE, sort = PaginationModel.MATCHES_SORT_COLUMN) Pageable pageable) {
+        if (match.getResults() == null) {
+            return ResponseEntity.ok(matchesService.filterMatches(match.getTournament(),
+                    match.getFirstPlayer(), match.getSecondPlayer(), pageable));
+        }
+        logger.info("Updating {} matches", match.getResults().size());
+        Page<Match> matches = matchesService.updateMatches(match.getTournament(), match.getFirstPlayer(),
+                match.getSecondPlayer(), pageable, match.getResults());
+        return ResponseEntity.ok(matches);
     }
 
     /**

@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Represent an implementation of the {@link UserService} interface
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
  * @author Lazar
  */
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Value("${default.user.role}")

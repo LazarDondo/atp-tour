@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.silab</groupId>
     <artifactId>atp-tour</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
     <name>atp-tour</name>
     <description>Project for following matches on atp tour</description>
     <properties>
@@ -62,7 +62,7 @@
             <artifactId>h2</artifactId>
             <version>1.4.193</version>
         </dependency>
-
+        
     </dependencies>
 
     <build>
